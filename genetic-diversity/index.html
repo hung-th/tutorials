@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What determines the spatial distribution of genetic diversity?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Pigeon neck sheen: slate ink, iridescent teal + violet. Layout: fixed session menu left, one section in view at a time. */
+  --bg:#f4f5f3; --paper:#ffffff; --ink:#1d2327; --muted:#5b666d; --line:#d8dddc;
+  --teal:#0f7b72; --violet:#6a4c9c; --teal-soft:#e2f1ef; --violet-soft:#ece6f5; --warn:#a4561b;
+  --display:"Newsreader", Georgia, "Times New Roman", serif;
+  --body:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#14191c; --paper:#1b2226; --ink:#e6ebea; --muted:#9aa6ab; --line:#2f3a3f;
+    --teal:#4cc2b5; --violet:#b39ae0; --teal-soft:#16302d; --violet-soft:#29223a; --warn:#e2a06a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#14191c; --paper:#1b2226; --ink:#e6ebea; --muted:#9aa6ab; --line:#2f3a3f;
+  --teal:#4cc2b5; --violet:#b39ae0; --teal-soft:#16302d; --violet-soft:#29223a; --warn:#e2a06a;
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg); color:var(--ink); font:16px/1.6 var(--body);}
+a{color:var(--teal)}
+a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--violet); outline-offset:2px}
+.shell{display:grid; grid-template-columns:270px 1fr; min-height:100vh}
+nav.menu{position:sticky; top:0; align-self:start; height:100vh; overflow:auto; padding:24px 18px; border-right:1px solid var(--line); background:var(--paper)}
+.course{font:500 12px/1.4 var(--mono); color:var(--muted); letter-spacing:.04em; text-transform:uppercase}
+.brand{font:600 22px/1.2 var(--display); margin:6px 0 4px; text-wrap:balance}
+.tutor{font-size:13px; color:var(--muted); margin-bottom:18px}
+nav ol{list-style:none; padding:0; margin:0; display:grid; gap:2px}
+nav a.item{display:grid; grid-template-columns:54px 1fr; gap:8px; padding:8px 10px; border-radius:8px; text-decoration:none; color:var(--ink); font-size:14px; line-height:1.35}
+nav a.item .t{font:500 12px/1.35 var(--mono); color:var(--muted); font-variant-numeric:tabular-nums}
+nav a.item:hover{background:var(--teal-soft)}
+nav a.item[aria-current="page"]{background:var(--teal-soft); box-shadow:inset 3px 0 0 var(--teal)}
+.timer{margin-top:20px; padding:12px; border:1px solid var(--line); border-radius:10px; font-size:13px}
+.timer .clock{font:500 22px/1 var(--mono); font-variant-numeric:tabular-nums}
+.timer button{margin-top:8px}
+main{padding:32px clamp(16px,4vw,56px) 80px; max-width:1000px}
+section.page{display:none}
+section.page.on{display:block}
+.kicker{font:500 12px/1.4 var(--mono); color:var(--violet); letter-spacing:.05em; text-transform:uppercase}
+h1,h2,h3{font-family:var(--display); text-wrap:balance; line-height:1.2}
+h1{font-size:clamp(30px,4vw,42px); margin:.2em 0 .3em}
+h2{font-size:28px; margin:.2em 0 .5em}
+h3{font-size:20px; margin:1.6em 0 .5em}
+p,li{max-width:68ch}
+.lede{font-size:18px; color:var(--muted); max-width:62ch}
+.q{border-left:3px solid var(--violet); background:var(--violet-soft); padding:12px 16px; border-radius:0 10px 10px 0; margin:14px 0}
+.q b.lab{font:500 11px/1 var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--violet); display:block; margin-bottom:6px}
+.q.pair{border-color:var(--teal); background:var(--teal-soft)}
+.q.pair b.lab{color:var(--teal)}
+.grid2{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px}
+.card{background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:16px 18px}
+.card h4{margin:0 0 6px; font:600 16px/1.3 var(--body)}
+.card p{margin:.3em 0}
+figure{margin:20px 0; background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:16px; overflow-x:auto}
+figure svg{display:block; width:100%; height:auto; max-width:900px; margin:0 auto; color:var(--ink)}
+figcaption{font-size:13.5px; color:var(--muted); margin-top:10px; max-width:75ch}
+details{background:var(--paper); border:1px dashed var(--line); border-radius:10px; padding:10px 14px; margin:10px 0}
+details summary{cursor:pointer; font-weight:500; color:var(--teal)}
+details[open]{border-style:solid}
+.stage{border:1px solid var(--line); border-radius:14px; padding:4px 20px 14px; margin:22px 0; background:var(--paper)}
+.stage > .kicker{margin-top:14px}
+.controls{display:flex; flex-wrap:wrap; gap:14px 22px; align-items:center; margin:8px 0}
+.controls label{font-size:13.5px; display:grid; gap:2px}
+.controls output{font:500 13px var(--mono); color:var(--teal)}
+input[type=range]{width:170px; accent-color:var(--teal)}
+button{font:500 14px var(--body); background:var(--teal); color:#fff; border:0; border-radius:8px; padding:8px 14px; cursor:pointer}
+button.ghost{background:transparent; color:var(--teal); border:1px solid var(--teal)}
+.readout{font:500 14px/1.5 var(--mono); font-variant-numeric:tabular-nums; background:var(--teal-soft); border-radius:8px; padding:8px 12px; display:inline-block}
+.pill{display:inline-block; font:500 12px/1 var(--mono); padding:5px 8px; border-radius:999px; background:var(--teal-soft); color:var(--teal); margin-right:6px}
+.pill.v{background:var(--violet-soft); color:var(--violet)}
+.pager{display:flex; justify-content:space-between; gap:12px; margin-top:40px; padding-top:16px; border-top:1px solid var(--line)}
+.pager a{text-decoration:none; font-weight:500}
+table{border-collapse:collapse; font-size:14px; width:100%}
+th,td{border-bottom:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top}
+th{font-weight:600}
+td.num{font-family:var(--mono); font-variant-numeric:tabular-nums}
+.tablewrap{overflow-x:auto}
+.refs li{margin-bottom:8px; font-size:14.5px}
+.sort{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px}
+.sort .chip{background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:10px 12px; font-size:14px}
+.sort .chip select{margin-top:6px; width:100%; font:14px var(--body); background:var(--bg); color:var(--ink); border:1px solid var(--line); border-radius:6px; padding:4px}
+.menu-toggle{display:none}
+@media (max-width:820px){
+  .shell{grid-template-columns:1fr}
+  nav.menu{position:static; height:auto; border-right:0; border-bottom:1px solid var(--line)}
+  nav ol{display:none}
+  nav.open ol{display:grid}
+  .menu-toggle{display:inline-block; margin-top:6px}
+  .timer{display:none}
+}
+@media (prefers-reduced-motion: reduce){*{transition:none!important; animation:none!important}}
+.predict{border:2px dashed var(--warn); border-radius:12px; padding:14px 16px; margin:16px 0}
+.predict .lab{font:500 11px/1 var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--warn); display:block; margin-bottom:6px}
+.choice{display:flex; flex-wrap:wrap; gap:6px; margin:6px 0}
+.choice button[aria-pressed="true"]{background:var(--teal); color:#fff; border-color:var(--teal)}
+.small{font-size:13.5px}
+</style>
+</head>
+<body>
+<div class="shell">
+<nav class="menu" id="menu" aria-label="Tutorial sections">
+  <div class="course">St Hilda's · MBiol2 · MT week 5</div>
+  <div class="brand">What determines the spatial distribution of genetic diversity?</div>
+  <div class="tutor">Tin Hang (Henry) Hung · 60-minute tutorial · <a href="mailto:a@hung.bio">a@hung.bio</a></div>
+  <div class="tutor"><a href="../">← All tutorials</a></div>
+  <button class="ghost menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="menuList">Sections</button>
+  <ol id="menuList">
+    <li><a class="item" href="#start"><span class="t">Before</span><span>Start here</span></a></li>
+    <li><a class="item" href="#recap"><span class="t">00–08</span><span>1 · Recap: four forces, two measures</span></a></li>
+    <li><a class="item" href="#patterns"><span class="t">08–20</span><span>2 · Patterns: centre, latitude, history</span></a></li>
+    <li><a class="item" href="#global"><span class="t">20–33</span><span>3 · Case: GenDivRange, the global view</span></a></li>
+    <li><a class="item" href="#araucaria"><span class="t">33–52</span><span>4 · Case: rebuilding <i>Araucaria nemorosa</i></span></a></li>
+    <li><a class="item" href="#synthesis"><span class="t">52–60</span><span>Synthesis and exit question</span></a></li>
+    <li><a class="item" href="#reading"><span class="t">After</span><span>Reading and follow-up</span></a></li>
+  </ol>
+  <div class="timer" aria-live="polite">
+    <div>Session clock</div>
+    <div class="clock" id="clock">00:00</div>
+    <div id="clockSeg" style="color:var(--muted)">Not started</div>
+    <button id="clockBtn" class="ghost">Start</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- START -->
+<section class="page" id="start" aria-labelledby="h-start">
+  <div class="kicker">Start here</div>
+  <h1 id="h-start">What determines the spatial distribution of genetic diversity?</h1>
+  <p class="lede">We know the forces that change genetic diversity: mutation, drift, gene flow and selection. We are much worse at predicting where on a map diversity will be high or low. This hour asks why, at three scales: a whole species range, the whole planet, and a single tree nursery.</p>
+
+  <h3>How this hour works</h3>
+  <div class="grid2">
+    <div class="card"><h4>One question, three scales</h4><p>Every section comes back to the title. By the end you should be able to say which force dominates at which scale, and why.</p></div>
+    <div class="card"><h4>Predict before you look</h4><p>Most results are hidden behind a reveal. Commit to a prediction first, out loud or in writing.</p></div>
+    <div class="card"><h4>Play with the models</h4><p>The simulators are there to argue with. If one gives an answer you think is wrong, say why.</p></div>
+    <div class="card"><h4>Bring your essay</h4><p>Where you see <span class="pill v">From your essay</span>, find the paragraph where you made that claim and be ready to defend or revise it.</p></div>
+  </div>
+
+  <h3>By the end you should be able to</h3>
+  <ul>
+    <li>Predict how drift and gene flow change diversity within and between populations, and say which measure reacts first.</li>
+    <li>State what the central–marginal, latitudinal and historical hypotheses predict, and the evidence for each.</li>
+    <li>Judge what a global dataset like GenDivRange can and cannot tell us.</li>
+    <li>Diagnose where genetic diversity is lost in a real restoration programme, and design a seed collection that avoids it.</li>
+  </ul>
+
+  <figure>
+    <svg viewBox="0 0 900 110" role="img" aria-label="Timeline of the hour: recap 0 to 8 minutes, patterns 8 to 20, GenDivRange 20 to 33, Araucaria case 33 to 52, synthesis 52 to 60.">
+      <g font-family="IBM Plex Sans, sans-serif" font-size="13" fill="currentColor">
+        <rect x="20" y="40" width="117" height="34" rx="6" fill="#0f7b72" fill-opacity=".25"/>
+        <rect x="139" y="40" width="175" height="34" rx="6" fill="#0f7b72" fill-opacity=".4"/>
+        <rect x="316" y="40" width="190" height="34" rx="6" fill="#6a4c9c" fill-opacity=".45"/>
+        <rect x="508" y="40" width="278" height="34" rx="6" fill="#6a4c9c" fill-opacity=".65"/>
+        <rect x="788" y="40" width="92" height="34" rx="6" fill="#0f7b72" fill-opacity=".25"/>
+        <text x="78" y="62" text-anchor="middle">Recap</text>
+        <text x="226" y="62" text-anchor="middle">Patterns</text>
+        <text x="411" y="62" text-anchor="middle">Global case</text>
+        <text x="647" y="62" text-anchor="middle" fill="#fff">Araucaria case</text>
+        <text x="834" y="62" text-anchor="middle">Synthesis</text>
+        <g font-family="IBM Plex Mono, monospace" font-size="11" fill-opacity=".75">
+          <text x="20" y="92">0</text><text x="139" y="92" text-anchor="middle">8</text><text x="316" y="92" text-anchor="middle">20</text><text x="508" y="92" text-anchor="middle">33</text><text x="788" y="92" text-anchor="middle">52</text><text x="880" y="92" text-anchor="end">60 min</text>
+        </g>
+        <text x="20" y="24" fill-opacity=".7">Same four forces, three scales: species range, planet, nursery.</text>
+      </g>
+    </svg>
+    <figcaption>Two case studies take most of the hour. The recap is the toolkit you need for both.</figcaption>
+  </figure>
+
+  <h3>No preparation needed</h3>
+  <p>Everything you need is on these pages, including the parts of both case-study papers we discuss. Come with your essay and an open mind.</p>
+  <div class="pager"><span></span><a href="#recap">Next: Recap →</a></div>
+</section>
+
+<!-- RECAP -->
+<section class="page" id="recap" aria-labelledby="h-recap">
+  <div class="kicker">Minutes 00–08</div>
+  <h2 id="h-recap">1 · Recap: four forces, two measures</h2>
+  <div class="q"><b class="lab">First minute</b>Write your answer to the essay question in one sentence. Keep it. We come back to it at the end.</div>
+  <div class="q"><b class="lab">Opening question</b>Name the four forces that change allele frequencies. For each one, does it raise or lower diversity <em>within</em> a population? And <em>between</em> populations?</div>
+  <details><summary>Check your table</summary>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Force</th><th>Within a population</th><th>Between populations</th></tr></thead>
+      <tbody>
+        <tr><td>Mutation</td><td>Up (slowly)</td><td>Up (new alleles arise in one place)</td></tr>
+        <tr><td>Genetic drift</td><td>Down, faster when N<sub>e</sub> is small</td><td>Up (populations drift apart)</td></tr>
+        <tr><td>Gene flow</td><td>Up (brings in alleles)</td><td>Down (homogenises)</td></tr>
+        <tr><td>Selection</td><td>Either: balancing keeps variants, directional removes them</td><td>Either: divergent selection raises it, uniform selection lowers it</td></tr>
+      </tbody>
+    </table></div>
+  </details>
+
+  <h3>Drift against gene flow</h3>
+  <p>Eight populations start identical, with 50 independent loci at p = 0.5. Each generation they drift, and a proportion m of each population is replaced by migrants from a common pool (an island model).</p>
+  <figure>
+    <div class="controls">
+      <label for="dN">Population size N <output id="dNo"></output><input type="range" id="dN" min="5" max="500" step="5" value="50"></label>
+      <label for="dM">Migration rate m <output id="dMo"></output><input type="range" id="dM" min="0" max="0.1" step="0.001" value="0"></label>
+      <label for="dG">Generations <output id="dGo"></output><input type="range" id="dG" min="20" max="300" step="10" value="150"></label>
+      <button class="ghost" id="dNew">Re-run</button>
+    </div>
+    <canvas id="dCanvas" width="860" height="320" style="width:100%;height:auto" role="img" aria-label="Line chart over generations of mean within-population heterozygosity and Fst for eight simulated populations."></canvas>
+    <div class="readout" id="dOut"></div>
+    <figcaption>Wright–Fisher simulation, re-run with each change. H<sub>S</sub> = mean expected heterozygosity within populations; F<sub>ST</sub> = (H<sub>T</sub> − H<sub>S</sub>) / H<sub>T</sub>. The dashed line is the expectation with no migration, H<sub>0</sub>(1 − 1/2N)<sup>t</sup>.</figcaption>
+  </figure>
+  <div class="q"><b class="lab">Discuss</b>
+    <ol style="margin:0">
+      <li>Set m = 0. Compare N = 20 and N = 300. What happens to diversity within populations, and to differentiation between them? Why do they move in opposite directions?</li>
+      <li>Set N = 100 and slowly raise m. At roughly what m does F<sub>ST</sub> stop climbing? Calculate Nm there. Theory says F<sub>ST</sub> ≈ 1 / (1 + 4Nm): does the simulation agree?</li>
+      <li>"One migrant per generation" is a famous rule of thumb. What does it protect, and what does it not?</li>
+    </ol>
+  </div>
+
+  <h3>Which measure?</h3>
+  <p>Set allele frequencies at one locus and watch two measures respond: the number of alleles (A) and expected heterozygosity, H<sub>E</sub> = 1 − Σp<sub>i</sub><sup>2</sup>.</p>
+  <figure>
+    <div class="controls" id="afControls"></div>
+    <svg id="afSvg" viewBox="0 0 860 120" role="img" aria-label="Bar showing allele frequencies at one locus."></svg>
+    <div class="readout" id="afOut"></div>
+    <figcaption>Each slider sets the relative weight of one allele; frequencies are rescaled to sum to 1. Set a weight to 0 to lose that allele.</figcaption>
+  </figure>
+  <div class="q"><b class="lab">Discuss</b>
+    <ol style="margin:0">
+      <li>Make two populations with the same number of alleles but very different H<sub>E</sub>. Then make two with the same H<sub>E</sub> but different numbers of alleles.</li>
+      <li>A bottleneck removes the rarest allele. Which measure barely moves? Which one would you use to detect a recent bottleneck?</li>
+      <li><span class="pill v">From your essay</span> One of you used "alpha" and "beta" diversity for within- and between-population variation. In population genetics we use H<sub>S</sub>, H<sub>T</sub> and F<sub>ST</sub>. Why does the vocabulary matter?</li>
+    </ol>
+  </div>
+  <div class="pager"><a href="#start">← Start here</a><a href="#patterns">Next: Patterns →</a></div>
+</section>
+
+<!-- PATTERNS -->
+<section class="page" id="patterns" aria-labelledby="h-patterns">
+  <div class="kicker">Minutes 08–20</div>
+  <h2 id="h-patterns">2 · Patterns: centre, latitude, history</h2>
+  <div class="q"><b class="lab">Opening question</b>You have only one fact about a population: where it sits on a map. What would you predict about its genetic diversity, and why?</div>
+
+  <h3>The central–marginal hypothesis</h3>
+  <figure>
+    <svg viewBox="0 0 900 270" role="img" aria-label="The central-marginal hypothesis as a causal chain: towards the range edge habitat is poorer, so populations are smaller and more isolated, so drift is stronger and gene flow weaker, so within-population diversity falls and differentiation rises.">
+      <defs><marker id="ar1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
+      <g font-family="IBM Plex Sans, sans-serif" font-size="13" fill="currentColor" stroke="currentColor">
+        <ellipse cx="160" cy="135" rx="140" ry="105" fill="#0f7b72" fill-opacity=".08"/>
+        <ellipse cx="160" cy="135" rx="70" ry="52" fill="#0f7b72" fill-opacity=".2"/>
+        <g stroke="none"><circle cx="160" cy="135" r="13" fill="#0f7b72"/><circle cx="125" cy="118" r="11" fill="#0f7b72"/><circle cx="195" cy="150" r="12" fill="#0f7b72"/>
+        <circle cx="40" cy="120" r="5" fill="#a4561b"/><circle cx="270" cy="210" r="5" fill="#a4561b"/><circle cx="250" cy="50" r="5" fill="#a4561b"/>
+        <text x="160" y="22" text-anchor="middle" font-size="12">species range</text>
+        <text x="160" y="180" text-anchor="middle" font-size="11">core</text><text x="40" y="104" text-anchor="middle" font-size="11">edge</text></g>
+        <rect x="350" y="30" width="160" height="52" rx="8" fill="none"/><rect x="350" y="110" width="160" height="52" rx="8" fill="none"/><rect x="350" y="190" width="160" height="52" rx="8" fill="none"/>
+        <rect x="570" y="70" width="150" height="52" rx="8" fill="none"/><rect x="570" y="150" width="150" height="52" rx="8" fill="none"/>
+        <rect x="760" y="70" width="125" height="52" rx="8" fill="#6a4c9c" fill-opacity=".15"/><rect x="760" y="150" width="125" height="52" rx="8" fill="#6a4c9c" fill-opacity=".15"/>
+        <line x1="430" y1="82" x2="430" y2="108" marker-end="url(#ar1)"/><line x1="430" y1="162" x2="430" y2="188" marker-end="url(#ar1)"/>
+        <line x1="510" y1="136" x2="568" y2="100" marker-end="url(#ar1)"/><line x1="510" y1="216" x2="568" y2="180" marker-end="url(#ar1)"/>
+        <line x1="720" y1="96" x2="758" y2="96" marker-end="url(#ar1)"/><line x1="720" y1="176" x2="758" y2="176" marker-end="url(#ar1)"/>
+        <line x1="300" y1="135" x2="348" y2="60" marker-end="url(#ar1)" stroke-dasharray="4 3"/>
+        <g stroke="none">
+          <text x="430" y="52" text-anchor="middle">Habitat less suitable</text><text x="430" y="69" text-anchor="middle" font-size="11">towards the edge</text>
+          <text x="430" y="132" text-anchor="middle">Smaller populations</text><text x="430" y="149" text-anchor="middle" font-size="11">lower N<tspan baseline-shift="sub" font-size="9">e</tspan></text>
+          <text x="430" y="212" text-anchor="middle">More isolated</text><text x="430" y="229" text-anchor="middle" font-size="11">fewer neighbours</text>
+          <text x="645" y="92" text-anchor="middle">Stronger drift</text>
+          <text x="645" y="172" text-anchor="middle">Less gene flow</text>
+          <text x="822" y="92" text-anchor="middle">Lower H<tspan baseline-shift="sub" font-size="9">E</tspan></text><text x="822" y="108" text-anchor="middle" font-size="11">within edge pops</text>
+          <text x="822" y="172" text-anchor="middle">Higher F<tspan baseline-shift="sub" font-size="9">ST</tspan></text><text x="822" y="188" text-anchor="middle" font-size="11">among edge pops</text>
+        </g>
+      </g>
+    </svg>
+    <figcaption>Every arrow is an assumption that can fail. Which one do you trust least?</figcaption>
+  </figure>
+  <div class="predict"><b class="lab">Predict first</b>
+    <p>Eckert, Samis &amp; Lougheed (2008) reviewed 134 studies of 115 species. In what proportion do you expect edge populations to have lower diversity? And how often were range-edge populations even less abundant (Sagarin &amp; Gaines 2002, 145 tests)?</p>
+    <div class="choice" role="group" aria-label="Your prediction for support for the central-marginal hypothesis">
+      <button type="button" class="ghost" aria-pressed="false">Under 40%</button><button type="button" class="ghost" aria-pressed="false">40–60%</button><button type="button" class="ghost" aria-pressed="false">60–80%</button><button type="button" class="ghost" aria-pressed="false">Over 80%</button>
+    </div>
+  </div>
+  <details><summary>Reveal: the reviews</summary>
+    <p>Lower diversity at the edge in 64% of studies that tested it; higher differentiation in 70% of the 57 that tested that (<a href="https://doi.org/10.1111/j.1365-294X.2007.03659.x">Eckert et al. 2008</a>). Yet the abundant-centre pattern itself held in only 39% of 145 tests (<a href="https://doi.org/10.1046/j.1461-0248.2002.00297.x">Sagarin &amp; Gaines 2002</a>).</p>
+    <p>Puzzle: if edges are often not less abundant, why are they so often less diverse?</p>
+  </details>
+
+  <h3>Latitude and history</h3>
+  <figure>
+    <svg viewBox="0 0 900 300" role="img" aria-label="Post-glacial history across a range from south to north: a southern refugium with high diversity, a rear edge that is low in diversity but distinct, a zone where lineages from two refugia meet with high diversity, and a leading edge where serial founder events reduce diversity.">
+      <defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
+      <g font-family="IBM Plex Sans, sans-serif" font-size="13" fill="currentColor">
+        <rect x="40" y="40" width="820" height="150" rx="10" fill="none" stroke="currentColor" stroke-opacity=".3"/>
+        <text x="40" y="30" font-size="11" fill-opacity=".7">SOUTH · warm</text><text x="860" y="30" font-size="11" text-anchor="end" fill-opacity=".7">NORTH · recently ice-covered</text>
+        <rect x="40" y="40" width="90" height="150" fill="#a4561b" fill-opacity=".12"/>
+        <circle cx="85" cy="115" r="9" fill="#a4561b"/>
+        <circle cx="210" cy="80" r="22" fill="#0f7b72" fill-opacity=".85"/><circle cx="210" cy="150" r="22" fill="#6a4c9c" fill-opacity=".85"/>
+        <g stroke="currentColor" stroke-width="2" fill="none">
+          <path d="M235,80 C330,80 380,105 430,112" marker-end="url(#ar2)"/><path d="M235,150 C330,150 380,125 430,118" marker-end="url(#ar2)"/>
+          <path d="M520,115 L600,115" marker-end="url(#ar2)"/><path d="M640,115 L700,115" marker-end="url(#ar2)"/><path d="M740,115 L800,115" marker-end="url(#ar2)"/>
+        </g>
+        <circle cx="475" cy="115" r="26" fill="#0f7b72" fill-opacity=".55"/><circle cx="475" cy="115" r="16" fill="#6a4c9c" fill-opacity=".55"/>
+        <circle cx="620" cy="115" r="16" fill="#0f7b72" fill-opacity=".6"/><circle cx="720" cy="115" r="11" fill="#0f7b72" fill-opacity=".6"/><circle cx="820" cy="115" r="7" fill="#0f7b72" fill-opacity=".6"/>
+        <text x="85" y="215" text-anchor="middle">Rear edge</text><text x="85" y="232" text-anchor="middle" font-size="11">low H, but unique</text>
+        <text x="210" y="215" text-anchor="middle">Refugia</text><text x="210" y="232" text-anchor="middle" font-size="11">two lineages</text>
+        <text x="475" y="215" text-anchor="middle">Lineages meet</text><text x="475" y="232" text-anchor="middle" font-size="11">diversity peaks here?</text>
+        <text x="720" y="215" text-anchor="middle">Leading edge</text><text x="720" y="232" text-anchor="middle" font-size="11">serial founder events</text>
+        <text x="450" y="275" text-anchor="middle" font-size="12" fill-opacity=".8">Circle size = within-population diversity. Colour = lineage.</text>
+      </g>
+    </svg>
+    <figcaption>A schematic of post-glacial recolonisation (after Hewitt 2000; Petit et al. 2003; Hampe &amp; Petit 2005). Where would you expect diversity to peak: in the refugia, or somewhere else?</figcaption>
+  </figure>
+  <div class="q"><b class="lab">Discuss</b>
+    <ol style="margin:0">
+      <li>De Kort et al. (2021) analysed 8,356 populations and found surprisingly weak latitudinal trends: none overall in plants, weak in animals, and the <em>reverse</em> in eudicots. Using the diagram, give two reasons a latitude effect could be hidden.</li>
+      <li>Hirao et al. (2017) found the arctic–alpine <i>Dryas octopetala</i> had its <em>lowest</em> diversity at its southern edge. Where does that fit on the diagram?</li>
+      <li><span class="pill v">From your essay</span> One of you supported the genetic latitudinal gradient with papers about <em>species</em> diversity. Why can't you assume the two gradients go together?</li>
+    </ol>
+  </div>
+
+  <h3>Pattern to process</h3>
+  <p>Match each observed pattern to the process that best explains it. Several have more than one defensible answer.</p>
+  <div class="sort" id="sorter"></div>
+  <p><button class="ghost" id="sortCheck">Show my tutor's reading</button> <span id="sortOut" class="readout" style="display:none"></span></p>
+  <div class="pager"><a href="#recap">← Recap</a><a href="#global">Next: GenDivRange →</a></div>
+</section>
+
+<!-- GLOBAL -->
+<section class="page" id="global" aria-labelledby="h-global">
+  <div class="kicker">Minutes 20–33 · Problem-based case 1</div>
+  <h2 id="h-global">3 · Case: GenDivRange, the global view</h2>
+  <p class="lede">Single-species studies disagree. Macrogenetics asks whether a pattern holds across hundreds of species at once. The case is <a href="https://doi.org/10.1038/s41597-025-05303-2">Csilléry, Yang, Hung et al. (2025) <i>Scientific Data</i> 12: 980</a>. Yes, I'm an author, so attack it freely.</p>
+
+  <div class="stage">
+    <div class="kicker">Stage A · 3 min · Design it yourself</div>
+    <h3 style="margin-top:4px">The brief</h3>
+    <p>You want to test the central–marginal hypothesis across as many species as possible, using only data that has already been published.</p>
+    <div class="q pair"><b class="lab">Together</b>
+      <ol style="margin:0">
+        <li>What three pieces of information do you need for every population?</li>
+        <li>Where would you get each species' range from, if most studies don't report it?</li>
+        <li>Name the two biggest problems with pooling heterozygosity values from different studies.</li>
+      </ol>
+    </div>
+    <details><summary>Reveal: what GenDivRange did</summary>
+      <div class="grid2" style="margin-top:8px">
+        <div class="card"><h4>1,109 species</h4><p>Each with at least five genotyped populations.</p></div>
+        <div class="card"><h4>19,173 populations</h4><p>From 1,480 studies: terrestrial, freshwater and marine.</p></div>
+        <div class="card"><h4>~90% microsatellites</h4><p>Also allozymes, ISSR, RFLP and SNPs. H<sub>E</sub>, Nei's gene diversity or allelic richness for every study.</p></div>
+        <div class="card"><h4>Ranges from GBIF</h4><p>Cleaned occurrence records, gridded at 0.1° and 0.5°, so each population can be placed on its species' range.</p></div>
+      </div>
+      <h4 style="margin-top:16px">How it was built</h4>
+      <ul>
+        <li><b>Sources:</b> 287 newly collected studies, plus studies drawn from three earlier compilations (De Kort et al. 468, MacroPopGen 379, VarVer 346), merged and de-duplicated. The authors estimate over 3,000 published studies with at least five populations exist, so this is far from all of them.</li>
+        <li><b>For each population:</b> latitude and longitude, sample size, marker type, and whichever of H<sub>E</sub>, H<sub>O</sub>, Nei's gene diversity, allelic richness, allele counts and F<sub>IS</sub> the study reported.</li>
+        <li><b>For each species:</b> taxonomy, one of 14 life forms (mammals to mosses), biome, breeding and adult habitat (terrestrial, freshwater, marine) and IUCN status.</li>
+        <li><b>Ranges:</b> GBIF records (plus OBIS for marine species) with duplicates, uncertain coordinates and zoo or garden records removed.</li>
+        <li><b>Checks:</b> new entries checked by a second person; coordinates checked against each paper; automatic range checks (H between 0 and 1). The 39 studies where H<sub>O</sub> was implausibly far above H<sub>E</sub> were examined, and 30 turned out to contain typos.</li>
+        <li><b>Access:</b> the data are on Figshare and the code on GitHub. A web app at gendivrange.org shows a map tab (each population coloured by H<sub>E</sub>, with a pop-up linking to the original paper) and a searchable species table, with linked filters for life form, marker, habitat, biome and species.</li>
+      </ul>
+    </details>
+  </div>
+
+  <div class="stage">
+    <div class="kicker">Stage B · 5 min · Explore the database</div>
+    <h3 style="margin-top:4px">Hands on: <a href="https://gendivrange.org">gendivrange.org</a></h3>
+    <p>We'll open the site together on screen during the tutorial. The map tab shows each population coloured by H<sub>E</sub>; the table tab lists species. Filters (life form, marker, habitat, biome) are linked between the two tabs.</p>
+    <ol>
+      <li><b>Pick a species</b> with populations spread across its range. Before you look at the colours, predict where H<sub>E</sub> will be highest.</li>
+      <li><b>Look.</b> Does the pattern fit the central–marginal hypothesis? A latitudinal one? A history-based one?</li>
+      <li><b>Filter by biome.</b> Which biomes are dense with data, and which are almost empty?</li>
+      <li><b>Open one population's pop-up</b> and follow it to the original paper. How many individuals were genotyped, with which markers?</li>
+    </ol>
+    <div class="q"><b class="lab">Discuss</b>If the two of you chose different species and got different patterns, is that a problem for the hypothesis, or for the data?</div>
+  </div>
+
+  <div class="stage">
+    <div class="kicker">Stage C · 5 min · Where is the centre?</div>
+    <p>To test the central–marginal hypothesis you have to say how central each population is. That sounds trivial. Switch between three definitions and watch the ranking change.</p>
+    <figure>
+      <div class="controls">
+        <label for="cDef">Centrality measure
+          <select id="cDef" style="font:14px var(--body);padding:4px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--ink)">
+            <option value="centroid">Distance to the range centroid</option>
+            <option value="edge">Distance to the nearest range edge</option>
+            <option value="niche">Distance to the climatic optimum</option>
+          </select></label>
+      </div>
+      <svg id="cSvg" viewBox="0 0 860 380" role="img" aria-label="A crescent-shaped species range with six populations, ranked by centrality under the chosen definition."></svg>
+      <div class="readout" id="cOut"></div>
+      <figcaption>A made-up crescent-shaped range with six populations. The climatic optimum is a cool, wet zone in the north-east arm. Rank 1 = most central.</figcaption>
+    </figure>
+    <div class="q"><b class="lab">Discuss</b>
+      <ol style="margin:0">
+        <li>Where does the centroid fall? What does that say about using it for real ranges, which are rarely blobs?</li>
+        <li>Which population changes rank the most between definitions? If a paper reports "no support for the CMH", what should you ask first?</li>
+        <li>Lira-Noriega &amp; Manthey (2014) found diversity tracked <em>niche</em> centrality more consistently than geographic centrality. Why might that be?</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="kicker">Stage D · 5 min · Be the reviewer</div>
+    <p>Some facts from the paper's own validation and usage notes:</p>
+    <figure>
+      <svg viewBox="0 0 860 150" role="img" aria-label="Bar chart: Least Concern species 785; Near Threatened, Vulnerable and Endangered combined 314.">
+        <g font-family="IBM Plex Sans, sans-serif" font-size="13" fill="currentColor">
+          <text x="10" y="45">Least Concern</text><rect x="230" y="28" width="560" height="26" rx="4" fill="#0f7b72" fill-opacity=".75"/><text x="798" y="46">785</text>
+          <text x="10" y="95">NT + VU + EN combined</text><rect x="230" y="78" width="224" height="26" rx="4" fill="#a4561b" fill-opacity=".75"/><text x="462" y="96">314</text>
+          <text x="230" y="135" font-size="11" fill-opacity=".7">Species in GenDivRange by IUCN category (Csilléry et al. 2025)</text>
+        </g>
+      </svg>
+    </figure>
+    <ul>
+      <li>Temperate and Mediterranean biomes and wealthy regions are over-represented; tropical forests, especially in Africa, are under-studied.</li>
+      <li>About 90% of the data are microsatellites, whose mutation rates differ between loci and studies.</li>
+      <li>About 5.9% of populations had fewer than 10 diploid individuals genotyped.</li>
+      <li>Most studies did not correct for sample size.</li>
+    </ul>
+    <div class="q pair"><b class="lab">Together</b>Write the one analysis you would never run on this dataset, and the one you think it is best placed to answer. Then argue for each.</div>
+    <div class="q"><b class="lab">Discuss</b>The data are biased towards species that are <em>not</em> threatened. If you used GenDivRange to set a global target for "healthy" genetic diversity, which way would the bias push your target?</div>
+  </div>
+  <div class="pager"><a href="#patterns">← Patterns</a><a href="#araucaria">Next: Araucaria case →</a></div>
+</section>
+
+<!-- ARAUCARIA -->
+<section class="page" id="araucaria" aria-labelledby="h-arau">
+  <div class="kicker">Minutes 33–52 · Problem-based case 2</div>
+  <h2 id="h-arau">4 · Case: rebuilding <i>Araucaria nemorosa</i></h2>
+  <p class="lede">From the whole planet to one nursery. The same four forces operate, but here people control one of them. Data from Kettle et al. (2007, 2008), as presented in the Forest Genetic Resources Training Guide case study by Kettle &amp; Boshier (2014).</p>
+
+  <div class="stage">
+    <div class="kicker">Stage A · 3 min · The brief</div>
+    <p><i>Araucaria nemorosa</i> is a Critically Endangered conifer known from only eight populations in the far south of New Caledonia, with an area of occupancy of 0.64 km². Fire, introduced mammals, logging and nickel mining have left under 30% of the original vegetation. Two nurseries are growing seedlings for restoration:</p>
+    <div class="grid2">
+      <div class="card"><h4>Kaanua (N1)</h4><p>One of the largest populations, over 1,000 trees. The nursery collected <b>cones from about 30 trees</b>.</p></div>
+      <div class="card"><h4>Forêt Nord (N6)</h4><p>The smallest and only inland population, about 93 trees, inside a nickel processing site. The nursery gathered <b>freshly fallen seed from the forest floor</b>.</p></div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <h4>Species facts you will need</h4>
+      <ul style="margin:.3em 0">
+        <li>Long-lived, hermaphrodite tree with separate male and female cones on the same tree. No self-incompatibility, so it can self-pollinate.</li>
+        <li>Pollen is carried by wind; seed falls by gravity and wind, so most lands near the mother.</li>
+        <li>Female cones hold several hundred seeds. Seed germinates within days of release and cannot be stored (it is recalcitrant), so fallen seed must be collected promptly.</li>
+        <li>Grows on nickel-rich ultramafic soils. Remnant stands have many seedlings but few trees of 5–20 cm diameter, so recruitment into adults is poor.</li>
+        <li>It grows alongside dense stands of the widespread <i>A. columnaris</i>, which contributes heavily to the local pollen cloud.</li>
+      </ul>
+    </div>
+    <div class="predict"><b class="lab">Predict first</b>
+      <p>Which nursery stock will hold more of its source population's genetic diversity?</p>
+      <div class="choice" role="group" aria-label="Which nursery holds more diversity">
+        <button type="button" class="ghost" aria-pressed="false">Kaanua: big source, 30 trees</button>
+        <button type="button" class="ghost" aria-pressed="false">Forêt Nord: small source, floor seed</button>
+        <button type="button" class="ghost" aria-pressed="false">About the same</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="kicker">Stage B · 4 min · How these trees reproduce</div>
+    <p>Two 0.04 ha plots in each of six populations were surveyed for cones.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Population</th><th>Est. size</th><th>Trees &gt;15 cm dbh</th><th>Trees with cones</th><th>Cones per coning tree</th></tr></thead>
+      <tbody>
+        <tr><td>Kaanua (N1)</td><td>&gt;1000</td><td>13</td><td>1</td><td>2</td></tr>
+        <tr><td>Vane (N2)</td><td>&gt;1000</td><td>8</td><td>1</td><td>7</td></tr>
+        <tr><td>New Forest (N3)</td><td>&gt;1000</td><td>45</td><td>4</td><td>1, 2, 3, 3</td></tr>
+        <tr><td>Mini Nuri (N5)</td><td>&lt;500</td><td>22</td><td>4</td><td>2, 2, 7, 5</td></tr>
+        <tr><td>Forêt Nord (N6)</td><td>93</td><td>11</td><td>5</td><td>1, 1, 1, 3, 9</td></tr>
+        <tr><td>Natasha's (N7)</td><td>&lt;100</td><td>23</td><td>2</td><td>2, 8</td></tr>
+      </tbody>
+    </table></div>
+    <p class="small" style="color:var(--muted)">Table 1 of the case study, simplified. On average only 13.9% of mature-sized trees carried mature female cones.</p>
+    <p>Thirteen cones were dissected. Each held about 339 seeds, but over half the cones had fewer than 10 filled seeds, and <b>a single cone held 125 filled seeds, more than half of all the viable seed</b>.</p>
+    <div class="q"><b class="lab">Discuss</b>
+      <ol style="margin:0">
+        <li>Kaanua has over 1,000 trees. How many of them do you think contribute seed in a given year? What is its effective population size likely to be, compared with its census size?</li>
+        <li>Most seeds are empty. Give two biological explanations. (Hint: these trees are hermaphrodite and can self.)</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="kicker">Stage C · 5 min · The genetic data</div>
+    <p>Forty individuals were genotyped at seven nuclear microsatellite loci in each cohort: adults (A), established wild seedlings (W) and nursery seedlings (N).</p>
+    <details><summary>Reveal: diversity in each cohort</summary>
+      <svg id="aChart" viewBox="0 0 860 300" role="img" aria-label="Grouped bar chart of allelic richness for adults, wild seedlings and nursery seedlings at Kaanua and Foret Nord. Kaanua: 9.53, 8.83, 2.81. Foret Nord: 6.12, 5.59, 6.40."></svg>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Population</th><th>Cohort</th><th>Allelic richness A<sub>E</sub></th><th>H<sub>E</sub></th><th>% rare alleles</th><th>F<sub>IS</sub></th><th>N<sub>e</sub> of parents</th></tr></thead>
+        <tbody>
+          <tr><td>Kaanua (N1)</td><td>Adults</td><td>9.53</td><td>0.72</td><td>84</td><td>0.135*</td><td></td></tr>
+          <tr><td></td><td>Wild seedlings</td><td>8.83</td><td>0.71</td><td>74</td><td>0.194*</td><td>30</td></tr>
+          <tr><td></td><td>Nursery</td><td>2.81</td><td>0.46</td><td>38</td><td>−0.024 ns</td><td><b>1</b></td></tr>
+          <tr><td>Forêt Nord (N6)</td><td>Adults</td><td>6.12</td><td>0.65</td><td>68</td><td>0.009 ns</td><td></td></tr>
+          <tr><td></td><td>Wild seedlings</td><td>5.59</td><td>0.62</td><td>65</td><td>0.168*</td><td>11</td></tr>
+          <tr><td></td><td>Nursery</td><td>6.40</td><td>0.69</td><td>65</td><td><b>0.282*</b></td><td>not calculable</td></tr>
+        </tbody>
+      </table></div>
+      <p class="small" style="color:var(--muted)">From Table 2 of the case study. * F<sub>IS</sub> significantly above 0. F<sub>ST</sub> between nursery and wild cohorts: about 0.16 at Kaanua, about 0.04 at Forêt Nord.</p>
+    </details>
+    <div class="q"><b class="lab">Discuss</b>
+      <ol style="margin:0">
+        <li>Was your Stage A prediction right? How can 30 sampled trees give an effective number of parents of 1?</li>
+        <li>The Kaanua nursery stock shows no inbreeding (F<sub>IS</sub> slightly negative). Why is that <em>not</em> good news here?</li>
+        <li>The Forêt Nord nursery has plenty of diversity but the highest F<sub>IS</sub> of any cohort. Why would inbred seedlings survive in a nursery but not in the wild?</li>
+        <li>Across all six populations, wild seedlings were more inbred than adults (mean F<sub>IS</sub> 0.192 vs 0.108). What does that tell you is happening between the seedling and adult stage?</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="kicker">Stage D · 4 min · Simulate the seed collection</div>
+    <p>A collector samples seed from several mother trees. Fecundity is very unequal: a few trees produce most of the viable seed. How many mothers are you <em>really</em> sampling?</p>
+    <figure>
+      <div class="controls">
+        <label for="sM">Mother trees sampled <output id="sMo"></output><input type="range" id="sM" min="1" max="60" step="1" value="30"></label>
+        <label for="sK">Inequality in seed output <output id="sKo"></output><input type="range" id="sK" min="0" max="2.5" step="0.1" value="1.8"></label>
+        <label for="sMode">How seed is pooled
+          <select id="sMode" style="font:14px var(--body);padding:4px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--ink)">
+            <option value="bulk">Bulk: keep whatever each tree gives</option>
+            <option value="equal">Balanced: same number from each tree</option>
+          </select></label>
+        <button class="ghost" id="sNew">New trees</button>
+      </div>
+      <canvas id="sCanvas" width="860" height="230" style="width:100%;height:auto" role="img" aria-label="Bar chart of each mother tree's share of the collected seed."></canvas>
+      <div class="readout" id="sOut"></div>
+      <figcaption>Each bar is one mother tree's share of the seed lot. Effective number of mothers = 1 / Σ(share²). The capture probability counts only the two maternal gene copies per mother, so it ignores diversity that arrives with pollen.</figcaption>
+    </figure>
+    <div class="q"><b class="lab">Discuss</b>
+      <ol style="margin:0">
+        <li>With bulk pooling and high inequality, how much does doubling the number of mothers help? What helps more?</li>
+        <li>Why did gathering fallen seed from the forest floor at Forêt Nord work better than picking cones from 30 trees at Kaanua? Was that luck or design?</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="kicker">Stage E · 3 min · Map the supply chain and fix it</div>
+    <figure>
+      <svg viewBox="0 0 900 200" role="img" aria-label="Seed supply chain from mother trees through cone or seed collection, germination, nursery rearing and planting out, with five numbered checkpoints for students to label.">
+        <defs><marker id="ar5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
+        <g font-family="IBM Plex Sans, sans-serif" font-size="13" fill="currentColor" stroke="currentColor">
+          <rect x="10" y="60" width="140" height="56" rx="8" fill="none"/><rect x="190" y="60" width="140" height="56" rx="8" fill="none"/><rect x="370" y="60" width="140" height="56" rx="8" fill="none"/><rect x="550" y="60" width="140" height="56" rx="8" fill="none"/><rect x="730" y="60" width="150" height="56" rx="8" fill="#0f7b72" fill-opacity=".15"/>
+          <line x1="150" y1="88" x2="188" y2="88" marker-end="url(#ar5)"/><line x1="330" y1="88" x2="368" y2="88" marker-end="url(#ar5)"/><line x1="510" y1="88" x2="548" y2="88" marker-end="url(#ar5)"/><line x1="690" y1="88" x2="728" y2="88" marker-end="url(#ar5)"/>
+          <g stroke="none">
+            <text x="80" y="84" text-anchor="middle">Mother trees</text><text x="80" y="101" text-anchor="middle" font-size="11">wild stand</text>
+            <text x="260" y="84" text-anchor="middle">Collection</text><text x="260" y="101" text-anchor="middle" font-size="11">cones or floor seed</text>
+            <text x="440" y="84" text-anchor="middle">Germination</text><text x="440" y="101" text-anchor="middle" font-size="11">30–40% succeed</text>
+            <text x="620" y="84" text-anchor="middle">Nursery rearing</text><text x="620" y="101" text-anchor="middle" font-size="11">shade, potting</text>
+            <text x="805" y="84" text-anchor="middle">Planting out</text><text x="805" y="101" text-anchor="middle" font-size="11">mined or burnt land</text>
+          </g>
+          <g font-family="IBM Plex Mono, monospace" font-size="13" stroke="none">
+            <circle cx="80" cy="150" r="14" fill="#a4561b" fill-opacity=".25"/><text x="80" y="155" text-anchor="middle">1</text>
+            <circle cx="260" cy="150" r="14" fill="#a4561b" fill-opacity=".25"/><text x="260" y="155" text-anchor="middle">2</text>
+            <circle cx="440" cy="150" r="14" fill="#a4561b" fill-opacity=".25"/><text x="440" y="155" text-anchor="middle">3</text>
+            <circle cx="620" cy="150" r="14" fill="#a4561b" fill-opacity=".25"/><text x="620" y="155" text-anchor="middle">4</text>
+            <circle cx="805" cy="150" r="14" fill="#a4561b" fill-opacity=".25"/><text x="805" y="155" text-anchor="middle">5</text>
+          </g>
+          <text x="450" y="32" text-anchor="middle" stroke="none" font-size="12" fill-opacity=".8">At each numbered checkpoint: is diversity lost, is inbreeding added, or is selection relaxed?</text>
+        </g>
+      </svg>
+      <figcaption>Label each checkpoint with the genetic risk and the actor responsible. Then propose one specific fix for each.</figcaption>
+    </figure>
+    <div class="card" style="margin-bottom:12px">
+      <h4>Who is involved, and the constraints they work under</h4>
+      <ul style="margin:.3em 0">
+        <li><b>Institut Agronomique Néo-Calédonien:</b> ran the Kaanua nursery, collecting cones from about 30 trees.</li>
+        <li><b>Vale Inco (nickel company):</b> ran the Forêt Nord nursery at its Goro site, gathering fallen seed for post-mining revegetation.</li>
+        <li><b>Landowners:</b> about 70% of the remaining stands (populations N1–N6) are on one family's land. The family is supportive and works well with the Environment Service.</li>
+        <li><b>Government:</b> the Southern Province's Environment Service handles regulation and monitoring; CIRAD and IRD do forestry research and seed work.</li>
+        <li><b>Practicalities:</b> collections happen when budgets and nursery space allow, not in the best cone years. Germination is only 30–40%. International donors rarely fund work in New Caledonia because it is part of France.</li>
+      </ul>
+    </div>
+    <div class="q pair"><b class="lab">Together</b>Write a seed collection protocol for the next season, in five bullet points, specific enough that a nursery technician could follow it. Include how many trees, how much seed from each, which populations, and what you would record.</div>
+    <div class="q"><b class="lab">Discuss</b>Forêt Nord is the most genetically distinct population and sits inside a nickel plant. Should restoration mix seed from different populations, or keep them separate? What would you need to know to decide?</div>
+  </div>
+  <div class="pager"><a href="#global">← GenDivRange</a><a href="#synthesis">Next: Synthesis →</a></div>
+</section>
+
+<!-- SYNTHESIS -->
+<section class="page" id="synthesis" aria-labelledby="h-syn">
+  <div class="kicker">Minutes 52–60</div>
+  <h2 id="h-syn">Synthesis and exit question</h2>
+  <div class="q"><b class="lab">Opening question</b>A nursery that takes most of its seed from one cone, and a species that recolonised northwards after the last glaciation, have something in common. What?</div>
+
+  <h3>Same forces, three scales</h3>
+  <p>For each cell, decide whether the force matters a lot, a little, or not at all at that scale. Be ready to defend your call.</p>
+  <div class="tablewrap"><table id="scaleTable">
+    <thead><tr><th>Force or factor</th><th>A nursery (one season)</th><th>A species range (thousands of years)</th><th>The globe (across species)</th></tr></thead>
+    <tbody></tbody>
+  </table></div>
+  <p class="small" style="color:var(--muted)">Tap a cell to cycle through: blank, a lot, a little, not at all.</p>
+
+  <div class="q"><b class="lab">Exit question (one sentence each)</b>
+    <ol style="margin:0">
+      <li>Re-read the sentence you wrote at the start. Rewrite it using one piece of evidence from today, or say why you would keep it.</li>
+      <li>If you could add one variable to every population in GenDivRange, what would it be, and why?</li>
+      <li>Name one place where human decisions now shape the spatial distribution of genetic diversity as strongly as glaciations once did.</li>
+    </ol>
+  </div>
+  <h3>Take-home puzzle</h3>
+  <p>The Kaanua nursery lost most of its rare alleles in one season, yet its F<sub>ST</sub> from the wild population was only about 0.16. Meanwhile populations that have been separated for thousands of years can have F<sub>ST</sub> values well below that. What does that tell you about using F<sub>ST</sub> to judge how "different" two populations really are?</p>
+  <div class="pager"><a href="#araucaria">← Araucaria case</a><a href="#reading">Next: Reading →</a></div>
+</section>
+
+<!-- READING -->
+<section class="page" id="reading" aria-labelledby="h-read">
+  <div class="kicker">After the tutorial</div>
+  <h2 id="h-read">Reading and follow-up</h2>
+  <p>Start with whichever case interested you most, then fill the gaps in your essay.</p>
+  <h3>The cases</h3>
+  <ul>
+    <li>Csilléry, K., Yang, H., Hung, T. H., Rodríguez-Rodríguez, P., Miller, J., Mantovani, V., Chauvier-Mendes, Y. &amp; Nobis, M. P. (2025). GenDivRange: a global dataset of geo-referenced population genetic diversity across species ranges. <i>Scientific Data</i>, 12, 980. <a href="https://doi.org/10.1038/s41597-025-05303-2">doi</a> · <a href="https://gendivrange.org">gendivrange.org</a></li>
+    <li>Kettle, C. J., Hollingsworth, P. M., Jaffré, T., Moran, B. &amp; Ennos, R. A. (2007). Identifying the early genetic consequences of habitat degradation in a highly threatened tropical conifer, <i>Araucaria nemorosa</i>. <i>Molecular Ecology</i>, 16, 3581–3591. <a href="https://doi.org/10.1111/j.1365-294X.2007.03419.x">doi</a></li>
+    <li>Kettle, C. J., Ennos, R. A., Jaffré, T., Gardner, M. &amp; Hollingsworth, P. M. (2008). Cryptic genetic bottlenecks during restoration of an endangered tropical conifer. <i>Biological Conservation</i>, 141, 1953–1961. <a href="https://doi.org/10.1016/j.biocon.2008.05.008">doi</a></li>
+  </ul>
+  <h3>Centre and edge</h3>
+  <ul>
+    <li>Eckert, C. G., Samis, K. E. &amp; Lougheed, S. C. (2008). Genetic variation across species' geographical ranges: the central–marginal hypothesis and beyond. <i>Molecular Ecology</i>, 17, 1170–1188. <a href="https://doi.org/10.1111/j.1365-294X.2007.03659.x">doi</a></li>
+    <li>Sagarin, R. D. &amp; Gaines, S. D. (2002). The "abundant centre" distribution: to what extent is it a biogeographical rule? <i>Ecology Letters</i>, 5, 137–147. <a href="https://doi.org/10.1046/j.1461-0248.2002.00297.x">doi</a></li>
+    <li>Pironon, S. et al. (2017). Geographic variation in genetic and demographic performance: new insights from an old biogeographical paradigm. <i>Biological Reviews</i>, 92, 1877–1909. <a href="https://doi.org/10.1111/brv.12313">doi</a></li>
+    <li>Lira-Noriega, A. &amp; Manthey, J. D. (2014). Relationship of genetic diversity and niche centrality: a survey and analysis. <i>Evolution</i>, 68, 1082–1093. <a href="https://doi.org/10.1111/evo.12343">doi</a></li>
+  </ul>
+  <h3>Latitude and history</h3>
+  <ul>
+    <li>Hewitt, G. (2000). The genetic legacy of the Quaternary ice ages. <i>Nature</i>, 405, 907–913. <a href="https://doi.org/10.1038/35016000">doi</a></li>
+    <li>Petit, R. J. et al. (2003). Glacial refugia: hotspots but not melting pots of genetic diversity. <i>Science</i>, 300, 1563–1565. <a href="https://doi.org/10.1126/science.1083264">doi</a></li>
+    <li>Hampe, A. &amp; Petit, R. J. (2005). Conserving biodiversity under climate change: the rear edge matters. <i>Ecology Letters</i>, 8, 461–467. <a href="https://doi.org/10.1111/j.1461-0248.2005.00739.x">doi</a></li>
+    <li>Excoffier, L., Foll, M. &amp; Petit, R. J. (2009). Genetic consequences of range expansions. <i>Annual Review of Ecology, Evolution, and Systematics</i>, 40, 481–501. <a href="https://doi.org/10.1146/annurev.ecolsys.39.110707.173414">doi</a></li>
+    <li>De Kort, H. et al. (2021). Life history, climate and biogeography interactively affect worldwide genetic diversity of plant and animal populations. <i>Nature Communications</i>, 12, 516. <a href="https://doi.org/10.1038/s41467-021-20958-2">doi</a></li>
+  </ul>
+  <h3>Macrogenetics and conservation</h3>
+  <ul>
+    <li>Leigh, D. M. et al. (2021). Opportunities and challenges of macrogenetic studies. <i>Nature Reviews Genetics</i>, 22, 791–807. <a href="https://doi.org/10.1038/s41576-021-00394-0">doi</a></li>
+    <li>Paz-Vinas, I. et al. (2021). Macrogenetic studies must not ignore limitations of genetic markers and scale. <i>Ecology Letters</i>. <a href="https://doi.org/10.1111/ele.13732">doi</a></li>
+    <li>Miraldo, A. et al. (2016). An Anthropocene map of genetic diversity. <i>Science</i>, 353, 1532–1535. <a href="https://doi.org/10.1126/science.aaf4381">doi</a></li>
+    <li>Theodoridis, S. et al. (2020). Evolutionary history and past climate change shape the distribution of genetic diversity in terrestrial mammals. <i>Nature Communications</i>, 11, 2557. <a href="https://doi.org/10.1038/s41467-020-16449-5">doi</a></li>
+    <li>Hoban, S. et al. (2020). Genetic diversity targets and indicators in the CBD post-2020 Global Biodiversity Framework must be improved. <i>Biological Conservation</i>, 248, 108654. <a href="https://doi.org/10.1016/j.biocon.2020.108654">doi</a></li>
+  </ul>
+  <div class="pager"><a href="#synthesis">← Synthesis</a><a href="#start">Back to start</a></div>
+</section>
+
+</main>
+</div>
+<script>
+(function(){
+  // ---------- routing ----------
+  const pages=[...document.querySelectorAll('section.page')];
+  const ids=pages.map(p=>p.id);
+  function show(){
+    const id=ids.includes(location.hash.slice(1))?location.hash.slice(1):'start';
+    pages.forEach(p=>p.classList.toggle('on',p.id===id));
+    document.querySelectorAll('nav a.item').forEach(a=>{
+      if(a.getAttribute('href')==='#'+id)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');
+    });
+    document.getElementById('menu').classList.remove('open');
+    document.getElementById('menuToggle').setAttribute('aria-expanded','false');
+    window.scrollTo(0,0);
+    drawAll();
+  }
+  window.addEventListener('hashchange',show);
+  document.getElementById('menuToggle').addEventListener('click',e=>{
+    const m=document.getElementById('menu'); m.classList.toggle('open');
+    e.currentTarget.setAttribute('aria-expanded',m.classList.contains('open'));
+  });
+
+  // ---------- helpers ----------
+  const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;}}
+  function normal(r){let u=0,v=0;while(u===0)u=r();while(v===0)v=r();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
+  function bind(id,fn,fmt){const el=document.getElementById(id),o=document.getElementById(id+'o');const up=()=>{o.textContent=fmt?fmt(+el.value):el.value;fn();};el.addEventListener('input',up);o.textContent=fmt?fmt(+el.value):el.value;}
+  function prep(c){const ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);ctx.font='12px "IBM Plex Sans", sans-serif';return ctx;}
+  const NS='http://www.w3.org/2000/svg';
+  function el(t,a,p){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;}
+  function txt(p,x,y,s,a){const e=el('text',Object.assign({x,y,'font-family':'IBM Plex Sans, sans-serif','font-size':12,fill:'currentColor'},a||{}),p);e.textContent=s;return e;}
+
+  // ---------- prediction buttons ----------
+  document.querySelectorAll('.choice').forEach(g=>g.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
+    g.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));})));
+
+  // ---------- drift vs gene flow ----------
+  let dSeed=11;
+  function binom(n,p,r){
+    if(p<=0)return 0; if(p>=1)return n;
+    const v=n*p*(1-p);
+    if(v>9){let x=Math.round(n*p+Math.sqrt(v)*normal(r));return Math.max(0,Math.min(n,x));}
+    let k=0;for(let i=0;i<n;i++)if(r()<p)k++;return k;
+  }
+  function drawDrift(){
+    const c=document.getElementById('dCanvas'); if(!c.offsetParent)return;
+    const N=+dN.value,m=+dM.value,G=+dG.value,P=8,L=50,r=rng(dSeed),n2=2*N;
+    let p=[];for(let i=0;i<P;i++){p.push(new Array(L).fill(0.5));}
+    const Hs=[],Fst=[];
+    function stats(){let hs=0,ht=0;for(let l=0;l<L;l++){let pb=0;for(let i=0;i<P;i++){pb+=p[i][l];hs+=2*p[i][l]*(1-p[i][l]);}pb/=P;ht+=2*pb*(1-pb);}hs/=P*L;ht/=L;Hs.push(hs);Fst.push(ht>0?Math.max(0,(ht-hs)/ht):0);}
+    stats();
+    for(let g=1;g<=G;g++){
+      const pbar=new Array(L).fill(0);for(let l=0;l<L;l++){for(let i=0;i<P;i++)pbar[l]+=p[i][l];pbar[l]/=P;}
+      for(let i=0;i<P;i++)for(let l=0;l<L;l++){const q=(1-m)*p[i][l]+m*pbar[l];p[i][l]=binom(n2,q,r)/n2;}
+      stats();
+    }
+    const ctx=prep(c),W=c.width,H=c.height,Lm=56,R=W-130,T=16,B=H-36;
+    const ink=css('--ink'),muted=css('--muted'),line=css('--line'),teal=css('--teal'),vio=css('--violet');
+    const x=g=>Lm+(R-Lm)*g/G,y=v=>B-(B-T)*v;
+    ctx.strokeStyle=line;ctx.fillStyle=muted;
+    [0,0.25,0.5,0.75,1].forEach(v=>{ctx.beginPath();ctx.moveTo(Lm,y(v));ctx.lineTo(R,y(v));ctx.stroke();ctx.textAlign='right';ctx.fillText(v.toFixed(2),Lm-6,y(v)+4);});
+    ctx.textAlign='center';[0,G/2,G].forEach(g=>ctx.fillText(Math.round(g),x(g),B+16));ctx.fillText('Generation',(Lm+R)/2,B+31);
+    ctx.setLineDash([5,4]);ctx.strokeStyle=muted;ctx.beginPath();for(let g=0;g<=G;g++){const v=0.5*Math.pow(1-1/n2,g);g?ctx.lineTo(x(g),y(v)):ctx.moveTo(x(g),y(v));}ctx.stroke();ctx.setLineDash([]);
+    ctx.lineWidth=2.5;
+    [[Hs,teal,'Within (Hs)'],[Fst,vio,'Between (Fst)']].forEach(([arr,col,lab])=>{ctx.strokeStyle=col;ctx.beginPath();arr.forEach((v,g)=>g?ctx.lineTo(x(g),y(v)):ctx.moveTo(x(g),y(v)));ctx.stroke();
+      ctx.fillStyle=col;ctx.textAlign='left';ctx.fillText(lab,R+8,y(arr[arr.length-1])+4);});
+    ctx.lineWidth=1;
+    const nm=N*m;
+    document.getElementById('dOut').textContent='After '+G+' generations: Hs = '+Hs[G].toFixed(3)+' (started 0.500) · Fst = '+Fst[G].toFixed(3)+' · Nm = '+nm.toFixed(2)+(m>0?' · 1/(1+4Nm) = '+(1/(1+4*nm)).toFixed(3):'');
+  }
+  bind('dN',drawDrift);bind('dM',drawDrift,v=>v.toFixed(3));bind('dG',drawDrift);
+  document.getElementById('dNew').addEventListener('click',()=>{dSeed++;drawDrift();});
+
+  // ---------- allele frequencies ----------
+  const afW=[49,49,2,0,0],afCol=['#0f7b72','#6a4c9c','#a4561b','#3b6ea8','#8a8f2a'];
+  const afC=document.getElementById('afControls');
+  afW.forEach((w,i)=>{const lab=document.createElement('label');lab.htmlFor='af'+i;lab.innerHTML='Allele '+String.fromCharCode(65+i)+' <output id="af'+i+'o"></output><input type="range" id="af'+i+'" min="0" max="100" step="1" value="'+w+'">';afC.appendChild(lab);});
+  function drawAF(){
+    const w=afW.map((_,i)=>+document.getElementById('af'+i).value),s=w.reduce((a,b)=>a+b,0)||1,p=w.map(v=>v/s);
+    p.forEach((v,i)=>document.getElementById('af'+i+'o').textContent=v.toFixed(2));
+    const svg=document.getElementById('afSvg');svg.innerHTML='';let x0=20;
+    p.forEach((v,i)=>{if(v<=0)return;const wd=820*v;el('rect',{x:x0,y:20,width:Math.max(wd-1,0),height:50,fill:afCol[i],'fill-opacity':.8},svg);if(wd>26)txt(svg,x0+wd/2,50,String.fromCharCode(65+i),{'text-anchor':'middle',fill:'#fff','font-size':14});x0+=wd;});
+    txt(svg,20,100,'0',{'font-family':'IBM Plex Mono, monospace','font-size':11});txt(svg,840,100,'1',{'text-anchor':'end','font-family':'IBM Plex Mono, monospace','font-size':11});
+    const A=p.filter(v=>v>0).length,He=1-p.reduce((a,v)=>a+v*v,0),Ae=1/p.reduce((a,v)=>a+v*v,0);
+    document.getElementById('afOut').textContent='Alleles present A = '+A+' · He = '+He.toFixed(3)+' · effective number of alleles = '+Ae.toFixed(2);
+  }
+  afW.forEach((_,i)=>document.getElementById('af'+i).addEventListener('input',drawAF));
+
+  // ---------- pattern to process ----------
+  const items=[
+    ['In a European tree, diversity falls steadily from south to north.','Post-glacial expansion'],
+    ['An arctic-alpine plant has its lowest diversity, but most distinct alleles, at its southern limit.','Rear-edge relict'],
+    ['European trees are most diverse at mid-latitudes, not in their southern refugia.','Lineages meeting'],
+    ['Small, isolated edge populations each have low diversity and differ strongly from one another.','Central-marginal (drift at edges)'],
+    ['Diversity tracks distance from the species\' climatic optimum better than distance from the geographic centre.','Niche centrality'],
+    ['A widespread tropical species shows no difference between edge and centre.','None of these: think again']
+  ];
+  const opts=['Choose…','Central-marginal (drift at edges)','Post-glacial expansion','Rear-edge relict','Lineages meeting','Niche centrality','None of these: think again'];
+  const sorter=document.getElementById('sorter');
+  items.forEach((it,i)=>{const d=document.createElement('div');d.className='chip';const id='sort'+i;
+    d.innerHTML='<label for="'+id+'">'+it[0]+'</label><select id="'+id+'">'+opts.map(o=>'<option>'+o+'</option>').join('')+'</select>';sorter.appendChild(d);});
+  document.getElementById('sortCheck').addEventListener('click',()=>{
+    let agree=0;items.forEach((it,i)=>{const s=document.getElementById('sort'+i);if(s.value===it[1])agree++;
+      let n=s.parentNode.querySelector('.tn');if(!n){n=document.createElement('div');n.className='tn';n.style.cssText='font-size:12.5px;margin-top:6px;color:var(--violet)';s.parentNode.appendChild(n);}
+      n.textContent='Tutor reading: '+it[1];});
+    const o=document.getElementById('sortOut');o.style.display='inline-block';
+    o.textContent=agree+' of '+items.length+' match. Argue about the rest: the last card has several answers.';
+  });
+
+  // ---------- where is the centre ----------
+  const cx0=430,cy0=290,Ro=240,Ri=120;
+  const poly=[];for(let a=-15;a<=195;a+=5){const t=a*Math.PI/180;poly.push([cx0+Ro*Math.cos(t),cy0-Ro*Math.sin(t)]);}
+  for(let a=195;a>=-15;a-=5){const t=a*Math.PI/180;poly.push([cx0+Ri*Math.cos(t),cy0-Ri*Math.sin(t)]);}
+  function centroid(P){let A=0,x=0,y=0;for(let i=0;i<P.length;i++){const [x1,y1]=P[i],[x2,y2]=P[(i+1)%P.length],f=x1*y2-x2*y1;A+=f;x+=(x1+x2)*f;y+=(y1+y2)*f;}A/=2;return[x/(6*A),y/(6*A)];}
+  function segDist(px,py,[x1,y1],[x2,y2]){const dx=x2-x1,dy=y2-y1,t=Math.max(0,Math.min(1,((px-x1)*dx+(py-y1)*dy)/(dx*dx+dy*dy)));return Math.hypot(px-x1-t*dx,py-y1-t*dy);}
+  const pops=[[188,180,'P1'],[150,205,'P2'],[90,180,'P3'],[60,135,'P4'],[30,175,'P5'],[-5,180,'P6']].map(([a,r,n])=>{const t=a*Math.PI/180;return{x:cx0+r*Math.cos(t),y:cy0-r*Math.sin(t),n};});
+  const opt=(()=>{const t=30*Math.PI/180;return[cx0+175*Math.cos(t),cy0-175*Math.sin(t)];})();
+  function drawCentre(){
+    const svg=document.getElementById('cSvg');svg.innerHTML='';const mode=document.getElementById('cDef').value;
+    const teal=css('--teal'),vio=css('--violet'),warn=css('--warn');
+    if(mode==='niche'){[90,60,30].forEach((r,i)=>el('circle',{cx:opt[0],cy:opt[1],r,fill:teal,'fill-opacity':.08+i*.06},svg));}
+    el('path',{d:'M'+poly.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join('L')+'Z',fill:teal,'fill-opacity':.12,stroke:'currentColor','stroke-opacity':.5},svg);
+    const C=centroid(poly);
+    let score;
+    if(mode==='centroid'){score=pops.map(p=>-Math.hypot(p.x-C[0],p.y-C[1]));
+      el('line',{x1:C[0]-8,y1:C[1]-8,x2:C[0]+8,y2:C[1]+8,stroke:warn,'stroke-width':3},svg);el('line',{x1:C[0]-8,y1:C[1]+8,x2:C[0]+8,y2:C[1]-8,stroke:warn,'stroke-width':3},svg);
+      txt(svg,C[0]+12,C[1]+4,'centroid',{fill:warn});
+      pops.forEach(p=>el('line',{x1:p.x,y1:p.y,x2:C[0],y2:C[1],stroke:warn,'stroke-opacity':.35,'stroke-dasharray':'3 3'},svg));}
+    else if(mode==='edge'){score=pops.map(p=>{let d=1e9;for(let i=0;i<poly.length;i++)d=Math.min(d,segDist(p.x,p.y,poly[i],poly[(i+1)%poly.length]));return d;});
+      pops.forEach((p,i)=>el('circle',{cx:p.x,cy:p.y,r:score[i],fill:'none',stroke:warn,'stroke-opacity':.5,'stroke-dasharray':'3 3'},svg));}
+    else{score=pops.map(p=>-Math.hypot(p.x-opt[0],p.y-opt[1]));txt(svg,opt[0]+14,opt[1]-34,'climatic optimum',{fill:teal});el('circle',{cx:opt[0],cy:opt[1],r:4,fill:teal},svg);}
+    const order=score.map((s,i)=>[s,i]).sort((a,b)=>b[0]-a[0]);const rank=[];order.forEach(([s,i],k)=>rank[i]=k+1);
+    pops.forEach((p,i)=>{el('circle',{cx:p.x,cy:p.y,r:14,fill:vio},svg);txt(svg,p.x,p.y+4,String(rank[i]),{'text-anchor':'middle',fill:'#fff','font-weight':600,'font-size':13});txt(svg,p.x,p.y-20,p.n,{'text-anchor':'middle','font-size':11});});
+    document.getElementById('cOut').textContent='Most to least central: '+order.map(([s,i])=>pops[i].n).join(' › ');
+  }
+  document.getElementById('cDef').addEventListener('change',drawCentre);
+
+  // ---------- Araucaria chart ----------
+  function drawArau(){
+    const svg=document.getElementById('aChart');svg.innerHTML='';
+    const data=[['Kaanua (N1)',[9.53,8.83,2.81]],['Forêt Nord (N6)',[6.12,5.59,6.40]]];
+    const cols=[css('--teal'),css('--violet'),css('--warn')],labs=['Adults','Wild seedlings','Nursery'];
+    const L=60,B=240,T=20,y=v=>B-(B-T)*v/10;
+    [0,2,4,6,8,10].forEach(v=>{el('line',{x1:L,x2:830,y1:y(v),y2:y(v),stroke:'currentColor','stroke-opacity':.12},svg);txt(svg,L-8,y(v)+4,String(v),{'text-anchor':'end','font-family':'IBM Plex Mono, monospace','font-size':11});});
+    txt(svg,16,(T+B)/2,'Allelic richness',{transform:'rotate(-90 16 '+(T+B)/2+')','text-anchor':'middle','font-size':11});
+    data.forEach(([name,v],g)=>{const gx=L+40+g*390;v.forEach((val,k)=>{const x=gx+k*100;el('rect',{x,y:y(val),width:84,height:B-y(val),fill:cols[k],'fill-opacity':.8,rx:3},svg);txt(svg,x+42,y(val)-6,val.toFixed(2),{'text-anchor':'middle','font-family':'IBM Plex Mono, monospace','font-size':11});});
+      txt(svg,gx+142,B+22,name,{'text-anchor':'middle','font-weight':600,'font-size':13});});
+    labs.forEach((l,k)=>{el('rect',{x:L+40+k*150,y:278,width:12,height:12,fill:cols[k],'fill-opacity':.8},svg);txt(svg,L+58+k*150,288,l);});
+  }
+
+  // ---------- seed collection ----------
+  let sSeed=5;
+  function drawSeed(){
+    const c=document.getElementById('sCanvas'); if(!c.offsetParent)return;
+    const M=+sM.value,K=+sK.value,mode=document.getElementById('sMode').value,r=rng(sSeed);
+    let w=[];for(let i=0;i<60;i++)w.push(Math.exp(K*normal(r)));w=w.slice(0,M);
+    let sh=mode==='equal'?w.map(()=>1/M):(()=>{const s=w.reduce((a,b)=>a+b,0);return w.map(v=>v/s);})();
+    sh=sh.slice().sort((a,b)=>b-a);
+    const Ne=1/sh.reduce((a,v)=>a+v*v,0),cap5=1-Math.pow(0.95,2*Ne),cap2=1-Math.pow(0.98,2*Ne);
+    const ctx=prep(c),W=c.width,H=c.height,L=50,R=W-20,T=14,B=H-30;
+    const muted=css('--muted'),line=css('--line'),warn=css('--warn'),teal=css('--teal');
+    const top=Math.max(...sh),y=v=>B-(B-T)*v/Math.max(top,0.05);
+    ctx.strokeStyle=line;ctx.fillStyle=muted;ctx.textAlign='right';
+    [0,top/2,top].forEach(v=>{ctx.beginPath();ctx.moveTo(L,y(v));ctx.lineTo(R,y(v));ctx.stroke();ctx.fillText(Math.round(v*100)+'%',L-6,y(v)+4);});
+    const bw=(R-L)/M;
+    sh.forEach((v,i)=>{ctx.fillStyle=i===0&&v>0.3?warn:teal;ctx.globalAlpha=.8;ctx.fillRect(L+i*bw+1,y(v),Math.max(bw-2,1),B-y(v));});ctx.globalAlpha=1;
+    ctx.fillStyle=muted;ctx.textAlign='center';ctx.fillText('Mother trees, largest contributor first',(L+R)/2,B+20);
+    document.getElementById('sOut').textContent='Largest single tree: '+Math.round(sh[0]*100)+'% of seed · effective number of mothers = '+Ne.toFixed(1)+' of '+M+' · chance of capturing an allele at 5%: '+Math.round(cap5*100)+'% · at 2%: '+Math.round(cap2*100)+'%';
+  }
+  bind('sM',drawSeed);bind('sK',drawSeed,v=>v<0.3?'low':v<1.2?'moderate':'high ('+v.toFixed(1)+')');
+  document.getElementById('sMode').addEventListener('change',drawSeed);
+  document.getElementById('sNew').addEventListener('click',()=>{sSeed++;drawSeed();});
+
+  // ---------- scale table ----------
+  const rowsT=['Genetic drift','Gene flow','Selection','Mutation','Demographic history (glaciations, expansions)','Human sampling decisions'];
+  const states=['','a lot','a little','not at all'];
+  const tb=document.querySelector('#scaleTable tbody');
+  rowsT.forEach(rw=>{const tr=document.createElement('tr');tr.innerHTML='<td>'+rw+'</td>'+[0,1,2].map(()=>'<td><button type="button" class="ghost" style="min-width:96px" data-s="0">·</button></td>').join('');tb.appendChild(tr);});
+  tb.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{const s=(+b.dataset.s+1)%4;b.dataset.s=s;b.textContent=s?states[s]:'·';b.setAttribute('aria-pressed',s?'true':'false');}));
+
+  function drawAll(){drawDrift();drawAF();drawCentre();drawArau();drawSeed();}
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',drawAll);
+  new MutationObserver(drawAll).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+
+  // ---------- session clock ----------
+  const segs=[[0,'1 · Recap'],[8,'2 · Patterns'],[20,'3 · GenDivRange'],[33,'4 · Araucaria'],[52,'Synthesis'],[60,'Time']];
+  let t0=null,iv=null;const clock=document.getElementById('clock'),seg=document.getElementById('clockSeg'),btn=document.getElementById('clockBtn');
+  btn.addEventListener('click',()=>{if(iv){clearInterval(iv);iv=null;t0=null;btn.textContent='Start';clock.textContent='00:00';seg.textContent='Not started';return;}
+    t0=Date.now();btn.textContent='Reset';iv=setInterval(()=>{const s=Math.floor((Date.now()-t0)/1000),m=Math.floor(s/60);
+      clock.textContent=String(m).padStart(2,'0')+':'+String(s%60).padStart(2,'0');let cur=segs[0][1];segs.forEach(x=>{if(m>=x[0])cur=x[1];});seg.textContent='Now: '+cur;},1000);});
+
+  show();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Is it really what's inside that counts?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Pigeon neck sheen: slate ink, iridescent teal + violet. Layout: fixed session menu left, one section in view at a time. */
+  --bg:#f4f5f3; --paper:#ffffff; --ink:#1d2327; --muted:#5b666d; --line:#d8dddc;
+  --teal:#0f7b72; --violet:#6a4c9c; --teal-soft:#e2f1ef; --violet-soft:#ece6f5; --warn:#a4561b;
+  --display:"Newsreader", Georgia, "Times New Roman", serif;
+  --body:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#14191c; --paper:#1b2226; --ink:#e6ebea; --muted:#9aa6ab; --line:#2f3a3f;
+    --teal:#4cc2b5; --violet:#b39ae0; --teal-soft:#16302d; --violet-soft:#29223a; --warn:#e2a06a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#14191c; --paper:#1b2226; --ink:#e6ebea; --muted:#9aa6ab; --line:#2f3a3f;
+  --teal:#4cc2b5; --violet:#b39ae0; --teal-soft:#16302d; --violet-soft:#29223a; --warn:#e2a06a;
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg); color:var(--ink); font:16px/1.6 var(--body);}
+a{color:var(--teal)}
+a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--violet); outline-offset:2px}
+.shell{display:grid; grid-template-columns:270px 1fr; min-height:100vh}
+nav.menu{position:sticky; top:0; align-self:start; height:100vh; overflow:auto; padding:24px 18px; border-right:1px solid var(--line); background:var(--paper)}
+.course{font:500 12px/1.4 var(--mono); color:var(--muted); letter-spacing:.04em; text-transform:uppercase}
+.brand{font:600 22px/1.2 var(--display); margin:6px 0 4px; text-wrap:balance}
+.tutor{font-size:13px; color:var(--muted); margin-bottom:18px}
+nav ol{list-style:none; padding:0; margin:0; display:grid; gap:2px}
+nav a.item{display:grid; grid-template-columns:54px 1fr; gap:8px; padding:8px 10px; border-radius:8px; text-decoration:none; color:var(--ink); font-size:14px; line-height:1.35}
+nav a.item .t{font:500 12px/1.35 var(--mono); color:var(--muted); font-variant-numeric:tabular-nums}
+nav a.item:hover{background:var(--teal-soft)}
+nav a.item[aria-current="page"]{background:var(--teal-soft); box-shadow:inset 3px 0 0 var(--teal)}
+.timer{margin-top:20px; padding:12px; border:1px solid var(--line); border-radius:10px; font-size:13px}
+.timer .clock{font:500 22px/1 var(--mono); font-variant-numeric:tabular-nums}
+.timer button{margin-top:8px}
+main{padding:32px clamp(16px,4vw,56px) 80px; max-width:1000px}
+section.page{display:none}
+section.page.on{display:block}
+.kicker{font:500 12px/1.4 var(--mono); color:var(--violet); letter-spacing:.05em; text-transform:uppercase}
+h1,h2,h3{font-family:var(--display); text-wrap:balance; line-height:1.2}
+h1{font-size:clamp(30px,4vw,42px); margin:.2em 0 .3em}
+h2{font-size:28px; margin:.2em 0 .5em}
+h3{font-size:20px; margin:1.6em 0 .5em}
+p,li{max-width:68ch}
+.lede{font-size:18px; color:var(--muted); max-width:62ch}
+.q{border-left:3px solid var(--violet); background:var(--violet-soft); padding:12px 16px; border-radius:0 10px 10px 0; margin:14px 0}
+.q b.lab{font:500 11px/1 var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--violet); display:block; margin-bottom:6px}
+.q.pair{border-color:var(--teal); background:var(--teal-soft)}
+.q.pair b.lab{color:var(--teal)}
+.grid2{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px}
+.card{background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:16px 18px}
+.card h4{margin:0 0 6px; font:600 16px/1.3 var(--body)}
+.card p{margin:.3em 0}
+figure{margin:20px 0; background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:16px; overflow-x:auto}
+figure svg{display:block; width:100%; height:auto; max-width:900px; margin:0 auto; color:var(--ink)}
+figcaption{font-size:13.5px; color:var(--muted); margin-top:10px; max-width:75ch}
+details{background:var(--paper); border:1px dashed var(--line); border-radius:10px; padding:10px 14px; margin:10px 0}
+details summary{cursor:pointer; font-weight:500; color:var(--teal)}
+details[open]{border-style:solid}
+.stage{border:1px solid var(--line); border-radius:14px; padding:4px 20px 14px; margin:22px 0; background:var(--paper)}
+.stage > .kicker{margin-top:14px}
+.controls{display:flex; flex-wrap:wrap; gap:14px 22px; align-items:center; margin:8px 0}
+.controls label{font-size:13.5px; display:grid; gap:2px}
+.controls output{font:500 13px var(--mono); color:var(--teal)}
+input[type=range]{width:170px; accent-color:var(--teal)}
+button{font:500 14px var(--body); background:var(--teal); color:#fff; border:0; border-radius:8px; padding:8px 14px; cursor:pointer}
+button.ghost{background:transparent; color:var(--teal); border:1px solid var(--teal)}
+.readout{font:500 14px/1.5 var(--mono); font-variant-numeric:tabular-nums; background:var(--teal-soft); border-radius:8px; padding:8px 12px; display:inline-block}
+.pill{display:inline-block; font:500 12px/1 var(--mono); padding:5px 8px; border-radius:999px; background:var(--teal-soft); color:var(--teal); margin-right:6px}
+.pill.v{background:var(--violet-soft); color:var(--violet)}
+.pager{display:flex; justify-content:space-between; gap:12px; margin-top:40px; padding-top:16px; border-top:1px solid var(--line)}
+.pager a{text-decoration:none; font-weight:500}
+table{border-collapse:collapse; font-size:14px; width:100%}
+th,td{border-bottom:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top}
+th{font-weight:600}
+td.num{font-family:var(--mono); font-variant-numeric:tabular-nums}
+.tablewrap{overflow-x:auto}
+.refs li{margin-bottom:8px; font-size:14.5px}
+.sort{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px}
+.sort .chip{background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:10px 12px; font-size:14px}
+.sort .chip select{margin-top:6px; width:100%; font:14px var(--body); background:var(--bg); color:var(--ink); border:1px solid var(--line); border-radius:6px; padding:4px}
+.menu-toggle{display:none}
+@media (max-width:820px){
+  .shell{grid-template-columns:1fr}
+  nav.menu{position:static; height:auto; border-right:0; border-bottom:1px solid var(--line)}
+  nav ol{display:none}
+  nav.open ol{display:grid}
+  .menu-toggle{display:inline-block; margin-top:6px}
+  .timer{display:none}
+}
+@media (prefers-reduced-motion: reduce){*{transition:none!important; animation:none!important}}
+.predict{border:2px dashed var(--warn); border-radius:12px; padding:14px 16px; margin:16px 0}
+.predict .lab{font:500 11px/1 var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--warn); display:block; margin-bottom:6px}
+.choice{display:flex; flex-wrap:wrap; gap:6px; margin:6px 0}
+.choice button[aria-pressed="true"]{background:var(--teal); color:#fff; border-color:var(--teal)}
+.small{font-size:13.5px}
+</style>
+</head>
+<body>
+<div class="shell">
+<nav class="menu" id="menu" aria-label="Tutorial sections">
+  <div class="course">St Hilda's · MBiol2 · MT week 5</div>
+  <div class="brand">Is it really what's inside that counts?</div>
+  <div class="tutor">Tin Hang (Henry) Hung · 60-minute tutorial · <a href="mailto:a@hung.bio">a@hung.bio</a></div>
+  <div class="tutor"><a href="../">← All tutorials</a></div>
+  <button class="ghost menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="menuList">Sections</button>
+  <ol id="menuList">
+    <li><a class="item" href="#start"><span class="t">Before</span><span>Start here</span></a></li>
+    <li><a class="item" href="#define"><span class="t">00–10</span><span>1 · What counts as personality?</span></a></li>
+    <li><a class="item" href="#measure"><span class="t">10–20</span><span>2 · Measuring it: repeatability and validity</span></a></li>
+    <li><a class="item" href="#case"><span class="t">20–42</span><span>3 · Case: genes, boldness and stress in pigeons</span></a></li>
+    <li><a class="item" href="#evolution"><span class="t">42–52</span><span>4 · Why does variation persist?</span></a></li>
+    <li><a class="item" href="#apply"><span class="t">52–57</span><span>5 · Does it matter outside the lab?</span></a></li>
+    <li><a class="item" href="#wrap"><span class="t">57–60</span><span>Wrap-up and exit question</span></a></li>
+    <li><a class="item" href="#reading"><span class="t">After</span><span>Reading and follow-up</span></a></li>
+  </ol>
+  <div class="timer" aria-live="polite">
+    <div>Session clock</div>
+    <div class="clock" id="clock">00:00</div>
+    <div id="clockSeg" style="color:var(--muted)">Not started</div>
+    <button id="clockBtn" class="ghost">Start</button>
+  </div>
+</nav>
+
+<main>
+<!-- START -->
+<section class="page" id="start" aria-labelledby="h-start">
+  <div class="kicker">Start here</div>
+  <h1 id="h-start">Is it really what's inside that counts?</h1>
+  <p class="lede">Your essays argued about whether animals "have" personalities, what builds them and why selection keeps them around. In this hour we test those arguments against one real dataset, and against each other.</p>
+
+  <h3>How this hour works</h3>
+  <div class="grid2">
+    <div class="card"><h4>Questions, not answers</h4><p>Each section opens with a question. Most have no single right answer. I will push back on whatever you say, including when you are right.</p></div>
+    <div class="card"><h4>Bring your essay</h4><p>Where you see <span class="pill v">From your essay</span>, find the paragraph where you made that claim and be ready to defend or revise it.</p></div>
+    <div class="card"><h4>Predict before you look</h4><p>In the case study, write down your prediction before opening each reveal. Being wrong in writing is how you learn the most here.</p></div>
+    <div class="card"><h4>Play with the models</h4><p>The sliders are there to argue with. If a model tells you something you think is wrong, say why.</p></div>
+  </div>
+
+  <h3>By the end you should be able to</h3>
+  <ol>
+    <li>Separate personality, plasticity and behavioural syndromes, and say what data you would need to show each.</li>
+    <li>Explain what a repeatability of 0.24 does and does not tell you.</li>
+    <li>Critically evaluate a candidate-gene study of behaviour: design, statistics and what it can claim.</li>
+    <li>Weigh the main explanations for why individual differences persist under selection.</li>
+  </ol>
+
+  <figure>
+    <svg viewBox="0 0 900 120" role="img" aria-label="Timeline of the 60-minute tutorial divided into six blocks, with the case study taking the largest share from minute 20 to 42.">
+      <g font-family="IBM Plex Sans, sans-serif" font-size="12" fill="currentColor">
+        <rect x="20" y="40" width="150" height="34" rx="6" fill="var(--violet-soft)" stroke="var(--violet)"/>
+        <text x="95" y="62" text-anchor="middle">1 · Define</text>
+        <rect x="170" y="40" width="150" height="34" rx="6" fill="var(--violet-soft)" stroke="var(--violet)"/>
+        <text x="245" y="62" text-anchor="middle">2 · Measure</text>
+        <rect x="320" y="40" width="330" height="34" rx="6" fill="var(--teal-soft)" stroke="var(--teal)"/>
+        <text x="485" y="62" text-anchor="middle">3 · Case study: pigeons (problem-based)</text>
+        <rect x="650" y="40" width="150" height="34" rx="6" fill="var(--violet-soft)" stroke="var(--violet)"/>
+        <text x="725" y="62" text-anchor="middle">4 · Evolution</text>
+        <rect x="800" y="40" width="75" height="34" rx="6" fill="var(--violet-soft)" stroke="var(--violet)"/>
+        <text x="837" y="62" text-anchor="middle">5</text>
+        <rect x="875" y="40" width="5" height="34" fill="var(--muted)"/>
+        <g font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)">
+          <text x="20" y="96">0</text><text x="170" y="96" text-anchor="middle">10</text><text x="320" y="96" text-anchor="middle">20</text>
+          <text x="650" y="96" text-anchor="middle">42</text><text x="800" y="96" text-anchor="middle">52</text><text x="880" y="96" text-anchor="end">60 min</text>
+        </g>
+        <text x="20" y="26" fill="var(--muted)">Concepts first, then a real study, then the evolutionary question it cannot answer on its own.</text>
+      </g>
+    </svg>
+    <figcaption>Nearly half the hour goes to one study. The concepts in sections 1–2 are the tools you need for it; section 4 asks what the study leaves open.</figcaption>
+  </figure>
+  <h3>No preparation needed</h3>
+  <p>Everything you need is on these pages, including the parts of the research paper we discuss. Come with your essay and an open mind.</p>
+  <div class="pager"><span></span><a href="#define">Next: What counts as personality? →</a></div>
+</section>
+
+<!-- DEFINE -->
+<section class="page" id="define" aria-labelledby="h-define">
+  <div class="kicker">Minutes 00–10</div>
+  <h2 id="h-define">1 · What counts as personality?</h2>
+  <div class="q"><b class="lab">First minute</b>Write your current answer to the essay question in one sentence. Keep it. We come back to it in the last three minutes.</div>
+
+  <div class="predict"><b class="lab">Warm-up · 2 min · predict first</b>
+    <p>Amazon mollies reproduce clonally, so sisters are genetically identical. Researchers separated newborn sisters and raised each alone in identical tanks, with identical food and light, then tracked their activity for weeks. What do you expect?</p>
+    <div class="choice" role="group" aria-label="Your prediction">
+      <button type="button" class="ghost" aria-pressed="false">They all behave the same</button>
+      <button type="button" class="ghost" aria-pressed="false">They differ, but randomly day to day</button>
+      <button type="button" class="ghost" aria-pressed="false">Each develops its own consistent style</button>
+    </div>
+    <details><summary>Reveal: what happened</summary><p>Consistent individual differences emerged anyway (<a href="https://doi.org/10.1038/ncomms15361">Bierbach, Laskowski &amp; Wolf 2017</a>). Same genes and, as far as anyone could control it, the same environment. So where did the differences come from, and is that "inside"? Hold that thought until the wrap-up.</p></details>
+  </div>
+
+  <div class="q"><b class="lab">Opening question</b>Your neighbour's dog is "friendly". What would you need to measure before a behavioural ecologist would accept that as a personality trait?</div>
+
+  <h3>Sort these</h3>
+  <p>For each observation, decide which concept it is evidence for. Discuss disagreements; several are deliberately ambiguous.</p>
+  <div class="sort" id="sorter"></div>
+  <p><button class="ghost" id="sortCheck">Show my tutor's reading</button> <span id="sortOut" class="readout" style="display:none"></span></p>
+
+  <figure>
+    <svg viewBox="0 0 860 300" role="img" aria-label="Hierarchy: single behaviours measured in one context build a behavioural type within that context; correlations of the same individual's types across contexts form a behavioural syndrome; personality requires consistency across time and contexts.">
+      <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
+      <g font-family="IBM Plex Sans, sans-serif" font-size="13" fill="currentColor">
+        <rect x="40" y="220" width="220" height="50" rx="8" fill="var(--paper)" stroke="currentColor"/>
+        <text x="150" y="241" text-anchor="middle" font-weight="600">Behaviour in context A</text>
+        <text x="150" y="259" text-anchor="middle" font-size="11.5">e.g. emergence latency, trial 1, 2</text>
+        <rect x="600" y="220" width="220" height="50" rx="8" fill="var(--paper)" stroke="currentColor"/>
+        <text x="710" y="241" text-anchor="middle" font-weight="600">Behaviour in context B</text>
+        <text x="710" y="259" text-anchor="middle" font-size="11.5">e.g. approach to predator model</text>
+        <rect x="40" y="120" width="220" height="50" rx="8" fill="var(--teal-soft)" stroke="var(--teal)"/>
+        <text x="150" y="141" text-anchor="middle" font-weight="600">Behavioural type (A)</text>
+        <text x="150" y="159" text-anchor="middle" font-size="11.5">repeatable within A</text>
+        <rect x="600" y="120" width="220" height="50" rx="8" fill="var(--teal-soft)" stroke="var(--teal)"/>
+        <text x="710" y="141" text-anchor="middle" font-weight="600">Behavioural type (B)</text>
+        <text x="710" y="159" text-anchor="middle" font-size="11.5">repeatable within B</text>
+        <rect x="300" y="20" width="260" height="56" rx="8" fill="var(--violet-soft)" stroke="var(--violet)"/>
+        <text x="430" y="43" text-anchor="middle" font-weight="600">Behavioural syndrome</text>
+        <text x="430" y="62" text-anchor="middle" font-size="11.5">individual types correlate across A and B</text>
+        <line x1="150" y1="218" x2="150" y2="174" stroke="currentColor" marker-end="url(#ar)"/>
+        <line x1="710" y1="218" x2="710" y2="174" stroke="currentColor" marker-end="url(#ar)"/>
+        <text x="160" y="200" font-size="11.5">repeat over time</text>
+        <text x="720" y="200" font-size="11.5">repeat over time</text>
+        <line x1="262" y1="132" x2="320" y2="80" stroke="currentColor" marker-end="url(#ar)"/>
+        <line x1="598" y1="132" x2="540" y2="80" stroke="currentColor" marker-end="url(#ar)"/>
+        <line x1="262" y1="145" x2="596" y2="145" stroke="var(--violet)" stroke-dasharray="5 4"/>
+        <text x="430" y="138" text-anchor="middle" font-size="11.5" fill="var(--violet)">correlate across contexts?</text>
+      </g>
+    </svg>
+    <figcaption>Terms from Sih et al. (2004) and Smith &amp; Blumstein (2008). Note where "personality" sits: Réale et al. (2007) require consistency across time <em>and</em> context, which is the top of this diagram, not the bottom. Several of you used these terms in different ways.</figcaption>
+  </figure>
+
+  <h3>Personality and plasticity at the same time</h3>
+  <p>A common worry in your essays: if animals adjust behaviour to circumstances, how can behaviour also be a fixed "personality"? Below, each line is one individual's boldness across a gradient of predation risk (a behavioural reaction norm). The <b>intercept</b> is its average level; the <b>slope</b> is its plasticity.</p>
+  <figure>
+    <div class="controls">
+      <label for="rnI">Spread of intercepts (personality) <output id="rnIo"></output><input type="range" id="rnI" min="0" max="1.5" step="0.05" value="0.8"></label>
+      <label for="rnM">Mean slope (population plasticity) <output id="rnMo"></output><input type="range" id="rnM" min="-1.5" max="1.5" step="0.05" value="-0.8"></label>
+      <label for="rnS">Spread of slopes (individual plasticity) <output id="rnSo"></output><input type="range" id="rnS" min="0" max="1.2" step="0.05" value="0.15"></label>
+      <button class="ghost" id="rnNew">New individuals</button>
+    </div>
+    <canvas id="rnCanvas" width="860" height="330" style="width:100%;height:auto" role="img" aria-label="Reaction norms of twelve simulated individuals across predation risk."></canvas>
+    <div class="readout" id="rnOut"></div>
+    <figcaption>Simulated individuals. The readout is the rank correlation of individuals' boldness at low vs high risk: does the boldest bird at low risk stay among the boldest at high risk? Framework from Dingemanse et al. (2010).</figcaption>
+  </figure>
+  <div class="q"><b class="lab">Discuss</b>
+    <ol style="margin:0">
+      <li>Set the mean slope steeply negative and the spread of slopes to zero. Is every bird plastic? Do they still have personalities?</li>
+      <li>Now increase the spread of slopes until lines cross. What has happened to "personality"? Is "how plastic you are" itself a personality trait?</li>
+      <li><span class="pill v">From your essay</span> Several of you set personality and plasticity against each other. Does this picture change your argument?</li>
+    </ol>
+  </div>
+  <div class="pager"><a href="#start">← Start here</a><a href="#measure">Next: Measuring it →</a></div>
+</section>
+
+<!-- MEASURE -->
+<section class="page" id="measure" aria-labelledby="h-measure">
+  <div class="kicker">Minutes 10–20</div>
+  <h2 id="h-measure">2 · Measuring it: repeatability and validity</h2>
+  <div class="q"><b class="lab">Opening question</b>A meta-analysis found the average repeatability of behaviour is about 0.37 (Bell et al. 2009). In plain English, what does that number mean? What does it <em>not</em> mean?</div>
+
+  <h3>Repeatability is a ratio of variances</h3>
+  <p style="font-family:var(--mono); font-size:15px">R = V<sub>among individuals</sub> / (V<sub>among individuals</sub> + V<sub>within individuals</sub>)</p>
+  <figure>
+    <div class="controls">
+      <label for="rpA">V among individuals <output id="rpAo"></output><input type="range" id="rpA" min="0" max="2" step="0.05" value="0.6"></label>
+      <label for="rpW">V within individuals <output id="rpWo"></output><input type="range" id="rpW" min="0.05" max="3" step="0.05" value="1.4"></label>
+      <label for="rpN">Number of individuals <output id="rpNo"></output><input type="range" id="rpN" min="10" max="200" step="1" value="40"></label>
+      <button class="ghost" id="rpNew">Re-run the experiment</button>
+    </div>
+    <canvas id="rpCanvas" width="860" height="360" style="width:100%;height:auto" role="img" aria-label="Scatter plot of each simulated individual's score in trial 1 against trial 2."></canvas>
+    <div class="readout" id="rpOut"></div>
+    <figcaption>Each dot is one simulated animal tested twice. "True R" is what you set; "estimated R" is what one experiment would report. Press re-run several times at n = 20, then at n = 137.</figcaption>
+  </figure>
+  <div class="q"><b class="lab">Discuss</b>
+    <ol style="margin:0">
+      <li>How much does the estimate jump around at n = 20? What does this mean for a single published R value?</li>
+      <li>If you raise the within-individual variance, R falls. Is that because animals are "less consistent", or could your assay be noisy? How would you tell?</li>
+      <li>Does a high R prove the behaviour is genetic?</li>
+    </ol>
+  </div>
+
+  <h3>Does your assay measure what you think it measures?</h3>
+  <p>Santos et al. (2015) gave homing pigeons three tests and then tracked them while raptors hunted them on homing flights.</p>
+  <div class="predict"><b class="lab">Predict first (1 min)</b>
+    <p>For each test, which birds do you think were <em>more</em> likely to be killed? Commit before you open the reveal.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Assay</th><th>What it records</th><th>Your prediction</th></tr></thead>
+      <tbody>
+        <tr><td>Flight initiation distance</td><td>How close a human gets before the bird flies</td><td><div class="choice" role="group" aria-label="Flight initiation prediction"><button type="button" class="ghost" aria-pressed="false">Tolerant birds</button><button type="button" class="ghost" aria-pressed="false">Flighty birds</button></div></td></tr>
+        <tr><td>Escape from a box</td><td>Time to get out</td><td><div class="choice" role="group" aria-label="Escape prediction"><button type="button" class="ghost" aria-pressed="false">Slow escapers</button><button type="button" class="ghost" aria-pressed="false">Fast escapers</button></div></td></tr>
+        <tr><td>Tonic immobility</td><td>Freezing vs struggling when held</td><td><div class="choice" role="group" aria-label="Tonic immobility prediction"><button type="button" class="ghost" aria-pressed="false">Strugglers</button><button type="button" class="ghost" aria-pressed="false">Freezers</button></div></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <details><summary>Reveal: what Santos et al. found</summary>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Assay</th><th>What a "bolder" bird does</th><th>Effect on being killed by a raptor</th></tr></thead>
+    <tbody>
+      <tr><td>Flight initiation distance (human approaches)</td><td>Lets the human come closer</td><td>More likely to be killed</td></tr>
+      <tr><td>Escape from a confined box</td><td>Leaves faster</td><td>Less likely to be killed</td></tr>
+      <tr><td>Tonic immobility (handling)</td><td>Struggles, recovers quickly</td><td>More likely to be killed</td></tr>
+    </tbody>
+  </table></div>
+  </details>
+  <div class="q pair"><b class="lab">Think, pair, share (3 min)</b>So, does boldness help pigeons survive or not? Before you answer, decide whether these three assays measure one trait or several. What would you need to show they measure the same thing?</div>
+  <details><summary>A nudge if you're stuck</summary><p>Look for "construct validity" and "convergent validity". A trait that is defined only by the test used to measure it is hard to compare across studies. Keep this in mind: the case study uses yet another boldness assay.</p></details>
+  <div class="pager"><a href="#define">← What counts as personality?</a><a href="#case">Next: Case study →</a></div>
+</section>
+
+<!-- CASE -->
+<section class="page" id="case" aria-labelledby="h-case">
+  <div class="kicker">Minutes 20–42 · Problem-based case</div>
+  <h2 id="h-case">3 · Genes, boldness and stress in homing pigeons</h2>
+  <p class="lede">You work through a real study in five stages. At each stage you decide something before seeing what the authors did. The study is Ramadan, Hung, Delacoux, Kano, Inoue-Murayama &amp; Biro (2026), <i>Physiology &amp; Behavior</i> 305: 115211, open access.</p>
+
+  <div class="card" style="border-left:4px solid var(--violet)">
+    <h4>The paper in two minutes</h4>
+    <p><b>Ramadan, Hung, Delacoux, Kano, Inoue-Murayama &amp; Biro (2026).</b> Associations of genetic polymorphisms with boldness, stress response, and route efficiency in homing pigeons (<i>Columba livia</i>). <i>Physiology &amp; Behavior</i> 305: 115211.</p>
+    <p><b>Question.</b> Do common variants in genes for dopamine signalling, serotonin synthesis and energy metabolism go with consistent differences in boldness and stress response?</p>
+    <p><b>Birds.</b> 137 homing pigeons (75 male, 60 female, 2 unknown), aged 1–20 years, at the John Krebs Field Station, Wytham. An avian influenza prevention zone kept them indoors throughout.</p>
+    <p><b>What was measured.</b> Three genes genotyped from feathers; a shelter-emergence test of boldness, repeated 36 days apart; eye temperature by thermal camera during 10 minutes of social isolation, with and without a mirror; and, for 20 birds, route efficiency from earlier GPS flights.</p>
+    <p class="small" style="color:var(--muted)">You'll design the study yourselves first. Each stage below then reveals what was actually done and found.</p>
+  </div>
+
+  <h3>Your role for the next 20 minutes</h3>
+  <div class="grid2" style="grid-template-columns:repeat(auto-fit,minmax(190px,1fr))">
+    <div class="card" style="border-top:4px solid var(--violet)"><h4>Geneticist</h4><p>Do the genotype–behaviour claims hold up? Sample size, number of tests, what the variants actually change.</p></div>
+    <div class="card" style="border-top:4px solid var(--violet)"><h4>Behavioural ecologist</h4><p>Does the emergence test measure boldness? Is it repeatable enough to call personality?</p></div>
+    <div class="card" style="border-top:4px solid var(--violet)"><h4>Physiologist</h4><p>What does eye temperature tell us about stress? What is a mirror, to a pigeon?</p></div>
+    <div class="card" style="border-top:4px solid var(--violet)"><h4>Reviewer 2</h4><p>Find the weakest link in the whole argument, then propose the experiment that would fix it.</p></div>
+  </div>
+  <p class="small" style="color:var(--muted)">At each Discuss box, whoever's role fits best speaks first. With fewer than four of you, double up.</p>
+
+  <div class="stage">
+    <div class="kicker">Stage A · 5 min · Design it yourself</div>
+    <h3 style="margin-top:4px">The brief</h3>
+    <p>You have 137 homing pigeons at a field station near Oxford, aged 1 to 20 years. Bird flu restrictions mean they cannot fly outdoors during your study. You can collect feathers for DNA, you have a thermal camera, and older GPS tracks exist for a few of the birds. Your question: <b>do individual differences in boldness and stress response have a genetic basis?</b></p>
+    <div class="q pair"><b class="lab">In pairs</b>
+      <ol style="margin:0">
+        <li>Which genes would you look at first, and why those?</li>
+        <li>How would you measure boldness in a bird that cannot leave the loft? How many times per bird?</li>
+        <li>How could you measure a stress response without catching and bleeding the bird?</li>
+      </ol>
+    </div>
+    <details><summary>Reveal: what the authors chose</summary>
+      <figure>
+        <svg viewBox="0 0 880 330" role="img" aria-label="Flowchart: three candidate genes each act through a pathway, dopamine signalling, serotonin synthesis or anaerobic energy metabolism, toward the measured traits of boldness, stress response and route efficiency.">
+          <defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
+          <g font-family="IBM Plex Sans, sans-serif" font-size="13" fill="currentColor">
+            <text x="90" y="24" text-anchor="middle" font-weight="600" fill="var(--muted)">Gene (marker)</text>
+            <text x="420" y="24" text-anchor="middle" font-weight="600" fill="var(--muted)">Pathway</text>
+            <text x="760" y="24" text-anchor="middle" font-weight="600" fill="var(--muted)">Trait measured</text>
+            <rect x="10" y="44" width="170" height="56" rx="8" fill="var(--paper)" stroke="currentColor"/>
+            <text x="95" y="67" text-anchor="middle" font-style="italic" font-weight="600">DRD4</text>
+            <text x="95" y="86" text-anchor="middle" font-size="11.5">C382T SNP, exon 3</text>
+            <rect x="10" y="134" width="170" height="56" rx="8" fill="var(--paper)" stroke="currentColor"/>
+            <text x="95" y="157" text-anchor="middle" font-style="italic" font-weight="600">TPH2</text>
+            <text x="95" y="176" text-anchor="middle" font-size="11.5">T185A SNP, intron</text>
+            <rect x="10" y="224" width="170" height="56" rx="8" fill="var(--paper)" stroke="currentColor"/>
+            <text x="95" y="247" text-anchor="middle" font-style="italic" font-weight="600">LDHA</text>
+            <text x="95" y="266" text-anchor="middle" font-size="11.5">intron 6 microsatellite</text>
+            <rect x="300" y="44" width="240" height="56" rx="8" fill="var(--teal-soft)" stroke="var(--teal)"/>
+            <text x="420" y="67" text-anchor="middle">Dopamine D4 receptor</text>
+            <text x="420" y="86" text-anchor="middle" font-size="11.5">reward, novelty seeking</text>
+            <rect x="300" y="134" width="240" height="56" rx="8" fill="var(--teal-soft)" stroke="var(--teal)"/>
+            <text x="420" y="157" text-anchor="middle">Tryptophan hydroxylase 2</text>
+            <text x="420" y="176" text-anchor="middle" font-size="11.5">rate-limiting step, brain serotonin</text>
+            <rect x="300" y="224" width="240" height="56" rx="8" fill="var(--teal-soft)" stroke="var(--teal)"/>
+            <text x="420" y="247" text-anchor="middle">Lactate dehydrogenase A</text>
+            <text x="420" y="266" text-anchor="middle" font-size="11.5">anaerobic energy metabolism</text>
+            <rect x="660" y="44" width="200" height="40" rx="8" fill="var(--violet-soft)" stroke="var(--violet)"/>
+            <text x="760" y="69" text-anchor="middle">Boldness (emergence)</text>
+            <rect x="660" y="144" width="200" height="40" rx="8" fill="var(--violet-soft)" stroke="var(--violet)"/>
+            <text x="760" y="169" text-anchor="middle">Stress (eye temperature)</text>
+            <rect x="660" y="234" width="200" height="40" rx="8" fill="var(--violet-soft)" stroke="var(--violet)"/>
+            <text x="760" y="259" text-anchor="middle">Route efficiency (GPS)</text>
+            <line x1="182" y1="72" x2="296" y2="72" stroke="currentColor" marker-end="url(#ar2)"/>
+            <line x1="182" y1="162" x2="296" y2="162" stroke="currentColor" marker-end="url(#ar2)"/>
+            <line x1="182" y1="252" x2="296" y2="252" stroke="currentColor" marker-end="url(#ar2)"/>
+            <g stroke="var(--muted)" stroke-dasharray="4 4">
+              <line x1="542" y1="72" x2="656" y2="64" marker-end="url(#ar2)"/>
+              <line x1="542" y1="72" x2="656" y2="160" marker-end="url(#ar2)"/>
+              <line x1="542" y1="162" x2="656" y2="68" marker-end="url(#ar2)"/>
+              <line x1="542" y1="162" x2="656" y2="164" marker-end="url(#ar2)"/>
+              <line x1="542" y1="252" x2="656" y2="170" marker-end="url(#ar2)"/>
+              <line x1="542" y1="252" x2="656" y2="254" marker-end="url(#ar2)"/>
+            </g>
+            <text x="600" y="312" text-anchor="middle" font-size="11.5" fill="var(--muted)">dashed = hypothesised link, tested statistically</text>
+          </g>
+        </svg>
+        <figcaption>Candidate genes chosen because each sits in a pathway already linked to behaviour or energetics in other animals. The DRD4 and TPH2 coding variants used here do not change the protein, and the LDHA marker is intronic.</figcaption>
+      </figure>
+      <div class="grid2">
+        <div class="card"><h4>Boldness</h4><p>Emergence test: bird placed in a cardboard shelter, 3 min to settle, then time to walk out into a 140 cm passage. Cut-off 600 s. Every bird tested twice, 36 days apart.</p></div>
+        <div class="card"><h4>Stress response</h4><p>Ten minutes alone in a novel two-compartment cage, maximum eye temperature filmed every minute by thermal camera. Repeated with a mirror in the empty compartment as a social cue. 134 birds did both.</p></div>
+        <div class="card"><h4>Navigation</h4><p>Route efficiency (straight-line ÷ actual distance) from earlier GPS releases 5.2 km from home. Only 20 genotyped birds had tracks.</p></div>
+      </div>
+      <div class="q"><b class="lab">Discuss</b>Why might "a coding SNP that doesn't change the protein" still be associated with behaviour? List at least two ways. And the elephant in the room: why choose three candidate genes rather than scan the whole genome?</div>
+    </details>
+  </div>
+
+  <div class="stage">
+    <div class="kicker">Stage B · 5 min · Is it personality at all?</div>
+    <p>Before linking genes to boldness, the authors had to check that emergence was repeatable.</p>
+    <div class="q"><b class="lab">Predict</b>Many birds never came out within 10 minutes. How would that affect repeatability? Write down a number you would expect for R.</div>
+    <details><summary>Reveal: repeatability</summary>
+      <p>Whether a bird emerged within 10 min was repeatable across the two trials: <b>R = 0.235</b> (p = 0.004, n = 137). Latency among birds that emerged was <b>not</b> significantly repeatable (p = 0.146, n = 74).</p>
+      <figure>
+        <svg viewBox="0 0 700 150" role="img" aria-label="Bar comparison: repeatability of emergence in pigeons 0.235 against the meta-analytic average for behaviour of 0.37.">
+          <g font-family="IBM Plex Sans, sans-serif" font-size="13" fill="currentColor">
+            <line x1="200" y1="20" x2="200" y2="120" stroke="var(--line)"/>
+            <line x1="680" y1="20" x2="680" y2="120" stroke="var(--line)"/>
+            <rect x="200" y="30" width="113" height="30" fill="var(--teal)"/>
+            <text x="190" y="50" text-anchor="end">Pigeon emergence</text>
+            <text x="320" y="50" font-family="IBM Plex Mono, monospace">0.235</text>
+            <rect x="200" y="75" width="178" height="30" fill="var(--violet)"/>
+            <text x="190" y="95" text-anchor="end">Average behaviour (Bell 2009)</text>
+            <text x="385" y="95" font-family="IBM Plex Mono, monospace">0.37</text>
+            <g font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)"><text x="200" y="140" text-anchor="middle">0</text><text x="440" y="140" text-anchor="middle">0.5</text><text x="680" y="140" text-anchor="middle">1.0</text></g>
+          </g>
+        </svg>
+        <figcaption>Scale 0 to 1. Repeatability of the binary emerged/not-emerged score.</figcaption>
+      </figure>
+      <div class="q"><b class="lab">Discuss</b>
+        <ol style="margin:0">
+          <li>Is 0.235 enough to call this a personality trait? Go back to the simulator in section 2: what range would you expect with n = 137?</li>
+          <li>Why might <em>whether</em> a bird emerges be repeatable but <em>how fast</em> it emerges not be?</li>
+          <li>Thirty-six days between trials, birds aged 1–20 years, no outdoor flying. What might change inside a bird between trials?</li>
+        </ol>
+      </div>
+    </details>
+  </div>
+
+  <div class="stage">
+    <div class="kicker">Stage C · 7 min · Genes and boldness</div>
+    <div class="q"><b class="lab">Predict</b>For each gene, sketch which genotype you expect to be boldest. Commit to it.</div>
+    <details><summary>Reveal: mean emergence latency by genotype</summary>
+      <figure>
+        <svg viewBox="0 0 860 340" role="img" aria-label="Dot plot of mean emergence latency by genotype. DRD4: C/C 490 s, C/T 425 s, T/T 373 s. TPH2: A/A 464 s, T/A 384 s, T/T 401 s. All means sit well below the 600-second cut-off line.">
+          <g font-family="IBM Plex Sans, sans-serif" font-size="12.5" fill="currentColor">
+            <!-- axis: y from 300 (0 s) to 40 (600 s), scale 260/600 -->
+            <g stroke="var(--line)">
+              <line x1="80" y1="300" x2="840" y2="300"/>
+              <line x1="80" y1="213.3" x2="840" y2="213.3"/>
+              <line x1="80" y1="126.7" x2="840" y2="126.7"/>
+            </g>
+            <line x1="80" y1="40" x2="840" y2="40" stroke="var(--warn)" stroke-dasharray="6 4"/>
+            <text x="836" y="34" text-anchor="end" fill="var(--warn)" font-size="11.5">600 s cut-off: birds that never emerged score 600</text>
+            <g font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)" text-anchor="end">
+              <text x="72" y="304">0</text><text x="72" y="217">200</text><text x="72" y="131">400</text><text x="72" y="44">600</text>
+            </g>
+            <text x="20" y="170" transform="rotate(-90 20 170)" text-anchor="middle" fill="var(--muted)">Mean latency to emerge (s)</text>
+            <!-- DRD4 -->
+            <text x="250" y="330" text-anchor="middle" font-weight="600" font-style="italic">DRD4</text>
+            <g>
+              <circle cx="160" cy="87.7" r="7" fill="var(--teal)"/><text x="160" y="322" text-anchor="middle">C/C</text><text x="172" y="84" font-family="IBM Plex Mono, monospace" font-size="11.5">490</text>
+              <circle cx="250" cy="115.8" r="7" fill="var(--teal)"/><text x="250" y="322" text-anchor="middle">C/T</text><text x="262" y="112" font-family="IBM Plex Mono, monospace" font-size="11.5">425</text>
+              <circle cx="340" cy="138.4" r="9" fill="var(--teal)" stroke="var(--ink)" stroke-width="1.5"/><text x="340" y="322" text-anchor="middle">T/T</text><text x="354" y="135" font-family="IBM Plex Mono, monospace" font-size="11.5">373 *</text>
+              <polyline points="160,87.7 250,115.8 340,138.4" fill="none" stroke="var(--teal)" stroke-width="1.5"/>
+            </g>
+            <!-- TPH2 -->
+            <text x="620" y="330" text-anchor="middle" font-weight="600" font-style="italic">TPH2</text>
+            <g>
+              <circle cx="530" cy="98.9" r="7" fill="var(--violet)"/><text x="530" y="322" text-anchor="middle">A/A</text><text x="542" y="95" font-family="IBM Plex Mono, monospace" font-size="11.5">464</text>
+              <circle cx="620" cy="133.6" r="9" fill="var(--violet)" stroke="var(--ink)" stroke-width="1.5"/><text x="620" y="322" text-anchor="middle">T/A</text><text x="634" y="130" font-family="IBM Plex Mono, monospace" font-size="11.5">384 *</text>
+              <circle cx="710" cy="126.2" r="7" fill="var(--violet)"/><text x="710" y="322" text-anchor="middle">T/T</text><text x="722" y="122" font-family="IBM Plex Mono, monospace" font-size="11.5">401</text>
+              <polyline points="530,98.9 620,133.6 710,126.2" fill="none" stroke="var(--violet)" stroke-width="1.5"/>
+            </g>
+          </g>
+        </svg>
+        <figcaption>Means reported in Ramadan et al. (2026); lower = bolder. * differs from the reference homozygote in a Cox proportional hazards model: DRD4 T/T vs C/C z = 2.34, p = 0.019; TPH2 T/A vs A/A z = 1.98, p = 0.048. DRD4 C/T (p = 0.11) and TPH2 T/T (p = 0.070) were not significant. LDHA showed no effect on boldness. The paper shows these as survival curves (Fig. 1).</figcaption>
+      </figure>
+      <div class="q"><b class="lab">Discuss</b>
+        <ol style="margin:0">
+          <li>Why a Cox survival model instead of comparing mean latencies with an ANOVA? (Think about the birds that scored 600.)</li>
+          <li><i>DRD4</i> looks additive: each T allele makes birds bolder. <i>TPH2</i> heterozygotes are boldest. What genetic explanations fit that pattern, and what boring explanation fits it too?</li>
+          <li>Two p-values just under 0.05, across three genes and several traits. How worried should we be? What would make you more confident?</li>
+          <li>Suppose the <i>DRD4</i> effect is real. How much of the variation in boldness could one SNP possibly explain? Compare with the heritability of personality, roughly half of the repeatable variation (Dochtermann et al. 2015).</li>
+        </ol>
+      </div>
+    </details>
+  </div>
+
+  <div class="stage">
+    <div class="kicker">Stage D · 5 min · Stress, mirrors and context</div>
+    <p>Eye temperature was filmed each minute while a bird sat alone in a novel cage, once with an empty compartment next to it and once with a mirror there.</p>
+    <div class="q"><b class="lab">Predict</b>Will the mirror calm the birds (a "companion") or stress them more (a "stranger")? Why might eye temperature change at all when a bird is stressed?</div>
+    <details><summary>Reveal: what happened</summary>
+      <figure>
+        <svg viewBox="0 0 860 250" role="img" aria-label="Summary matrix of eye-temperature results: baseline did not differ by genotype for any gene; the change over time differed by genotype for DRD4 and TPH2; the mirror steepened the rise for all three genes; only LDHA genotypes responded differently to the mirror.">
+          <g font-family="IBM Plex Sans, sans-serif" font-size="13" fill="currentColor">
+            <text x="180" y="30" font-weight="600" fill="var(--muted)">Effect tested</text>
+            <text x="470" y="30" text-anchor="middle" font-style="italic" font-weight="600">DRD4</text>
+            <text x="620" y="30" text-anchor="middle" font-style="italic" font-weight="600">TPH2</text>
+            <text x="770" y="30" text-anchor="middle" font-style="italic" font-weight="600">LDHA</text>
+            <g>
+              <text x="20" y="72">Baseline eye temperature differs by genotype</text>
+              <text x="20" y="122">Change over time differs by genotype</text>
+              <text x="20" y="172">Mirror makes temperature rise more steeply</text>
+              <text x="20" y="222">Genotypes respond differently to the mirror</text>
+            </g>
+            <g font-family="IBM Plex Mono, monospace" font-size="12" text-anchor="middle">
+              <rect x="410" y="50" width="120" height="34" rx="6" fill="var(--paper)" stroke="var(--line)"/><text x="470" y="72">no · p = .81</text>
+              <rect x="560" y="50" width="120" height="34" rx="6" fill="var(--paper)" stroke="var(--line)"/><text x="620" y="72">no · p = .46</text>
+              <rect x="710" y="50" width="120" height="34" rx="6" fill="var(--paper)" stroke="var(--line)"/><text x="770" y="72">no · p = .40</text>
+              <rect x="410" y="100" width="120" height="34" rx="6" fill="var(--teal-soft)" stroke="var(--teal)"/><text x="470" y="122">yes · p = .035</text>
+              <rect x="560" y="100" width="120" height="34" rx="6" fill="var(--teal-soft)" stroke="var(--teal)"/><text x="620" y="122">yes · p = .048</text>
+              <rect x="710" y="100" width="120" height="34" rx="6" fill="var(--paper)" stroke="var(--line)"/><text x="770" y="122">trend · p = .060</text>
+              <rect x="410" y="150" width="120" height="34" rx="6" fill="var(--teal-soft)" stroke="var(--teal)"/><text x="470" y="172">yes · p = .008</text>
+              <rect x="560" y="150" width="120" height="34" rx="6" fill="var(--teal-soft)" stroke="var(--teal)"/><text x="620" y="172">yes · p = .008</text>
+              <rect x="710" y="150" width="120" height="34" rx="6" fill="var(--teal-soft)" stroke="var(--teal)"/><text x="770" y="172">yes · p = .011</text>
+              <rect x="410" y="200" width="120" height="34" rx="6" fill="var(--paper)" stroke="var(--line)"/><text x="470" y="222">no · p = .83</text>
+              <rect x="560" y="200" width="120" height="34" rx="6" fill="var(--paper)" stroke="var(--line)"/><text x="620" y="222">no · p = .34</text>
+              <rect x="710" y="200" width="120" height="34" rx="6" fill="var(--violet-soft)" stroke="var(--violet)"/><text x="770" y="222">yes · p &lt; .001</text>
+            </g>
+          </g>
+        </svg>
+        <figcaption>Results from linear mixed models in Ramadan et al. (2026), n = 134. For <i>DRD4</i>, C/C birds' eye temperature rose more slowly than C/T and T/T birds'. The authors call the <i>LDHA</i> × mirror result provisional.</figcaption>
+      </figure>
+      <div class="q"><b class="lab">Discuss</b>
+        <ol style="margin:0">
+          <li>With a mirror, eye temperature climbed back faster in every genotype, which the authors read as social buffering. Is a mirror a social cue, a novel object or a rival? Does the answer matter for how you interpret <i>LDHA</i>?</li>
+          <li>Notice that <i>DRD4</i> and <i>TPH2</i> are linked to <b>both</b> boldness and the stress response. Is that evidence for a behavioural syndrome, a shared mechanism, or neither?</li>
+          <li><i>LDHA</i> is a metabolic gene. If it shapes how birds respond to social context, what does that say about where "personality" lives in the body? Link this to the pace-of-life idea in section 4.</li>
+        </ol>
+      </div>
+    </details>
+  </div>
+
+  <div class="stage">
+    <div class="kicker">Stage E · 4 min · Be the reviewer</div>
+    <p>Route efficiency showed no genotype effect, but only 20 birds had GPS data and the authors call it inconclusive.</p>
+    <div class="q pair"><b class="lab">In pairs</b>You are reviewing this paper. Write the <b>one</b> extra analysis or experiment you would ask for, and the one claim you would ask the authors to soften. Then swap with the other pair and argue.</div>
+    <details><summary>Some threads to pull on</summary>
+      <ul>
+        <li>Candidate genes vs genome-wide approaches; replication in another population.</li>
+        <li>Multiple testing across genes and traits.</li>
+        <li>No resting baseline after habituation: what does "stress recovery" mean here?</li>
+        <li>Captive birds under lockdown: would wild or free-flying birds behave the same?</li>
+        <li>Can an association ever show that a gene <em>causes</em> boldness? What would?</li>
+      </ul>
+    </details>
+    <div class="q"><b class="lab">History lesson · Geneticist leads</b>A <i>DRD4</i> variant was linked to exploration in great tits (<a href="https://doi.org/10.1098/rspb.2007.0337">Fidler et al. 2007</a>). When it was tested across four wild populations, the association did not replicate consistently (<a href="https://doi.org/10.1111/j.1365-294X.2009.04518.x">Korsten et al. 2010</a>). Give three reasons a real gene–behaviour association might vanish in a new population, and three reasons a false one might appear in the first place.</div>
+    <figure>
+      <svg viewBox="0 0 760 155" role="img" aria-label="Chain of inference from genotype through gene expression and behaviour to fitness. Only the genotype-to-behaviour association was shown; expression was not measured; the fitness link via navigation was inconclusive.">
+        <defs><marker id="arCh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
+        <g font-family="IBM Plex Sans, sans-serif" font-size="13" fill="currentColor" stroke="currentColor">
+          <rect x="10" y="30" width="130" height="48" rx="8" fill="#6a4c9c" fill-opacity=".35"/>
+          <rect x="200" y="30" width="140" height="48" rx="8" fill="none" stroke-dasharray="5 4"/>
+          <rect x="400" y="30" width="130" height="48" rx="8" fill="#6a4c9c" fill-opacity=".2"/>
+          <rect x="590" y="30" width="150" height="48" rx="8" fill="none" stroke-dasharray="5 4"/>
+          <line x1="140" y1="54" x2="198" y2="54" marker-end="url(#arCh)" stroke-dasharray="5 4"/>
+          <line x1="340" y1="54" x2="398" y2="54" marker-end="url(#arCh)" stroke-dasharray="5 4"/>
+          <line x1="530" y1="54" x2="588" y2="54" marker-end="url(#arCh)" stroke-dasharray="5 4"/>
+          <path d="M75,78 C75,122 465,122 465,82" fill="none" marker-end="url(#arCh)"/>
+          <g stroke="none">
+            <text x="75" y="59" text-anchor="middle">Genotype</text>
+            <text x="270" y="59" text-anchor="middle">Gene expression</text>
+            <text x="465" y="59" text-anchor="middle">Behaviour</text>
+            <text x="665" y="59" text-anchor="middle">Fitness</text>
+            <text x="270" y="18" text-anchor="middle" font-size="11">not measured</text>
+            <text x="665" y="18" text-anchor="middle" font-size="11">navigation: inconclusive (n = 20)</text>
+            <text x="270" y="146" text-anchor="middle" font-size="11">association shown (solid)</text>
+          </g>
+        </g>
+      </svg>
+      <figcaption>What the study shows (solid) and what it infers (dashed). Which dashed arrow would you test first, and how?</figcaption>
+    </figure>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 860 220" role="img" aria-label="Tinbergen's four questions with the case study placed under mechanism, and the open questions under development, function and evolution.">
+      <g font-family="IBM Plex Sans, sans-serif" font-size="13" fill="currentColor">
+        <text x="20" y="24" font-weight="600">Where does this study sit in Tinbergen's four questions?</text>
+        <text x="225" y="56" text-anchor="middle" fill="var(--muted)">Proximate (how)</text>
+        <text x="645" y="56" text-anchor="middle" fill="var(--muted)">Ultimate (why)</text>
+        <rect x="20" y="70" width="200" height="130" rx="10" fill="var(--teal-soft)" stroke="var(--teal)" stroke-width="2"/>
+        <text x="120" y="98" text-anchor="middle" font-weight="600">Mechanism</text>
+        <text x="120" y="124" text-anchor="middle" font-size="12">DRD4, TPH2, LDHA</text>
+        <text x="120" y="144" text-anchor="middle" font-size="12">eye temperature</text>
+        <text x="120" y="176" text-anchor="middle" font-size="12" fill="var(--teal)">this study</text>
+        <rect x="230" y="70" width="200" height="130" rx="10" fill="var(--paper)" stroke="currentColor"/>
+        <text x="330" y="98" text-anchor="middle" font-weight="600">Development</text>
+        <text x="330" y="130" text-anchor="middle" font-size="12">Does genotype act early,</text>
+        <text x="330" y="148" text-anchor="middle" font-size="12">or through experience?</text>
+        <rect x="440" y="70" width="200" height="130" rx="10" fill="var(--paper)" stroke="currentColor"/>
+        <text x="540" y="98" text-anchor="middle" font-weight="600">Function</text>
+        <text x="540" y="130" text-anchor="middle" font-size="12">Do bold genotypes survive</text>
+        <text x="540" y="148" text-anchor="middle" font-size="12">or breed better?</text>
+        <rect x="650" y="70" width="200" height="130" rx="10" fill="var(--paper)" stroke="currentColor"/>
+        <text x="750" y="98" text-anchor="middle" font-weight="600">Evolution</text>
+        <text x="750" y="130" text-anchor="middle" font-size="12">Why do several alleles</text>
+        <text x="750" y="148" text-anchor="middle" font-size="12">persist in the population?</text>
+      </g>
+    </svg>
+    <figcaption>The study answers a "how" question. The last box is where we go next.</figcaption>
+  </figure>
+  <div class="pager"><a href="#measure">← Measuring it</a><a href="#evolution">Next: Why does variation persist? →</a></div>
+</section>
+
+<!-- EVOLUTION -->
+<section class="page" id="evolution" aria-labelledby="h-evo">
+  <div class="kicker">Minutes 42–52</div>
+  <h2 id="h-evo">4 · Why does variation persist?</h2>
+  <div class="q"><b class="lab">Opening question</b>If <i>DRD4</i> T/T birds really are bolder, and boldness affects fitness, why hasn't selection fixed one allele already?</div>
+
+  <h3>One answer: frequency dependence</h3>
+  <p>In the hawk-dove game, hawks always fight and doves never do. A contested resource is worth <b>V</b>; losing a fight costs <b>C</b>. Watch how the proportion of hawks changes over generations.</p>
+  <figure>
+    <div class="controls">
+      <label for="hdV">Value of resource V <output id="hdVo"></output><input type="range" id="hdV" min="1" max="10" step="0.5" value="4"></label>
+      <label for="hdC">Cost of fighting C <output id="hdCo"></output><input type="range" id="hdC" min="1" max="20" step="0.5" value="10"></label>
+      <label for="hdP">Starting hawk proportion <output id="hdPo"></output><input type="range" id="hdP" min="0.02" max="0.98" step="0.02" value="0.1"></label>
+    </div>
+    <canvas id="hdCanvas" width="860" height="300" style="width:100%;height:auto" role="img" aria-label="Line chart of the proportion of hawks over 60 generations under replicator dynamics."></canvas>
+    <div class="readout" id="hdOut"></div>
+    <figcaption>Replicator dynamics with payoffs: hawk vs hawk (V − C)/2, hawk vs dove V, dove vs hawk 0, dove vs dove V/2. The dashed line is the evolutionarily stable proportion.</figcaption>
+  </figure>
+  <div class="q"><b class="lab">Discuss</b>
+    <ol style="margin:0">
+      <li>The model reaches the same mix whether every bird plays hawk 40% of the time or 40% of birds always play hawk. Which version is "personality"? Can the model tell them apart?</li>
+      <li>What would have to be true about pigeons for <i>DRD4</i> genotypes to be maintained this way?</li>
+    </ol>
+  </div>
+
+  <h3>The other candidates</h3>
+  <div class="grid2">
+    <div class="card"><h4>Life-history trade-offs</h4><p>Animals with more to lose in the future should take fewer risks now, and that difference should apply across contexts (Wolf et al. 2007).</p><p style="color:var(--muted);font-size:14px">Pigeon link: birds aged 1 to 20 years. Did older birds behave differently?</p></div>
+    <div class="card"><h4>Pace-of-life syndrome</h4><p>Fast metabolism, fast life history and bold behaviour should travel together. A large meta-analysis found surprisingly weak support (Royauté et al. 2018).</p><p style="color:var(--muted);font-size:14px">Pigeon link: <i>LDHA</i> is a metabolic gene.</p></div>
+    <div class="card"><h4>Social niche specialisation</h4><p>In groups, individuals do better by being different from each other, which reinforces differences (Bergmüller &amp; Taborsky 2010).</p><p style="color:var(--muted);font-size:14px">Pigeon link: bold pigeons lead flocks (Sasaki et al. 2018).</p></div>
+    <div class="card"><h4>Fluctuating selection</h4><p>Bold wins in some years or places, shy in others, so neither is fixed.</p><p style="color:var(--muted);font-size:14px">Pigeon link: raptors favour some "bold" behaviours and punish others (Santos et al. 2015).</p></div>
+  </div>
+  <div class="q pair"><b class="lab">Quick debate (4 min)</b>Each of you takes one mechanism above and makes the case that it best explains individual differences in homing pigeons. The others must name the evidence that would prove you wrong.</div>
+  <div class="pager"><a href="#case">← Case study</a><a href="#apply">Next: Does it matter? →</a></div>
+</section>
+
+<!-- APPLY -->
+<section class="page" id="apply" aria-labelledby="h-apply">
+  <div class="kicker">Minutes 52–57</div>
+  <h2 id="h-apply">5 · Does it matter outside the lab?</h2>
+  <div class="q"><b class="lab">Scenario</b>A conservation programme breeds swift foxes in captivity for release. Bremner-Harrison et al. (2004) found the boldest captive-bred foxes were the most likely to die soon after release.</div>
+  <figure>
+    <svg viewBox="0 0 860 200" role="img" aria-label="Loop diagram: captivity relaxes predation, bold animals do well in captivity and breed, the released population is bolder, bold animals die after release, so the programme may select against what the wild needs.">
+      <defs><marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
+      <g font-family="IBM Plex Sans, sans-serif" font-size="13" fill="currentColor" text-anchor="middle">
+        <rect x="20" y="70" width="170" height="56" rx="8" fill="var(--paper)" stroke="currentColor"/><text x="105" y="94">Captivity: no</text><text x="105" y="112">predators</text>
+        <rect x="240" y="70" width="170" height="56" rx="8" fill="var(--paper)" stroke="currentColor"/><text x="325" y="94">Bold animals feed</text><text x="325" y="112">and breed well</text>
+        <rect x="460" y="70" width="170" height="56" rx="8" fill="var(--paper)" stroke="currentColor"/><text x="545" y="94">Release stock</text><text x="545" y="112">is bolder</text>
+        <rect x="680" y="70" width="170" height="56" rx="8" fill="var(--violet-soft)" stroke="var(--violet)"/><text x="765" y="94">Bold animals die</text><text x="765" y="112">soon after release</text>
+        <line x1="192" y1="98" x2="236" y2="98" stroke="currentColor" marker-end="url(#ar3)"/>
+        <line x1="412" y1="98" x2="456" y2="98" stroke="currentColor" marker-end="url(#ar3)"/>
+        <line x1="632" y1="98" x2="676" y2="98" stroke="currentColor" marker-end="url(#ar3)"/>
+        <path d="M765 128 C765 180, 105 180, 105 130" fill="none" stroke="var(--muted)" stroke-dasharray="5 4" marker-end="url(#ar3)"/>
+        <text x="435" y="172" fill="var(--muted)" font-size="12">next generation of breeding stock?</text>
+      </g>
+    </svg>
+    <figcaption>A possible loop, not a proven one. Each arrow is a hypothesis you could test.</figcaption>
+  </figure>
+  <div class="q"><b class="lab">Discuss</b>
+    <ol style="margin:0">
+      <li>Should managers screen animals for personality before release? Which ones would you release, and what would you lose?</li>
+      <li>If boldness is partly genetic (as in the pigeons), could captive breeding change allele frequencies at genes like <i>DRD4</i>? How quickly?</li>
+      <li><span class="pill v">From your essay</span> One of you argued personality is "no more important than morphology". Does this example support or undermine that?</li>
+      <li>Beadlet anemones, with no brain, show repeatable individual differences in startle recovery (<a href="https://doi.org/10.1371/journal.pone.0021963">Briffa &amp; Greenaway 2011</a>). Does that make "personality" a more useful word for animals, or a less useful one?</li>
+    </ol>
+  </div>
+  <div class="pager"><a href="#evolution">← Why does variation persist?</a><a href="#wrap">Next: Wrap-up →</a></div>
+</section>
+
+<!-- WRAP -->
+<section class="page" id="wrap" aria-labelledby="h-wrap">
+  <div class="kicker">Minutes 57–60</div>
+  <h2 id="h-wrap">Wrap-up</h2>
+  <div class="q"><b class="lab">Exit question (write one sentence each)</b>
+    <ol style="margin:0">
+      <li>Re-read the sentence you wrote at the start. Rewrite it using one piece of evidence from today, or say why you'd keep it.</li>
+      <li>Which claim in your essay would you now change, and how?</li>
+      <li>What one design choice would most improve a study like the pigeon one?</li>
+    </ol>
+  </div>
+  <figure>
+    <svg viewBox="0 0 760 140" role="img" aria-label="Sources of individual differences on a line from genes through development and experience to chance, with an example of each from today.">
+      <g font-family="IBM Plex Sans, sans-serif" font-size="13" fill="currentColor">
+        <rect x="20" y="40" width="720" height="12" rx="6" fill="#0f7b72" fill-opacity=".25"/>
+        <circle cx="70" cy="46" r="9" fill="#6a4c9c"/><circle cx="290" cy="46" r="9" fill="#0f7b72"/><circle cx="500" cy="46" r="9" fill="#0f7b72"/><circle cx="690" cy="46" r="9" fill="#a4561b"/>
+        <text x="70" y="26" text-anchor="middle" font-weight="600">Genes</text><text x="290" y="26" text-anchor="middle" font-weight="600">Development</text><text x="500" y="26" text-anchor="middle" font-weight="600">Experience</text><text x="690" y="26" text-anchor="middle" font-weight="600">Chance</text>
+        <text x="70" y="80" text-anchor="middle" font-size="11">DRD4, TPH2 in pigeons</text>
+        <text x="290" y="80" text-anchor="middle" font-size="11">early-life condition</text>
+        <text x="500" y="80" text-anchor="middle" font-size="11">winner and loser effects</text>
+        <text x="690" y="80" text-anchor="middle" font-size="11">clonal mollies</text>
+        <text x="380" y="122" text-anchor="middle" font-size="12">Where on this line does "inside" stop?</text>
+      </g>
+    </svg>
+    <figcaption>By the time we measure an animal, all four are inside it. Only one was there from birth.</figcaption>
+  </figure>
+  <h3>Take-home puzzle</h3>
+  <p>Back to the clonal mollies from the warm-up. If neither genes nor environment explain their differences, what does? And what does that mean for a study looking for "boldness genes"?</p>
+  <div class="pager"><a href="#apply">← Does it matter?</a><a href="#reading">Next: Reading →</a></div>
+</section>
+
+<!-- READING -->
+<section class="page" id="reading" aria-labelledby="h-read">
+  <div class="kicker">After the tutorial</div>
+  <h2 id="h-read">Reading and follow-up</h2>
+  <p>Start with the case study paper, then pick whichever thread from the discussion interested you most.</p>
+  <h3>The case study</h3>
+  <ol class="refs">
+    <li>Ramadan, S. I., Hung, T. H., Delacoux, M., Kano, F., Inoue-Murayama, M. &amp; Biro, D. (2026). Associations of genetic polymorphisms with boldness, stress response, and route efficiency in homing pigeons (<i>Columba livia</i>). <i>Physiology &amp; Behavior</i>, 305, 115211. <a href="https://doi.org/10.1016/j.physbeh.2025.115211">doi.org/10.1016/j.physbeh.2025.115211</a></li>
+  </ol>
+  <h3>Concepts and measurement</h3>
+  <ol class="refs">
+    <li>Réale, D. et al. (2007). Integrating animal temperament within ecology and evolution. <i>Biological Reviews</i>, 82, 291–318. <a href="https://doi.org/10.1111/j.1469-185X.2007.00010.x">doi</a></li>
+    <li>Sih, A., Bell, A. &amp; Johnson, J. C. (2004). Behavioral syndromes: an ecological and evolutionary overview. <i>TREE</i>, 19, 372–378. <a href="https://doi.org/10.1016/j.tree.2004.04.009">doi</a></li>
+    <li>Dingemanse, N. J. et al. (2010). Behavioural reaction norms: animal personality meets individual plasticity. <i>TREE</i>, 25, 81–89. <a href="https://doi.org/10.1016/j.tree.2009.07.013">doi</a></li>
+    <li>Bell, A. M., Hankison, S. J. &amp; Laskowski, K. L. (2009). The repeatability of behaviour: a meta-analysis. <i>Animal Behaviour</i>, 77, 771–783. <a href="https://doi.org/10.1016/j.anbehav.2008.12.022">doi</a></li>
+    <li>Dochtermann, N. A., Schwab, T. &amp; Sih, A. (2015). The contribution of additive genetic variation to personality variation: heritability of personality. <i>Proc. R. Soc. B</i>, 282, 20142201. <a href="https://doi.org/10.1098/rspb.2014.2201">doi</a></li>
+  </ol>
+  <h3>Pigeons</h3>
+  <ol class="refs">
+    <li>Santos, C. D. et al. (2015). Personality and morphological traits affect pigeon survival from raptor attacks. <i>Scientific Reports</i>, 5, 15490. <a href="https://doi.org/10.1038/srep15490">doi</a></li>
+    <li>Portugal, S. J. et al. (2017). Boldness traits, not dominance, predict exploratory flight range and homing behaviour in homing pigeons. <i>Phil. Trans. R. Soc. B</i>, 372, 20160234. <a href="https://doi.org/10.1098/rstb.2016.0234">doi</a></li>
+    <li>Sasaki, T. et al. (2018). Personality and the collective: bold homing pigeons occupy higher leadership ranks in flocks. <i>Phil. Trans. R. Soc. B</i>, 373, 20170038. <a href="https://doi.org/10.1098/rstb.2017.0038">doi</a></li>
+  </ol>
+  <h3>Evolution and application</h3>
+  <ol class="refs">
+    <li>Smith, B. R. &amp; Blumstein, D. T. (2008). Fitness consequences of personality: a meta-analysis. <i>Behavioral Ecology</i>, 19, 448–455. <a href="https://doi.org/10.1093/beheco/arm144">doi</a></li>
+    <li>Wolf, M. et al. (2007). Life-history trade-offs favour the evolution of animal personalities. <i>Nature</i>, 447, 581–584. <a href="https://doi.org/10.1038/nature05835">doi</a></li>
+    <li>Royauté, R. et al. (2018). Paceless life? A meta-analysis of the pace-of-life syndrome hypothesis. <i>Behav. Ecol. Sociobiol.</i>, 72, 64. <a href="https://doi.org/10.1007/s00265-018-2472-z">doi</a></li>
+    <li>Bergmüller, R. &amp; Taborsky, M. (2010). Animal personality due to social niche specialisation. <i>TREE</i>, 25, 504–511. <a href="https://doi.org/10.1016/j.tree.2010.06.012">doi</a></li>
+    <li>Bremner-Harrison, S., Prodohl, P. A. &amp; Elwood, R. W. (2004). Behavioural trait assessment as a release criterion: boldness predicts early death in a reintroduction programme of captive-bred swift fox. <i>Animal Conservation</i>, 7, 313–320. <a href="https://doi.org/10.1017/S1367943004001490">doi</a></li>
+    <li>Bierbach, D., Laskowski, K. L. &amp; Wolf, M. (2017). Behavioural individuality in clonal fish arises despite near-identical rearing conditions. <i>Nature Communications</i>, 8, 15361. <a href="https://doi.org/10.1038/ncomms15361">doi</a></li>
+  </ol>
+  <div class="pager"><a href="#wrap">← Wrap-up</a><a href="#start">Back to start</a></div>
+</section>
+</main>
+</div>
+
+<script>
+(function(){
+  // ---------- routing ----------
+  const pages=[...document.querySelectorAll('section.page')];
+  const ids=pages.map(p=>p.id);
+  function show(){
+    const id=ids.includes(location.hash.slice(1))?location.hash.slice(1):'start';
+    pages.forEach(p=>p.classList.toggle('on',p.id===id));
+    document.querySelectorAll('nav a.item').forEach(a=>{
+      if(a.getAttribute('href')==='#'+id)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');
+    });
+    document.getElementById('menu').classList.remove('open');
+    document.getElementById('menuToggle').setAttribute('aria-expanded','false');
+    window.scrollTo(0,0);
+    drawAll();
+  }
+  window.addEventListener('hashchange',show);
+  document.getElementById('menuToggle').addEventListener('click',e=>{
+    const m=document.getElementById('menu'); m.classList.toggle('open');
+    e.currentTarget.setAttribute('aria-expanded',m.classList.contains('open'));
+  });
+
+  // ---------- helpers ----------
+  const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;}}
+  function normal(r){let u=0,v=0;while(u===0)u=r();while(v===0)v=r();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
+  function bind(id,fn,fmt){const el=document.getElementById(id),o=document.getElementById(id+'o');const up=()=>{o.textContent=fmt?fmt(+el.value):el.value;fn();};el.addEventListener('input',up);o.textContent=fmt?fmt(+el.value):el.value;}
+  function prep(c){const ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);ctx.font='12px "IBM Plex Sans", sans-serif';return ctx;}
+  function ranks(a){const s=a.map((v,i)=>[v,i]).sort((x,y)=>x[0]-y[0]);const r=new Array(a.length);s.forEach((p,k)=>r[p[1]]=k);return r;}
+  function corr(a,b){const n=a.length,ma=a.reduce((s,x)=>s+x,0)/n,mb=b.reduce((s,x)=>s+x,0)/n;let num=0,da=0,db=0;for(let i=0;i<n;i++){num+=(a[i]-ma)*(b[i]-mb);da+=(a[i]-ma)**2;db+=(b[i]-mb)**2;}return da&&db?num/Math.sqrt(da*db):0;}
+
+  // ---------- prediction buttons ----------
+  document.querySelectorAll('.choice').forEach(g=>g.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
+    g.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));})));
+  // ---------- sorting exercise ----------
+  const items=[
+    ['A great tit explores a novel room faster than its siblings, and does so again a year later.','Personality','Repeated measures and a consistent difference between individuals.'],
+    ['All stickleback reduce activity when a predator is nearby.','Plasticity','The whole population shifts. Nothing here about differences between individuals.'],
+    ['Individuals that are bolder towards a novel object are also more aggressive to intruders.','Syndrome','A correlation between two behavioural types across contexts.'],
+    ['A pigeon is jumpy for an hour after a hawk flies over the loft.','Neither (a state)','A short-lived state, not a stable difference.'],
+    ['Some fish reduce activity sharply with predators, others hardly at all, and this difference is repeatable.','Personality','Individual differences in plasticity: different slopes, repeatably. Arguably personality in plasticity.'],
+    ['Male stag beetles have enormous mandibles and fight over females.','Not personality (species or sex trait)','A trait of the species or sex. Personality asks why individuals within a group consistently differ.'],
+    ['Female spotted hyenas are, on average, more aggressive than males.','Not personality (species or sex trait)','A difference between group means. Within each sex, do individuals consistently differ?'],
+    ['One wolf spends years moving between packs.','Can\'t tell yet','n = 1, no comparison group, and his circumstances changed. Personality and opportunity cannot be separated.'],
+    ['Four of ten captive wolves touch a new food puzzle in a single trial.','Can\'t tell yet','One trial cannot separate consistency from chance or hunger. Test them again.']
+  ];
+  const opts=['Choose…','Personality','Plasticity','Syndrome','Neither (a state)','Not personality (species or sex trait)','Can\'t tell yet'];
+  const sorter=document.getElementById('sorter');
+  items.forEach((it,i)=>{const d=document.createElement('div');d.className='chip';const id='sort'+i;
+    d.innerHTML='<label for="'+id+'">'+it[0]+'</label><select id="'+id+'">'+opts.map(o=>'<option>'+o+'</option>').join('')+'</select>';sorter.appendChild(d);});
+  document.getElementById('sortCheck').addEventListener('click',()=>{
+    let agree=0;items.forEach((it,i)=>{const s=document.getElementById('sort'+i);const ok=s.value===it[1];if(ok)agree++;
+      let n=s.parentNode.querySelector('.tn');if(!n){n=document.createElement('div');n.className='tn';n.style.cssText='font-size:12.5px;margin-top:6px;color:var(--violet)';s.parentNode.appendChild(n);}
+      n.textContent='Tutor reading: '+it[1]+'. '+it[2];});
+    const o=document.getElementById('sortOut');o.style.display='inline-block';
+    o.textContent=agree+' of '+items.length+' match. Argue about the rest.';
+  });
+
+  // ---------- reaction norms ----------
+  let rnSeed=7;
+  function drawRN(){
+    const c=document.getElementById('rnCanvas'); if(!c.offsetParent)return;
+    const ctx=prep(c),W=c.width,H=c.height,L=60,R=W-20,T=20,B=H-40;
+    const sI=+rnI.value,mS=+rnM.value,sS=+rnS.value,r=rng(rnSeed),n=12,lo=[],hi=[];
+    const ink=css('--ink'),muted=css('--muted'),line=css('--line'),teal=css('--teal'),vio=css('--violet');
+    const y=v=>T+(B-T)*(1-(v+3)/6);
+    ctx.strokeStyle=line;ctx.lineWidth=1;[-2,0,2].forEach(v=>{ctx.beginPath();ctx.moveTo(L,y(v));ctx.lineTo(R,y(v));ctx.stroke();});
+    ctx.fillStyle=muted;ctx.fillText('Low predation risk',L,H-14);ctx.textAlign='right';ctx.fillText('High predation risk',R,H-14);
+    ctx.save();ctx.translate(18,(T+B)/2);ctx.rotate(-Math.PI/2);ctx.textAlign='center';ctx.fillText('Boldness',0,0);ctx.restore();ctx.textAlign='left';
+    for(let i=0;i<n;i++){const a=normal(r)*sI,b=mS+normal(r)*sS;const y0=a-b,y1=a+b;lo.push(y0);hi.push(y1);
+      ctx.strokeStyle=i%2?teal:vio;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(L,y(y0));ctx.lineTo(R,y(y1));ctx.stroke();}
+    const rho=corr(ranks(lo),ranks(hi));
+    document.getElementById('rnOut').textContent='Rank correlation, low vs high risk: '+rho.toFixed(2)+(rho>0.7?'  (rank order mostly kept)':rho>0.3?'  (partly kept)':'  (rank order largely lost)');
+  }
+  const rnI=document.getElementById('rnI'),rnM=document.getElementById('rnM'),rnS=document.getElementById('rnS');
+  bind('rnI',drawRN,v=>v.toFixed(2));bind('rnM',drawRN,v=>v.toFixed(2));bind('rnS',drawRN,v=>v.toFixed(2));
+  document.getElementById('rnNew').addEventListener('click',()=>{rnSeed++;drawRN();});
+
+  // ---------- repeatability ----------
+  let rpSeed=3;
+  function drawRP(){
+    const c=document.getElementById('rpCanvas'); if(!c.offsetParent)return;
+    const ctx=prep(c),W=c.width,H=c.height,L=60,R=W-20,T=20,B=H-40;
+    const VA=+rpA.value,VW=+rpW.value,n=+rpN.value,r=rng(rpSeed),x1=[],x2=[];
+    for(let i=0;i<n;i++){const a=normal(r)*Math.sqrt(VA);x1.push(a+normal(r)*Math.sqrt(VW));x2.push(a+normal(r)*Math.sqrt(VW));}
+    // one-way ANOVA ICC, k=2
+    const gm=(x1.reduce((s,v)=>s+v,0)+x2.reduce((s,v)=>s+v,0))/(2*n);let ssb=0,ssw=0;
+    for(let i=0;i<n;i++){const m=(x1[i]+x2[i])/2;ssb+=2*(m-gm)**2;ssw+=(x1[i]-m)**2+(x2[i]-m)**2;}
+    const msb=ssb/(n-1),msw=ssw/n,est=(msb-msw)/(msb+msw),tru=VA/(VA+VW);
+    const lim=4,sx=v=>L+(R-L)*(v+lim)/(2*lim),sy=v=>T+(B-T)*(1-(v+lim)/(2*lim));
+    const line=css('--line'),muted=css('--muted'),teal=css('--teal'),vio=css('--violet');
+    ctx.strokeStyle=muted;ctx.setLineDash([6,4]);ctx.beginPath();ctx.moveTo(sx(-lim),sy(-lim));ctx.lineTo(sx(lim),sy(lim));ctx.stroke();ctx.setLineDash([]);
+    ctx.strokeStyle=line;ctx.strokeRect(L,T,R-L,B-T);
+    ctx.fillStyle=muted;ctx.textAlign='center';ctx.fillText('Score in trial 1',(L+R)/2,H-12);
+    ctx.save();ctx.translate(18,(T+B)/2);ctx.rotate(-Math.PI/2);ctx.fillText('Score in trial 2',0,0);ctx.restore();ctx.textAlign='left';
+    ctx.fillStyle=teal;ctx.globalAlpha=.75;for(let i=0;i<n;i++){ctx.beginPath();ctx.arc(sx(Math.max(-lim,Math.min(lim,x1[i]))),sy(Math.max(-lim,Math.min(lim,x2[i]))),4,0,7);ctx.fill();}ctx.globalAlpha=1;
+    ctx.fillStyle=vio;ctx.fillText('dashed diagonal = perfectly consistent individual',L+8,T+16);
+    document.getElementById('rpOut').textContent='True R = '+tru.toFixed(2)+'   ·   estimated R from this run = '+est.toFixed(2)+'   ·   n = '+n+' individuals × 2 trials';
+  }
+  const rpA=document.getElementById('rpA'),rpW=document.getElementById('rpW'),rpN=document.getElementById('rpN');
+  bind('rpA',drawRP,v=>v.toFixed(2));bind('rpW',drawRP,v=>v.toFixed(2));bind('rpN',drawRP);
+  document.getElementById('rpNew').addEventListener('click',()=>{rpSeed++;drawRP();});
+
+  // ---------- hawk-dove ----------
+  function drawHD(){
+    const c=document.getElementById('hdCanvas'); if(!c.offsetParent)return;
+    const ctx=prep(c),W=c.width,H=c.height,L=60,R=W-20,T=20,B=H-40;
+    const V=+hdV.value,C=+hdC.value;let p=+hdP.value;const G=60,traj=[p];
+    for(let g=0;g<G;g++){const wh=p*(V-C)/2+(1-p)*V,wd=(1-p)*V/2;const base=C+V;const fh=base+wh,fd=base+wd,fbar=p*fh+(1-p)*fd;p=p*fh/fbar;traj.push(p);}
+    const ess=V>=C?1:V/C,sx=g=>L+(R-L)*g/G,sy=v=>T+(B-T)*(1-v);
+    const line=css('--line'),muted=css('--muted'),teal=css('--teal'),vio=css('--violet');
+    ctx.strokeStyle=line;[0,.5,1].forEach(v=>{ctx.beginPath();ctx.moveTo(L,sy(v));ctx.lineTo(R,sy(v));ctx.stroke();});
+    ctx.fillStyle=muted;ctx.textAlign='right';[0,.5,1].forEach(v=>ctx.fillText(v.toFixed(1),L-8,sy(v)+4));
+    ctx.textAlign='center';ctx.fillText('Generation',(L+R)/2,H-12);
+    ctx.save();ctx.translate(16,(T+B)/2);ctx.rotate(-Math.PI/2);ctx.fillText('Proportion hawks',0,0);ctx.restore();ctx.textAlign='left';
+    ctx.setLineDash([6,4]);ctx.strokeStyle=vio;ctx.beginPath();ctx.moveTo(L,sy(ess));ctx.lineTo(R,sy(ess));ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle=vio;ctx.fillText('ESS = '+(V>=C?'1 (all hawks)':'V/C = '+ess.toFixed(2)),R-150,sy(ess)-6);
+    ctx.strokeStyle=teal;ctx.lineWidth=2.5;ctx.beginPath();traj.forEach((v,g)=>g?ctx.lineTo(sx(g),sy(v)):ctx.moveTo(sx(g),sy(v)));ctx.stroke();ctx.lineWidth=1;
+    ctx.fillStyle=teal;ctx.beginPath();ctx.arc(sx(G),sy(traj[G]),5,0,7);ctx.fill();
+    document.getElementById('hdOut').textContent='After '+G+' generations: '+(traj[G]*100).toFixed(0)+'% hawks. '+(V>=C?'Fighting is always worth it, so hawks take over.':'Neither strategy wins outright: rare hawks do well, common hawks do badly.');
+  }
+  const hdV=document.getElementById('hdV'),hdC=document.getElementById('hdC'),hdP=document.getElementById('hdP');
+  bind('hdV',drawHD);bind('hdC',drawHD);bind('hdP',drawHD,v=>v.toFixed(2));
+
+  function drawAll(){drawRN();drawRP();drawHD();}
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',drawAll);
+  new MutationObserver(drawAll).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+
+  // ---------- session clock ----------
+  const segs=[[0,'1 · Define'],[10,'2 · Measure'],[20,'3 · Case study'],[42,'4 · Evolution'],[52,'5 · Application'],[57,'Wrap-up'],[60,'Time']];
+  let t0=null,iv=null;const clock=document.getElementById('clock'),seg=document.getElementById('clockSeg'),btn=document.getElementById('clockBtn');
+  btn.addEventListener('click',()=>{if(iv){clearInterval(iv);iv=null;t0=null;btn.textContent='Start';clock.textContent='00:00';seg.textContent='Not started';return;}
+    t0=Date.now();btn.textContent='Reset';iv=setInterval(()=>{const s=Math.floor((Date.now()-t0)/1000),m=Math.floor(s/60);
+      clock.textContent=String(m).padStart(2,'0')+':'+String(s%60).padStart(2,'0');let cur=segs[0][1];segs.forEach(x=>{if(m>=x[0])cur=x[1];});seg.textContent='Now: '+cur;},1000);});
+
+  show();
+})();
+</script>
+</body>
+</html>

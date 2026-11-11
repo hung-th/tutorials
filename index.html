@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Biology tutorials · Tin Hang (Henry) Hung</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Same palette as the tutorials: slate ink, teal and violet. One centred column of cards. */
+  --bg:#f4f5f3; --paper:#ffffff; --ink:#1d2327; --muted:#5b666d; --line:#d8dddc;
+  --teal:#0f7b72; --violet:#6a4c9c; --teal-soft:#e2f1ef; --violet-soft:#ece6f5;
+  --display:"Newsreader", Georgia, "Times New Roman", serif;
+  --body:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root{--bg:#14191c; --paper:#1b2226; --ink:#e6ebea; --muted:#9aa6ab; --line:#2f3a3f;
+    --teal:#4cc2b5; --violet:#b39ae0; --teal-soft:#16302d; --violet-soft:#29223a; color-scheme:dark;}
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg); color:var(--ink); font:16px/1.6 var(--body)}
+main{max-width:860px; margin:0 auto; padding:56px clamp(16px,4vw,40px) 72px}
+.kicker{font:500 12px/1.4 var(--mono); color:var(--violet); letter-spacing:.05em; text-transform:uppercase}
+h1{font:600 clamp(32px,5vw,44px)/1.15 var(--display); margin:.3em 0 .4em; text-wrap:balance}
+.lede{font-size:18px; color:var(--muted); max-width:60ch; margin:0 0 32px}
+.grid{display:grid; gap:18px}
+a.card{display:grid; gap:6px; background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:22px 24px; text-decoration:none; color:var(--ink); border-left:5px solid var(--teal)}
+a.card.v{border-left-color:var(--violet)}
+a.card:hover{box-shadow:0 2px 14px rgba(0,0,0,.07)}
+a.card:focus-visible{outline:2px solid var(--violet); outline-offset:3px}
+.card .t{font:500 12px/1.4 var(--mono); color:var(--muted)}
+.card h2{font:600 24px/1.25 var(--display); margin:0; text-wrap:balance}
+.card p{margin:0; color:var(--muted); max-width:62ch}
+.card .go{font-weight:500; color:var(--teal); margin-top:4px}
+.card.v .go{color:var(--violet)}
+footer{margin-top:40px; padding-top:18px; border-top:1px solid var(--line); font-size:14px; color:var(--muted)}
+footer a{color:var(--teal)}
+</style>
+</head>
+<body>
+<main>
+  <div class="kicker">St Hilda's College · MBiol2 · Michaelmas Term</div>
+  <h1>Biology tutorials</h1>
+  <p class="lede">Interactive tutorial pages for discussion in the tutorial itself. No preparation is needed: each page has the papers, data and models we work through together.</p>
+
+  <div class="grid">
+    <a class="card" href="animal-personality/">
+      <span class="t">Animal behaviour · 60 minutes</span>
+      <h2>Is it really what's inside that counts?</h2>
+      <p>What animal personality is, how it is measured, a problem-based case on genes, boldness and stress in homing pigeons, and why individual differences persist.</p>
+      <span class="go">Open tutorial →</span>
+    </a>
+    <a class="card v" href="genetic-diversity/">
+      <span class="t">Population genetics · 60 minutes</span>
+      <h2>What determines the spatial distribution of genetic diversity?</h2>
+      <p>The four forces at three scales: species ranges, a global dataset (GenDivRange), and a problem-based case on restoring the endangered conifer <i>Araucaria nemorosa</i>.</p>
+      <span class="go">Open tutorial →</span>
+    </a>
+  </div>
+
+  <footer>Tin Hang (Henry) Hung · <a href="mailto:a@hung.bio">a@hung.bio</a></footer>
+</main>
+</body>
+</html>
