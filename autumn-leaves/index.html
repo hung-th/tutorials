@@ -120,12 +120,20 @@ td.num{font-family:var(--mono); font-variant-numeric:tabular-nums}
 .toggle button[aria-pressed="false"]{background:transparent;color:var(--teal);border:1px solid var(--teal)}
 .note{font-size:13px;color:var(--muted)}
 
+.review{border:1px solid var(--line);border-left:4px solid var(--warn);background:var(--paper);border-radius:0 10px 10px 0;padding:10px 16px;margin:14px 0}
+.review b.lab{font:500 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--warn);display:block;margin:4px 0 6px}
+.review p,.review li{font-size:15px}
+.review ul{margin:.3em 0;padding-left:1.2em}
+.pill.if{background:transparent;border:1px dashed var(--muted);color:var(--muted)}
+.cite{font-size:.86em;color:var(--muted)}
+label.check{display:flex;align-items:center;gap:6px;font-size:13.5px}
+
 </style>
 </head>
 <body>
 <div class="shell">
 <nav class="menu" id="menu" aria-label="Tutorial sections">
-  <div class="course">St Hilda's · MBiol2 · MT week 7</div>
+  <div class="course">St Hilda's · MBiol1 · MT week 7</div>
   <div class="brand">Why are leaves sometimes red and falling?</div>
   <div class="tutor">Tin Hang (Henry) Hung · 60-minute tutorial · <a href="mailto:a@hung.bio">a@hung.bio</a></div>
   <div class="tutor"><a href="../">← All tutorials</a></div>
@@ -153,22 +161,23 @@ td.num{font-family:var(--mono); font-variant-numeric:tabular-nums}
 <section class="page" id="start" aria-labelledby="h-start">
   <div class="kicker">Start here</div>
   <h1 id="h-start">Why are leaves sometimes red and falling?</h1>
-  <p class="lede">A few weeks of autumn colour hide three separate questions. How does a leaf change colour and come off the tree? What does the tree gain from doing it? And why do some floras turn red while others go quietly yellow? This hour takes them in that order, and finishes with the Ice Ages.</p>
+  <p class="lede">A few weeks of autumn colour hide three separate questions. How does a leaf change colour and come off the tree? What does the tree gain from doing it? And why do some parts of the world turn red while others go quietly yellow? This hour takes them in that order, and finishes with the Ice Ages.</p>
 
   <h3>How this hour works</h3>
   <div class="grid2">
-    <div class="card"><h4>Three questions, one leaf</h4><p>Mechanism, function, history. Every section comes back to the leaves you brought. By the end you should be able to say which kind of answer each paper gives.</p></div>
+    <div class="card"><h4>Three questions, one leaf</h4><p>How it works, what it is for, and why here but not there. Every section comes back to the leaves you brought.</p></div>
+    <div class="card"><h4>Quick reviews</h4><p>Where you see <span class="pill">Quick review</span>, there is a one-minute refresher on the physiology you need. Skim it if you know it; read it if you don't.</p></div>
     <div class="card"><h4>Predict before you look</h4><p>Most results are hidden behind a reveal. Commit to a prediction first, out loud or in writing.</p></div>
-    <div class="card"><h4>Play with the models</h4><p>The interactive models are deliberately simple toys. They are there to argue with. If one gives an answer you think is wrong, say why.</p></div>
-    <div class="card"><h4>Bring your essay</h4><p>Where you see <span class="pill v">From your essay</span>, find the paragraph where you made that claim, or should have, and be ready to defend or revise it.</p></div>
+    <div class="card"><h4>Bring your essay</h4><p>Where you see <span class="pill v">From your essay</span>, find the paragraph where you made that claim, or should have, and be ready to defend or change it.</p></div>
   </div>
+  <p class="small">The interactive models are deliberately simple toys, built to show an idea, not real numbers. Sections marked <span class="pill if">If time</span> are extras we may skip.</p>
 
   <h3>By the end you should be able to</h3>
   <ul>
-    <li>Trace the sequence from environmental cue to abscission, and say which steps are coupled and which can be separated.</li>
+    <li>Describe the steps from an autumn cue to a fallen leaf, and say which steps can happen without the others.</li>
     <li>Explain why yellow needs little explaining but red needs a lot.</li>
-    <li>Weigh the evidence for photoprotection and for signalling to insects, show how nutrient resorption links the two, and design an experiment that would separate them.</li>
-    <li>Explain why trees with red autumn leaves are commoner in eastern North America and East Asia than in Europe, using glacial history and at least one rival explanation.</li>
+    <li>Weigh the evidence that red protects the leaf from light and that it is a message to insects, and explain how recycling nitrogen links the two.</li>
+    <li>Suggest why red autumn trees are commoner in eastern North America and East Asia than in Europe.</li>
   </ul>
 
   <figure>
@@ -187,10 +196,10 @@ td.num{font-family:var(--mono); font-variant-numeric:tabular-nums}
         <g font-family="IBM Plex Mono, monospace" font-size="11" fill-opacity=".75">
           <text x="20" y="92">0</text><text x="108" y="92" text-anchor="middle">6</text><text x="280" y="92" text-anchor="middle">18</text><text x="482" y="92" text-anchor="middle">32</text><text x="788" y="92" text-anchor="middle">52</text><text x="880" y="92" text-anchor="end">60 min</text>
         </g>
-        <text x="20" y="24" fill-opacity=".7">How, what for, and why here but not there.</text>
+        <text x="20" y="24" fill-opacity=".7">How it works, what it is for, and why here but not there.</text>
       </g>
     </svg>
-    <figcaption>Most of the hour goes on the biogeography case, which is the part your essays touched least.</figcaption>
+    <figcaption>Most of the hour goes on the biogeography case, which the essays touched least.</figcaption>
   </figure>
 
   <h3>No preparation needed</h3>
@@ -205,45 +214,67 @@ td.num{font-family:var(--mono); font-variant-numeric:tabular-nums}
   <div class="q"><b class="lab">First minute</b>Write your answer to the essay question in one sentence. Keep it. We come back to it at the end.</div>
   <div class="q pair"><b class="lab">Together</b>Lay your leaves on the table from greenest to reddest. For each one: which species, where did you find it, and is it yellow, orange, red or brown? Did any species give you more than one colour?</div>
 
+  <div class="review"><b class="lab">Quick review · why a leaf has a colour</b>
+    <p>White light contains every colour. A pigment absorbs some wavelengths and lets the rest bounce back. <strong>We see the light that bounces back, not the light that is absorbed.</strong></p>
+    <ul>
+      <li><strong>Chlorophyll</strong> absorbs blue and red, so green bounces back.</li>
+      <li><strong>Carotenoids</strong> (yellow and orange) absorb blue. They sit alongside chlorophyll in the chloroplast all summer, hidden by it.</li>
+      <li><strong>Anthocyanins</strong> (red and purple) absorb green. They are dissolved in the vacuole, not in the chloroplast.</li>
+      <li><strong>Browns</strong> come from tannins and other compounds that oxidise as cells die.</li>
+    </ul>
+  </div>
+
   <h3>Mix a leaf</h3>
-  <p>Leaf colour is mostly four pigment pools. Set each one and watch the leaf, its spectrum and the aphid's view change.</p>
+  <p>Set each pigment and watch the leaf colour and the light it reflects. The bar on the right is a rough guess at how attractive that colour looks to an aphid; we need it in section 3.</p>
   <div class="controls">
     <label>Chlorophyll <input type="range" id="mChl" min="0" max="1" step="0.05" value="1"><output id="mChlo"></output></label>
     <label>Carotenoids <input type="range" id="mCar" min="0" max="1" step="0.05" value="0.6"><output id="mCaro"></output></label>
     <label>Anthocyanin <input type="range" id="mAnt" min="0" max="1" step="0.05" value="0"><output id="mAnto"></output></label>
-    <label>Vacuolar pH <input type="range" id="mPh" min="3" max="7" step="0.1" value="4"><output id="mPho"></output></label>
-    <label>Brown (oxidised phenolics) <input type="range" id="mBr" min="0" max="1" step="0.05" value="0"><output id="mBro"></output></label>
+    <label>Brown <input type="range" id="mBr" min="0" max="1" step="0.05" value="0"><output id="mBro"></output></label>
+    <label class="check"><input type="checkbox" id="mShow"> Show what each pigment absorbs</label>
   </div>
   <div class="toggle" id="mPresets" aria-label="Presets">
-    <button class="ghost" data-p="1,0.6,0,4,0">Summer</button>
-    <button class="ghost" data-p="0.05,0.5,0,4,0">Yellow (birch, ash)</button>
-    <button class="ghost" data-p="0.1,0.5,0.9,3.5,0">Red (maple)</button>
-    <button class="ghost" data-p="1,0.6,1,5,0">Copper beech</button>
-    <button class="ghost" data-p="0,0.1,0,4,1">Leaf litter</button>
+    <button class="ghost" data-p="1,0.6,0,0">Summer</button>
+    <button class="ghost" data-p="0.05,0.5,0,0">Yellow (birch, ash)</button>
+    <button class="ghost" data-p="0.1,0.5,0.9,0">Red (maple)</button>
+    <button class="ghost" data-p="1,0.6,1,0">Copper beech</button>
+    <button class="ghost" data-p="0,0.1,0,1">Leaf litter</button>
   </div>
   <figure>
-    <svg id="mixSvg" viewBox="0 0 900 300" role="img" aria-label="A leaf coloured by the chosen pigment mix, its absorbance spectrum and an aphid attractiveness readout."></svg>
-    <figcaption>Schematic absorbance curves (shapes approximate, not measured spectra). Leaf colour is computed from reflectance through standard colour-matching functions. The aphid index is a toy opponent model, green-receptor minus blue-receptor signal, in the spirit of Döring &amp; Chittka; it is relative to a summer leaf (= 1).</figcaption>
+    <svg id="mixSvg" viewBox="0 0 900 300" role="img" aria-label="A leaf coloured by the chosen pigment mix, the light it reflects, and an aphid attractiveness bar."></svg>
+    <figcaption>The thick line is the light the leaf reflects: high where it bounces colour back, low where pigments absorb it. Pigment curves are approximate shapes, not measured spectra.</figcaption>
   </figure>
   <div class="readout" id="mOut"></div>
 
   <div class="q"><b class="lab">Discuss</b>
     <ol style="margin:0">
-      <li>Start from Summer and slide chlorophyll to zero without touching anything else. What colour do you get, and was anything made?</li>
-      <li>Now add anthocyanin with the chlorophyll still there (Copper beech). Why is a copper beech dark rather than red? What does that tell you about the order of events in a red autumn leaf?</li>
-      <li>Drag the pH. Anthocyanins are the same molecules in red and purple leaves. What else would you need to measure before calling two leaves "the same pigment"?</li>
+      <li>Start from Summer and slide chlorophyll to zero without touching anything else. What colour do you get, and did the leaf have to make anything new?</li>
+      <li>Now make the yellow leaf red. Which slider did you need? So which colour change costs the tree something?</li>
+      <li>Copper beech has anthocyanin <em>and</em> chlorophyll. Why does it look dark rather than red? What does that tell you about what must happen to chlorophyll before an autumn leaf can look red?</li>
     </ol>
   </div>
-  <details><summary>Which pigments are made, kept or lost?</summary>
+
+  <div class="review"><b class="lab">Quick review · how a leaf makes anthocyanin</b>
+    <p>Anthocyanins are flavonoids, built by a chain of enzymes that starts from the amino acid phenylalanine and from sugars. Each arrow is one enzyme; you don't need to remember their names, only the shape of the pathway.</p>
+    <figure style="margin:10px 0"><svg id="pathSvg" viewBox="0 0 900 300" role="img" aria-label="Simplified anthocyanin biosynthesis pathway from phenylalanine and sugars through chalcone, flavanone and dihydroflavonol to anthocyanidin, then anthocyanin stored in the vacuole, with side branches to flavonols and tannins, and a MYB–bHLH–WD40 switch turned on by light, cold and sugar."></svg>
+      <figcaption>Simplified. PAL and CHS are the first committed steps; a sugar is added at the end, which makes the pigment stable and lets it be moved into the vacuole.</figcaption></figure>
+    <ul>
+      <li><strong>Raw materials:</strong> phenylalanine and sugar-derived building blocks. Senescing leaves have plenty of sugar, because they have stopped exporting much of it.</li>
+      <li><strong>The switch:</strong> a group of three transcription factors (MYB, bHLH and WD40 proteins) turns the later enzymes on together. Light, cold and high sugar all switch it on.</li>
+      <li><strong>Side branches:</strong> the same pathway also makes flavonols (colourless, absorb UV) and tannins (defence, and the browns of dead leaves).</li>
+    </ul>
+  </div>
+
+  <details><summary>Which pigments are made, kept or lost in autumn?</summary>
     <div class="tablewrap"><table>
-      <tr><th>Pool</th><th>In autumn</th><th>Where</th></tr>
-      <tr><td>Chlorophylls</td><td>Broken down in a regulated pathway. The breakdown products are not exported; they end up in the vacuole (Hörtensteiner 2006).</td><td>Chloroplast → gerontoplast</td></tr>
-      <tr><td>Carotenoids</td><td>Mostly retained for longer than chlorophyll, so yellow is unmasked. But not uniformly: in aspen, lutein and β-carotene fell in step with chlorophyll, while neoxanthin and the xanthophyll-cycle pigments were kept longer (Keskitalo et al. 2005).</td><td>Plastid membranes</td></tr>
-      <tr><td>Anthocyanins</td><td>Synthesised anew, through the phenylpropanoid/flavonoid pathway, after senescence has started.</td><td>Vacuole of mesophyll or epidermal cells</td></tr>
-      <tr><td>Browns</td><td>Oxidised phenolics and tannins as cells die.</td><td>Dead cells, after or near abscission</td></tr>
+      <tr><th>Pigment</th><th>In autumn</th><th>Where</th></tr>
+      <tr><td>Chlorophyll</td><td>Broken down by enzymes. The colourless breakdown products stay in the vacuole; they are not recycled.</td><td>Chloroplast, which becomes a "gerontoplast" (an ageing plastid)</td></tr>
+      <tr><td>Carotenoids</td><td>Mostly kept longer than chlorophyll, so yellow is revealed. Not all of them, though: in aspen some carotenoids fell as fast as chlorophyll (Keskitalo et al. 2005).</td><td>Chloroplast membranes</td></tr>
+      <tr><td>Anthocyanins</td><td>Made new, after the leaf has started to age.</td><td>Vacuole</td></tr>
+      <tr><td>Browns</td><td>Tannins and similar compounds oxidise as cells die.</td><td>Dead cells</td></tr>
     </table></div>
   </details>
-  <div class="q"><b class="lab"><span class="pill v">From your essay</span></b>Several essays said carotenoids "simply become visible". Is that the whole story, given the aspen data in the reveal above?</div>
+  <div class="q"><b class="lab"><span class="pill v">From your essay</span></b>Several essays said carotenoids "simply become visible". Is that the whole story?</div>
   <div class="pager"><a href="#start">← Start here</a><a href="#mechanism">Next: Mechanism →</a></div>
 </section>
 
@@ -251,52 +282,68 @@ td.num{font-family:var(--mono); font-variant-numeric:tabular-nums}
 <section class="page" id="mechanism" aria-labelledby="h-mech">
   <div class="kicker">Minutes 06–18</div>
   <h2 id="h-mech">2 · Mechanism: from cue to fall</h2>
-  <div class="q"><b class="lab">Opening question</b>A leaf goes yellow, then red, then falls. Is that one programme, or three that happen to run in sequence? What evidence would tell you?</div>
+  <div class="q"><b class="lab">Opening question</b>A leaf goes yellow, then red, then falls. Is that one programme, or three that happen to run one after another? What would you look for to tell?</div>
+
+  <div class="review"><b class="lab">Quick review · how a tree turns a cue into a response</b>
+    <p>Every step in autumn follows the same chain you know from other signalling: something in the environment is detected, a signal is passed on, genes are switched on or off, and the new set of enzymes changes the cell.</p>
+    <figure style="margin:10px 0"><svg id="sigSvg" viewBox="0 0 900 200" role="img" aria-label="Signalling chain: cue (shorter days, cold, bright light) to receptor (phytochrome, membranes) to messengers (hormones) to switches (transcription factors) to genes and enzymes to response (chlorophyll breakdown, protein recycling, anthocyanin, abscission)."></svg>
+      <figcaption>Simplified. Senescence-promoting hormones include ethylene, abscisic acid and jasmonate; cytokinins and auxin delay it. Much of the detail comes from <i>Arabidopsis</i>, not trees.</figcaption></figure>
+  </div>
 
   <div class="stage">
     <div class="kicker">Stage A · 4 min · What starts it?</div>
     <div class="predict"><span class="lab">Predict first</span>
-      Mature aspens in northern Sweden start autumn senescence on almost the same date every year. What is the trigger?
-      <div class="choice"><button class="ghost" aria-pressed="false">Day length</button><button class="ghost" aria-pressed="false">Falling temperature</button><button class="ghost" aria-pressed="false">Drought or nutrients</button><button class="ghost" aria-pressed="false">Something else light-related</button></div>
+      Mature aspen trees in northern Sweden start changing colour on almost the same date every year. What is the trigger?
+      <div class="choice"><button class="ghost" aria-pressed="false">Day length</button><button class="ghost" aria-pressed="false">Falling temperature</button><button class="ghost" aria-pressed="false">Drought or nutrients</button><button class="ghost" aria-pressed="false">Something else to do with light</button></div>
     </div>
-    <details><summary>Reveal: three aspen studies, one tree species</summary>
+    <details><summary>Reveal: three studies of the same tree species</summary>
       <div class="tablewrap"><table>
-        <tr><th>Study</th><th>Design</th><th>Conclusion</th></tr>
-        <tr><td>Keskitalo et al. 2005</td><td>One free-growing tree, followed through autumn 2003</td><td>Senescence started on 11 September, apparently triggered by photoperiod alone, and then ran steadily regardless of weather.</td></tr>
-        <tr><td>Fracheboud et al. 2009</td><td>Natural stands plus cloned trees under different light regimes</td><td>Shortening photoperiod is the main trigger, but onset varied a lot within and between populations (tracking latitude of origin). Senescence only began some time after bud set, and low temperature sped it up once started.</td></tr>
-        <tr><td>Michelson et al. 2018</td><td>116 genotypes from 12 Swedish populations in a northern and a southern common garden</td><td>The timing was incompatible with day length per se. The trigger must be some other light-dependent factor.</td></tr>
+        <tr><th>What they did</th><th>What they concluded</th></tr>
+        <tr><td>Followed <strong>one tree</strong> through one autumn <span class="cite">(Keskitalo et al. 2005)</span></td><td>Ageing started on 11 September, apparently set off by day length alone, then ran steadily whatever the weather.</td></tr>
+        <tr><td>Watched wild trees, and grew cloned trees under different day lengths <span class="cite">(Fracheboud et al. 2009)</span></td><td>Shortening days are the main trigger, but trees in the same place started on very different dates, and cold sped things up once they had started.</td></tr>
+        <tr><td>Grew <strong>116 genetically different trees</strong> from across Sweden side by side in two <em>common gardens</em>, one in the north and one in the south <span class="cite">(Michelson et al. 2018)</span></td><td>The timing did not fit day length alone. The trigger must be something else to do with light.</td></tr>
       </table></div>
-      <p class="small">Across many species, temperature and productivity matter too. Zani et al. (2020) argued that higher spring and summer productivity brings senescence forward (a sink-limitation effect); Lu &amp; Keenan (2022) found no evidence for it in their data. Gill et al. (2015) review the trends.</p>
+      <p class="small">Across many species, temperature matters too: warm autumns generally delay leaf colour (Gill et al. 2015). Whether a productive summer brings autumn forward is still argued about (Zani et al. 2020; Lu &amp; Keenan 2022).</p>
     </details>
-    <div class="q"><b class="lab"><span class="pill v">From your essay</span></b>Several essays said senescence is triggered "solely" by photoperiod. Which of these papers would you cite for that, and with what qualification? Why might one tree in one year give a cleaner answer than 116 genotypes in two gardens?</div>
+    <p class="small"><strong>Common garden:</strong> plants from different places grown side by side in one site. Because they share an environment, differences between them must be genetic.</p>
+    <div class="q"><b class="lab"><span class="pill v">From your essay</span></b>Several essays said ageing is triggered "solely" by day length. Which study supports that, and why should you be careful about it? Hint: with one tree in one year, what else changed on the same dates as day length?</div>
   </div>
 
   <div class="stage">
-    <div class="kicker">Stage B · 4 min · A cellular timetable</div>
+    <div class="kicker">Stage B · 4 min · A timetable for one leaf</div>
     <figure>
-      <svg id="timeSvg" viewBox="0 0 900 270" role="img" aria-label="Timeline of autumn senescence in one aspen in 2003, from initiation on 11 September to remobilisation stopping on 29 September and the last leaves falling in early October."></svg>
-      <figcaption>Redrawn from the events reported by Keskitalo et al. (2005) for one aspen (<i>Populus tremula</i>) in Umeå, 2003. Dates approximate where the paper gives a window.</figcaption>
+      <svg id="timeSvg" viewBox="0 0 900 270" role="img" aria-label="Timeline of autumn senescence in one aspen in 2003, from the start on 11 September to export stopping on 29 September and the last leaves falling in early October."></svg>
+      <figcaption>Redrawn from Keskitalo et al. (2005): one aspen in northern Sweden, 2003. Dates approximate.</figcaption>
     </figure>
     <div class="q"><b class="lab">Discuss</b>
       <ol style="margin:0">
-        <li>Once half the chlorophyll is gone, mitochondrial respiration powers remobilisation. Why not photosynthesis?</li>
-        <li>Remobilisation stops around 29 September but the last leaves fall over a week later. What is the tree doing in that gap, and what would happen if a leaf fell on 20 September?</li>
-        <li>About 80% of nitrogen and phosphorus left the leaves. Where does most of that nitrogen come from, if not chlorophyll?</li>
+        <li>Halfway through, the leaf powers the export of nutrients by respiration (in mitochondria), not photosynthesis. Why?</li>
+        <li>Export stops around 29 September but the last leaves fall a week later. What would the tree lose if a leaf fell on 20 September instead?</li>
+        <li>About 80% of the leaf's nitrogen and phosphorus is moved out. Most leaf nitrogen is not in chlorophyll. Where is it?</li>
       </ol>
     </div>
-    <details><summary>Where the nitrogen is</summary><p>Most leaf nitrogen is in protein, above all Rubisco and the light-harvesting complexes. Chlorophyll carries little of it, and its catabolites are not exported but stored in the vacuole. Breaking chlorophyll down is mainly about making the leaf safe while the proteins are dismantled: free chlorophyll is phototoxic (Hörtensteiner 2006).</p></details>
+    <details><summary>Where the nitrogen is</summary><p>Most of it is in protein, above all Rubisco, the enzyme that fixes CO₂, and the proteins that hold chlorophyll in place. These are broken down to amino acids and sent out in the phloem. Chlorophyll itself is broken down mainly because loose chlorophyll is dangerous in the light; its breakdown products stay in the leaf (Hörtensteiner 2006).</p></details>
   </div>
 
   <div class="stage">
     <div class="kicker">Stage C · 4 min · How a leaf lets go</div>
+    <div class="review"><b class="lab">Quick review · the abscission zone</b>
+      <ul>
+        <li><strong>Where:</strong> a band of small, densely packed cells at the base of the leaf stalk (petiole). It forms when the leaf is young and waits.</li>
+        <li><strong>The brake:</strong> a healthy leaf sends auxin down the stalk, which keeps the zone insensitive.</li>
+        <li><strong>The trigger:</strong> as the leaf ages, the auxin supply falls and the zone becomes sensitive to ethylene.</li>
+        <li><strong>The cut:</strong> ethylene switches on enzymes (cellulases and polygalacturonases) that digest the pectin "glue" between cell walls (the middle lamella). The leaf hangs by its veins until wind or its own weight snaps it.</li>
+        <li><strong>The seal:</strong> a corky protective layer forms on the stem side, leaving a leaf scar that keeps water in and pathogens out.</li>
+      </ul>
+    </div>
     <figure>
       <svg id="azSvg" viewBox="0 0 900 285" role="img" aria-label="Diagram of the abscission zone at the base of a petiole: auxin flow from the leaf falls, the zone becomes sensitive to ethylene, cell-wall enzymes separate the cells and a protective layer forms on the stem side."></svg>
-      <figcaption>Schematic. The abscission zone is a few layers of small cells, set up long before autumn; hormones decide when it acts. Reviews: Botton &amp; Ruperti (2019) on ethylene, Pautot et al. (2025) on abscission zones.</figcaption>
+      <figcaption>Schematic. Reviews: Botton &amp; Ruperti (2019); Pautot et al. (2025).</figcaption>
     </figure>
     <div class="q"><b class="lab">Discuss</b>
       <ol style="margin:0">
-        <li>Young oaks and beech hedges keep dead brown leaves all winter (marcescence). What does that tell you about whether senescence and abscission are one programme?</li>
-        <li>In Hoch et al. (2003), anthocyanin-deficient mutants put under bright, cold conditions <em>dropped their leaves while still green</em>. What does that suggest about the link between colour and fall?</li>
+        <li>Young oaks and beech hedges keep their dead brown leaves all winter (this is called marcescence). Are ageing and falling one programme or two?</li>
+        <li>In one experiment, mutant plants that could not make anthocyanin <em>dropped their leaves while still green</em> when kept in bright, cold conditions <span class="cite">(Hoch et al. 2003)</span>. What might that say about a link between colour and falling?</li>
       </ol>
     </div>
     <div class="q"><b class="lab"><span class="pill v">From your essay</span></b>Most essays gave falling a sentence or two at the end. If you had 300 more words, what would they say?</div>
@@ -311,96 +358,98 @@ td.num{font-family:var(--mono); font-variant-numeric:tabular-nums}
   <div class="q"><b class="lab">Opening question</b>Yellow is mostly what is left behind. Red is made, days before the leaf is thrown away. Why pay for a pigment at the end of a leaf's life?</div>
 
   <div class="stage">
-    <div class="kicker">Stage A · 2 min · Make the hypotheses predict</div>
-    <div class="tablewrap"><table>
-      <tr><th>Hypothesis</th><th>Core idea</th><th>Who benefits?</th><th>Which trees should be reddest?</th></tr>
-      <tr><td>Photoprotection (resorption protection)</td><td>Anthocyanin screens the failing photosynthetic machinery, so nutrient recovery can finish (Hoch et al. 2001, 2003; Feild et al. 2001)</td><td><i>you fill in</i></td><td><i>you fill in</i></td></tr>
-      <tr><td>Signalling to insects</td><td>Red is a costly, honest signal of defence to aphids that lay overwintering eggs (Archetti 2000; Hamilton &amp; Brown 2001)</td><td><i>you fill in</i></td><td><i>you fill in</i></td></tr>
-      <tr><td>Masking yellow</td><td>Red hides the yellow that aphids find very attractive (Döring et al. 2009)</td><td><i>you fill in</i></td><td><i>you fill in</i></td></tr>
-    </table></div>
-    <details><summary>My reading</summary><p>Photoprotection: the tree itself; reddest should be leaves and trees that need resorption most and face most light stress, such as cold, bright days and nitrogen-poor trees. Signalling (honest-vigour version): tree and insect both; the reddest should be the best defended, often the most vigorous trees. Masking: the tree; redness should track how attractive the underlying yellow would be. Note that the first and second make opposite predictions about nutrient-poor trees. That is where Schaberg et al. (2003) comes in.</p></details>
+    <div class="kicker">Stage A · 2 min · Two big ideas</div>
+    <div class="grid2">
+      <div class="card"><h4>Sunscreen (photoprotection)</h4><p>Anthocyanin shades the ageing leaf from too much light, so it can keep working long enough to send its nutrients back to the tree.</p></div>
+      <div class="card"><h4>A message to insects (coevolution)</h4><p>Aphids arrive in autumn to lay eggs on trees. Red tells them "this tree is well defended, go elsewhere", or hides the yellow they find attractive.</p></div>
+    </div>
+    <p class="small"><strong>Honest signal:</strong> a signal that is hard to fake because it is costly, so only a tree that can afford it can show it. <strong>Coevolution:</strong> two species each evolving in response to the other.</p>
+    <div class="q pair"><b class="lab">Together</b>For each idea: who benefits, the tree or the insect? And which trees should be the reddest: the healthiest, best-defended ones, or the most stressed, nutrient-poor ones?</div>
+    <details><summary>My reading</summary><p>Sunscreen: the tree benefits; the reddest trees should be the ones that need to recover nutrients most and face most light stress, such as nutrient-poor trees on cold, bright days. Message to insects: both benefit; if red is an honest signal, the reddest should be the best-defended, healthiest trees. So the two ideas make <em>opposite</em> predictions about nutrient-poor trees. A study of sugar maples found that the trees lowest in nitrogen went red earlier and more fully <span class="cite">(Schaberg et al. 2003)</span>. Which idea does that favour?</p></details>
   </div>
 
   <div class="stage">
-    <div class="kicker">Stage B · 3 min · Light budget of a dying leaf</div>
-    <p>A toy model. Light absorbed by the chloroplasts is either used for carbon fixation, dissipated safely as heat (non-photochemical quenching), or left over. The leftover is what makes reactive oxygen species. As chloroplasts are dismantled, both safe routes shrink. Anthocyanin in the vacuole takes some light before it reaches the chloroplasts.</p>
+    <div class="kicker">Stage B · 3 min · Too much light for a dying leaf</div>
+    <div class="review"><b class="lab">Quick review · why too much light is harmful</b>
+      <p>Absorbed light is energy. A leaf can use it for photosynthesis, or shed it safely as heat. If it absorbs more than it can do either with, the extra energy is passed to oxygen and makes <strong>reactive oxygen species</strong> (such as hydrogen peroxide) that damage proteins and membranes. Cold makes this worse, because the enzymes of photosynthesis slow down while the sunlight does not. An ageing leaf is also dismantling the machinery that uses and sheds light.</p>
+    </div>
+    <p>In this toy model, move the sliders and watch what happens to the light a leaf absorbs.</p>
     <div class="controls">
-      <label>Light (µmol m⁻² s⁻¹) <input type="range" id="pI" min="0" max="2000" step="50" value="1200"><output id="pIo"></output></label>
+      <label>Sunlight (full sun ≈ 2000) <input type="range" id="pI" min="0" max="2000" step="50" value="1200"><output id="pIo"></output></label>
       <label>Air temperature (°C) <input type="range" id="pT" min="-2" max="25" step="1" value="3"><output id="pTo"></output></label>
       <label>Chlorophyll left <input type="range" id="pC" min="0.05" max="1" step="0.05" value="0.3"><output id="pCo"></output></label>
-      <label>Anthocyanin screen <input type="range" id="pA" min="0" max="1" step="0.05" value="0"><output id="pAo"></output></label>
+      <label>Anthocyanin <input type="range" id="pA" min="0" max="1" step="0.05" value="0"><output id="pAo"></output></label>
     </div>
-    <figure><svg id="photoSvg" viewBox="0 0 900 200" role="img" aria-label="Stacked bar of absorbed light split into carbon fixation, heat dissipation and excess."></svg>
-      <figcaption>Arbitrary units, made-up parameters chosen to behave sensibly. It shows the logic, not real values.</figcaption></figure>
+    <figure><svg id="photoSvg" viewBox="0 0 900 200" role="img" aria-label="Bar showing light absorbed by a leaf split into used for photosynthesis, shed as heat, harmful excess, and blocked by anthocyanin."></svg>
+      <figcaption>Made-up units chosen to show the logic, not real values.</figcaption></figure>
     <div class="readout" id="pOut"></div>
     <div class="q"><b class="lab">Discuss</b>
       <ol style="margin:0">
-        <li>Find a summer setting with no excess. Now make it a frosty, sunny October morning with 30% chlorophyll. How much anthocyanin removes the excess?</li>
-        <li>Make it a warm, cloudy October day. Does anthocyanin matter? What does the model predict about red colour in cloudy, mild autumns?</li>
-        <li>The model says every tree should go red on cold, bright days. They don't. What has it left out?</li>
+        <li>Set a summer leaf (all chlorophyll, 20 °C). Is there harmful excess? Now make it a frosty, sunny October morning with 30% chlorophyll. How much anthocyanin do you need to remove the excess?</li>
+        <li>Make it a warm, cloudy October day. Does anthocyanin still help? So should cloudy, mild autumns be more or less red?</li>
+        <li>The model says every tree should go red on cold, sunny days. They don't. What has it left out?</li>
       </ol>
     </div>
     <div class="predict"><span class="lab">Predict first</span>
-      Hoch et al. (2003) used anthocyanin-deficient mutants of three red-leaved species (<i>Cornus sericea</i>, <i>Vaccinium elliottii</i>, <i>Viburnum sargentii</i>) and gave them five days of high light and low temperature during senescence. Compared with wild type, how well did the mutants recover nitrogen?
-      <div class="choice"><button class="ghost" aria-pressed="false">Better</button><button class="ghost" aria-pressed="false">About the same</button><button class="ghost" aria-pressed="false">Worse</button></div>
+      Researchers took mutant shrubs that cannot make anthocyanin, and normal plants of the same species, and gave them five cold, bright days in autumn <span class="cite">(Hoch et al. 2003)</span>. How much nitrogen did the mutants recover from their leaves compared with normal plants?
+      <div class="choice"><button class="ghost" aria-pressed="false">More</button><button class="ghost" aria-pressed="false">About the same</button><button class="ghost" aria-pressed="false">Less</button></div>
     </div>
-    <details><summary>Reveal: resorption protection, and a twist</summary>
-      <p>The mutants had lower nitrogen resorption efficiency in both stressful treatments, lost photochemical efficiency and showed irreversible photo-oxidative damage, and dropped their leaves while still green. Wild type recovered.</p>
-      <p><b>The twist:</b> paper birch (<i>Betula papyrifera</i>), which makes no anthocyanin in autumn, resorbed nitrogen as well as the best of the red species. Red is one solution, not the only one.</p>
+    <details><summary>Reveal: the sunscreen works, with a twist</summary>
+      <p>The mutants recovered less nitrogen, showed light damage that did not recover, and dropped their leaves while still green. Normal plants recovered.</p>
+      <p><strong>The twist:</strong> paper birch, which makes no anthocyanin at all, recovered as much nitrogen as the best red species. Red is one solution, not the only one.</p>
     </details>
   </div>
 
   <div class="stage">
     <div class="kicker">Stage C · 3 min · Through an aphid's eyes</div>
     <div class="predict"><span class="lab">Predict first</span>
-      Aphids have no red photoreceptor. Can they tell a red autumn leaf from a green one?
+      Aphids have no receptor for red light. Can they tell a red autumn leaf from a green one?
       <div class="choice"><button class="ghost" aria-pressed="false">No, red looks green to them</button><button class="ghost" aria-pressed="false">Yes, red looks less attractive</button><button class="ghost" aria-pressed="false">Yes, red looks more attractive</button></div>
     </div>
-    <details><summary>Reveal: Döring, Archetti &amp; Hardie (2009)</summary>
-      <p>Using reflectance spectra of real autumn leaves and a model of aphid colour choice, leaves that look red to us were on average much less attractive to aphids than green leaves, and yellow leaves were much more attractive. Their conclusion: active avoidance of red is unlikely, but red could still signal tree quality, or it could serve to mask the over-attractive yellow left when chlorophyll is recovered. Go back to the leaf mixer in section 1 and watch the aphid index as you move from yellow to red.</p>
-      <p class="small">Field tests: <i>Rhopalosiphum padi</i> on bird cherry (<i>Prunus padus</i>) preferred green over red trees (Archetti &amp; Leather 2005). Chittka &amp; Döring (2007) argued that this kind of preference needs no coevolution to explain it.</p>
+    <details><summary>Reveal</summary>
+      <p>Researchers measured the light reflected by hundreds of real autumn leaves and worked out how each would look to an aphid. Red leaves were much <em>less</em> attractive than green ones, and yellow leaves much <em>more</em> attractive <span class="cite">(Döring et al. 2009)</span>. Aphids don't need a red receptor: a red leaf simply lacks the yellow-green glow they are drawn to. Go back to the leaf mixer in section 1 and watch the aphid bar as you move from yellow to red.</p>
+      <p class="small">In the field, one aphid species preferred green over red bird-cherry trees (Archetti &amp; Leather 2005). Others argue this needs no coevolution at all: aphids simply like yellow-green (Chittka &amp; Döring 2007).</p>
     </details>
-    <div class="q"><b class="lab"><span class="pill v">From your essay</span></b>A common argument in the essays was "aphids can't see red, so signalling is unlikely". What does Döring et al. (2009) do to that argument, and does it rescue the signalling hypothesis or not?</div>
+    <div class="q"><b class="lab"><span class="pill v">From your essay</span></b>A common argument in the essays was "aphids can't see red, so the insect idea is unlikely". Does that argument still work?</div>
   </div>
 
   <div class="stage">
-    <div class="kicker">Stage D · 3 min · Weigh the evidence</div>
+    <div class="kicker">Stage D · <span class="pill if">If time</span> Weigh the evidence</div>
     <p>For each finding, decide which way it points. Several are arguable. That is the point.</p>
     <div class="sort" id="sorter"></div>
     <p><button class="ghost" id="sortCheck">Show my tutor's reading</button> <span id="sortOut" class="readout" style="display:none"></span></p>
   </div>
 
   <div class="stage">
-    <div class="kicker">Stage E · 3 min · Follow the nitrogen</div>
-    <p>Most essays treated photoprotection and coevolution as rivals. Look at what each one is actually about. Both are about the same pool of nitrogen, at the same moment: the amino acids streaming out of a senescing leaf through the phloem.</p>
+    <div class="kicker">Stage E · 4 min · Follow the nitrogen</div>
+    <p>Most essays treated the two ideas as rivals. Look at what each is about. Both concern the same nitrogen at the same moment: the amino acids flowing out of an ageing leaf through the phloem.</p>
     <figure>
-      <svg id="nSvg" viewBox="0 0 900 300" role="img" aria-label="Nitrogen leaves the senescing blade as amino acids in the phloem and flows to storage in the stem. Light stress threatens the export machinery and anthocyanin shields it. Aphids tap the same phloem stream, and leaf colour tells them how good the stream is."></svg>
-      <figcaption>Schematic. Photoprotection is about keeping the export pipe running; coevolution is about who gets to drink from it. Holopainen &amp; Peltonen (2002) put the two together explicitly.</figcaption>
+      <svg id="nSvg" viewBox="0 0 900 300" role="img" aria-label="Nitrogen leaves the ageing leaf as amino acids in the phloem and flows to storage in the stem. Too much light threatens the export, and anthocyanin shields it. Aphids feed on the same phloem stream, and leaf colour tells them how good it is."></svg>
+      <figcaption>Schematic. The sunscreen keeps the export running; the insects decide who gets to drink from it.</figcaption>
     </figure>
     <div class="grid2">
-      <div class="card"><h4>Why aphids care about resorption</h4><p>During export, leaf nitrogen is in the phloem as free amino acids, which is exactly what aphids feed on. In black mustard, phloem sap from senescing leaves carried about 199 mM amino acids, against 77–83 mM in mature leaves (Merritt 1996). Holopainen &amp; Peltonen (2002) proposed that autumn colour works as a cue to this food: aphids seek out the first yellowing leaves. In birch seedlings, aphids were found on 41% of yellow leaves but only 19% of green ones, driven by the winged <i>Euceraphis betulae</i> (Holopainen et al. 2009).</p></div>
-      <div class="card"><h4>Why the tree cares about aphids</h4><p>Every amino acid an aphid takes is nitrogen the tree does not store for spring. Aphids also lay overwintering eggs on twigs, so the colonists of this autumn feed on next spring's flush. Red that masks the "nitrogen here" yellow (Döring et al. 2009), or that honestly advertises defence (Archetti 2000; Hamilton &amp; Brown 2001), protects the same nitrogen that anthocyanin's light screen protects.</p></div>
+      <div class="card"><h4>Why aphids care</h4><p>Aphids feed on phloem sap. While a leaf is exporting, its sap is rich in amino acids: in one plant, about two and a half times richer than in a mature leaf (Merritt 1996). Aphids seek out the first yellowing leaves; on young birch trees they were found on 41% of yellow leaves but only 19% of green ones (Holopainen et al. 2009). Yellow may be a signpost to food (Holopainen &amp; Peltonen 2002).</p></div>
+      <div class="card"><h4>Why the tree cares</h4><p>Every amino acid an aphid takes is nitrogen the tree does not store for spring. Aphids also lay eggs on the twigs, and their young feed on next spring's new leaves. Red that hides the yellow signpost, or warns insects off, protects the same nitrogen that the sunscreen protects.</p></div>
     </div>
 
     <h3>A nitrogen ledger</h3>
-    <p>A toy model of one leaf's 100 units of nitrogen. Light stress damages the export machinery unless anthocyanin screens it. Aphids are drawn in by how yellow the leaf looks and take a share of whatever is exported.</p>
+    <p>One leaf holds 100 units of nitrogen. Too much light damages the export unless anthocyanin shades it. Aphids are drawn in by how yellow the leaf looks and take a share of what is exported.</p>
     <div class="controls">
-      <label>Light stress (cold, bright days) <input type="range" id="nL" min="0" max="1" step="0.05" value="0.7"><output id="nLo"></output></label>
-      <label>Aphid pressure <input type="range" id="nP" min="0" max="1" step="0.05" value="0.6"><output id="nPo"></output></label>
+      <label>Light stress (cold, sunny days) <input type="range" id="nL" min="0" max="1" step="0.05" value="0.7"><output id="nLo"></output></label>
+      <label>Number of aphids <input type="range" id="nP" min="0" max="1" step="0.05" value="0.6"><output id="nPo"></output></label>
       <label>Anthocyanin <input type="range" id="nA" min="0" max="1" step="0.05" value="0.8"><output id="nAo"></output></label>
     </div>
-    <figure><svg id="ledSvg" viewBox="0 0 900 170" role="img" aria-label="Stacked bar dividing a leaf's nitrogen into stored by the tree, taken by aphids, and left in the fallen leaf, compared for no anthocyanin and the chosen anthocyanin level."></svg>
-      <figcaption>Arbitrary parameters. The top bar is the same leaf with no anthocyanin, for comparison. Anthocyanin cost is not shown; it is paid mostly in carbon (sugars), which a senescing leaf has in surplus.</figcaption></figure>
+    <figure><svg id="ledSvg" viewBox="0 0 900 170" role="img" aria-label="Stacked bars dividing a leaf's nitrogen into stored by the tree, taken by aphids, and left in the fallen leaf, for no anthocyanin and for the chosen level."></svg>
+      <figcaption>Made-up numbers. The top bar is the same leaf with no anthocyanin. The cost of making anthocyanin is not shown; it is paid mostly in sugar, which an ageing leaf has spare.</figcaption></figure>
     <div class="readout" id="nOut"></div>
     <div class="q"><b class="lab">Discuss</b>
       <ol style="margin:0">
-        <li>Set aphid pressure to zero. How much does anthocyanin gain the tree now? Set light stress to zero instead. Each "rival" hypothesis is a special case of the ledger. Which one?</li>
-        <li>If the currency is nitrogen, which trees should be reddest? Check your answer against Schaberg et al. (2003): nitrogen-poor sugar maples went red earlier and more fully.</li>
-        <li>Holopainen &amp; Peltonen argued bright colour <em>attracts</em> aphids as an honest cue of food; Döring et al. found red leaves <em>unattractive</em>. Can both be right if yellow and red mean different things?</li>
-        <li>Write one plausible history in which red first evolved for photoprotection and was later shaped by aphids, or the other way round. What evidence would tell the two orders apart?</li>
+        <li>Set the aphids to zero. Does anthocyanin still help the tree? Now set light stress to zero instead. Which idea is each of these settings?</li>
+        <li>If nitrogen is what matters, which trees should be reddest? Does that fit the sugar maple result from Stage A?</li>
+        <li>One group of researchers says autumn colour <em>attracts</em> aphids to food; another found red leaves <em>unattractive</em>. Can both be right if yellow and red mean different things?</li>
       </ol>
     </div>
-    <details><summary>My reading</summary><p>Resorption is the common currency. Photoprotection asks how much nitrogen the tree can get out of the leaf; coevolution asks how much of that it keeps. Both predict that red should be strongest where nitrogen is most valuable (nitrogen-poor trees, short seasons) and during the export window rather than before or after it, which is what Keskitalo et al. (2005) and Schaberg et al. (2003) found. Where the two still part company is <em>who</em> red is for: a light screen works whether or not anyone is watching; a signal or mask only works if aphids respond to it. So the test is a tree with high light stress but no aphids, or the reverse, and island or introduced populations are natural experiments of exactly that kind. That idea comes back in the biogeography case.</p></details>
+    <details><summary>My reading</summary><p>Recovering nitrogen is the link. The sunscreen idea is about how much nitrogen the tree gets out of the leaf; the insect idea is about how much of it the tree keeps. Both predict that red should be strongest where nitrogen is most precious, such as nutrient-poor trees and short seasons. They still differ on who red is for: a sunscreen works whether or not anyone is watching, but a signal only works if aphids respond to it. So the test is a tree with lots of light stress but no aphids, or the reverse. That idea comes back in the next section.</p></details>
   </div>
   <div class="pager"><a href="#mechanism">← Mechanism</a><a href="#biogeo">Next: Biogeography case →</a></div>
 </section>
@@ -409,114 +458,124 @@ td.num{font-family:var(--mono); font-variant-numeric:tabular-nums}
 <section class="page" id="biogeo" aria-labelledby="h-bio">
   <div class="kicker">Minutes 32–52 · Problem-based case</div>
   <h2 id="h-bio">4 · Case: why is New England red and Oxford yellow?</h2>
-  <p class="lede">Anyone who has seen a Vermont or Kyoto autumn knows Europe is different. Most of our native trees go yellow or brown. Both hypotheses from section 3 are about what happens in one leaf, this year. This case asks whether the answer lies thousands, or millions, of years back.</p>
+  <p class="lede">Anyone who has seen a New England or Japanese autumn knows Europe is different. Most of our native trees go yellow or brown. Section 3 was about what happens in one leaf, this year. This case asks whether the answer lies thousands, or millions, of years back.</p>
 
   <div class="stage">
     <div class="kicker">Stage A · 3 min · Count the red trees</div>
     <div class="predict"><span class="lab">Predict first</span>
-      Archetti (2009) compiled a list of 290 tree species with red autumn leaves. Lev-Yadun &amp; Holopainen (2009) checked where each one grows. Roughly how many are native to Europe?
+      Researchers took a list of 290 tree species with red autumn leaves and checked where each one grows <span class="cite">(Lev-Yadun &amp; Holopainen 2009)</span>. Roughly how many are native to Europe?
       <div class="choice"><button class="ghost" aria-pressed="false">Under 30</button><button class="ghost" aria-pressed="false">30–80</button><button class="ghost" aria-pressed="false">80–150</button><button class="ghost" aria-pressed="false">Over 150</button></div>
     </div>
     <details><summary>Reveal: the numbers</summary>
-      <figure style="margin-top:8px"><svg id="countSvg" viewBox="0 0 900 230" role="img" aria-label="Bar chart: 24 red-autumn tree species in Europe, at least 89 in a subset of the North American woody flora, at least 152 in East Asia."></svg>
-        <figcaption>Data from Lev-Yadun &amp; Holopainen (2009). North America and East Asia figures are minimums ("at least"), from subsets of their floras. In Northern Europe only four native trees regularly go red: <i>Prunus padus</i>, <i>P. spinosa</i>, <i>Sorbus aucuparia</i> and <i>Acer platanoides</i>.</figcaption></figure>
+      <figure style="margin-top:8px"><svg id="countSvg" viewBox="0 0 900 230" role="img" aria-label="Bar chart: 24 red-autumn tree species in Europe, at least 89 in eastern North America, at least 152 in East Asia."></svg>
+        <figcaption>North America and East Asia figures are minimums. In northern Europe only four native trees regularly go red: bird cherry, blackthorn, rowan and Norway maple.</figcaption></figure>
     </details>
-    <div class="q pair"><b class="lab">Together</b>Before you explain the pattern, attack the numbers. Mesic temperate forests in East Asia hold roughly three times as many tree species as eastern North America, and six times as many as Europe (Latham &amp; Ricklefs 1993). Is Europe short of red trees, or just short of trees? What number would you need to tell?</div>
+    <div class="q pair"><b class="lab">Together</b>Before you explain the pattern, question the numbers. The moist temperate forests of East Asia have about six times as many tree species as Europe's, and eastern North America about twice as many (Latham &amp; Ricklefs 1993). Is Europe short of <em>red</em> trees, or just short of trees? What would you need to calculate to tell?</div>
+  </div>
+
+  <div class="review"><b class="lab">Quick review · ice ages and timescales</b>
+    <figure style="margin:10px 0"><svg id="iceSvg" viewBox="0 0 900 150" role="img" aria-label="Timeline: from 66 to 2.6 million years ago a warm period when similar forests covered the Northern Hemisphere; from 2.6 million years ago to 11,700 years ago the Pleistocene ice ages with dozens of glacial cycles; the last glacial maximum about 21,000 years ago; today."></svg></figure>
+    <ul>
+      <li>For tens of millions of years before the ice ages, the climate was warmer and very similar trees grew right across Europe, Asia and North America. Geologists used to call this period the <strong>Tertiary</strong>.</li>
+      <li>In the last 2.6 million years (the <strong>Pleistocene</strong>) ice sheets advanced and retreated dozens of times. Each cold period lasted tens of thousands of years.</li>
+      <li>Trees cannot walk, but their populations can shift as seeds establish further south. In each cold period, temperate trees survived only in warmer pockets called <strong>refugia</strong>, then spread back north. Species that could not reach a refugium died out in that region.</li>
+    </ul>
   </div>
 
   <div class="stage">
     <div class="kicker">Stage B · 4 min · Three continents in the Ice Age</div>
     <figure>
-      <svg id="mapSvg" viewBox="0 0 900 360" role="img" aria-label="Schematic of three continents at the Last Glacial Maximum. Europe: ice sheet in the north, east–west mountain chains and the Mediterranean Sea block retreat; refugia in Iberia, Italy and the Balkans. Eastern North America: ice sheet to about 39 degrees north, north–south Appalachians, open coastal plain to the Gulf of Mexico. East Asia: little lowland ice, forest belts continuous from temperate to tropical."></svg>
-      <figcaption>Schematic, not to scale. Pale blue: ice. Brown triangles: mountain ranges. Green circles: glacial refugia. Arrows: the direction trees had to move as climate cooled. After Hewitt (2000), Petit et al. (2003), Soltis et al. (2006) and Qiu et al. (2011).</figcaption>
+      <svg id="mapSvg" viewBox="0 0 900 360" role="img" aria-label="Schematic of three continents at the last glacial maximum. Europe: ice sheet in the north, east–west mountain chains and the Mediterranean Sea block retreat; refugia in Iberia, Italy and the Balkans. Eastern North America: ice sheet to about 39 degrees north, north–south valleys, open coastal plain to the Gulf of Mexico. East Asia: little lowland ice, forest belts continuous from temperate to tropical."></svg>
+      <figcaption>Schematic, not to scale. Pale blue: ice. Brown triangles: mountain ranges. Green circles: refugia. Arrows: the direction trees had to move as climate cooled. After Hewitt (2000), Petit et al. (2003), Soltis et al. (2006) and Qiu et al. (2011).</figcaption>
     </figure>
     <div class="q"><b class="lab">Discuss</b>
       <ol style="margin:0">
         <li>Follow a warmth-loving tree southwards on each map as the ice advances. Where does it end up, and what stands in its way?</li>
-        <li>Lev-Yadun &amp; Holopainen (2009) argue that in Europe the biota was trapped between northern ice and the Alps, so more trees <em>and their specialist insects</em> went extinct. If the coevolution hypothesis is right, what happens to red colour in a tree whose aphids are gone? Use the nitrogen ledger: what is red still worth if only light stress is left?</li>
-        <li>Bemmels et al. (2019) found genomic evidence that one North American hickory survived close to the ice margin, while another retreated far south. Does one map fit every species?</li>
+        <li>One suggestion is that in Europe both trees <em>and the insects that fed on them</em> were trapped between ice and the Alps and died out <span class="cite">(Lev-Yadun &amp; Holopainen 2009)</span>. If red is a message to insects, what happens to it in a tree whose insects are gone? Use the nitrogen ledger: set the aphids to zero.</li>
       </ol>
     </div>
   </div>
 
   <div class="stage">
     <div class="kicker">Stage C · 5 min · The glacial squeeze</div>
-    <p>Three continents start with the same Tertiary tree flora: 60 lineages, each with its own warmth requirement. Each glacial cycle pushes the climate south. A lineage survives a cycle if it can reach somewhere warm enough. You choose how redness is linked to everything else.</p>
+    <p>Three continents start with the same set of 60 tree lineages. Some can cope with cold, some need warmth. In each glacial cycle, a lineage survives only if it can reach somewhere warm enough. You decide which lineages are red to begin with.</p>
     <div class="controls">
-      <label>Glacial severity <input type="range" id="gS" min="0" max="1" step="0.05" value="0.6"><output id="gSo"></output></label>
-      <label>Glacial cycles <input type="range" id="gN" min="1" max="10" step="1" value="5"><output id="gNo"></output></label>
+      <label>How cold the ice ages were <input type="range" id="gS" min="0" max="1" step="0.05" value="0.6"><output id="gSo"></output></label>
+      <label>Number of glacial cycles <input type="range" id="gN" min="1" max="10" step="1" value="5"><output id="gNo"></output></label>
     </div>
     <div class="controls">
-      <span class="small">How is red distributed in the starting flora?</span>
+      <span class="small">Which lineages are red at the start?</span>
       <div class="toggle" id="gMode">
-        <button aria-pressed="true" data-m="A">A · at random</button>
-        <button aria-pressed="false" data-m="B">B · commoner in warm-origin lineages</button>
-        <button aria-pressed="false" data-m="C">C · random, but lost with the aphids</button>
+        <button class="gm" aria-pressed="true" data-m="A">A · red at random</button>
+        <button class="gm" aria-pressed="false" data-m="B">B · red mostly in warmth-loving lineages</button>
       </div>
     </div>
     <div class="controls">
-      <span class="small">Europe's east–west mountain barrier</span>
+      <span class="small">Europe's east–west mountains</span>
       <div class="toggle" id="gBar"><button aria-pressed="true" data-b="1">On</button><button aria-pressed="false" data-b="0">Off</button></div>
-      <button class="ghost" id="gNew">New flora</button>
+      <button class="ghost" id="gNew">New set of lineages</button>
     </div>
-    <figure><svg id="gSvg" viewBox="0 0 900 300" role="img" aria-label="Each continent's 60 lineages as dots sorted by warmth requirement; survivors coloured red or yellow, extinct lineages grey; with counts of surviving and red lineages."></svg>
-      <figcaption>A toy model. "Reachable warmth" is highest in East Asia (forest belts run into the tropics), intermediate in eastern North America (open route to the Gulf coast) and lowest in Europe (sea to the south, plus the mountain barrier if switched on). In mode C a surviving red lineage loses its colour if its specialist herbivores went extinct, with the risk scaled to the severity of the squeeze on that continent.</figcaption></figure>
+    <figure><svg id="gSvg" viewBox="0 0 900 300" role="img" aria-label="Each continent's 60 lineages as dots from cold-tolerant to warmth-loving; survivors coloured red or yellow, extinct lineages as empty circles; with counts."></svg>
+      <figcaption>A toy model. The shaded band shows how far south each continent let trees retreat: furthest in East Asia, less far in eastern North America, least in Europe (sea to the south, plus the mountains if switched on).</figcaption></figure>
     <div class="readout" id="gOut"></div>
     <div class="q"><b class="lab">Discuss</b>
       <ol style="margin:0">
-        <li>In mode A, does Europe end with fewer red lineages? With a lower <em>proportion</em> of red? Which of those does the real pattern need?</li>
-        <li>Which modes reproduce both fewer and proportionally fewer red trees in Europe? What would you have to believe about real trees for each mode to be true?</li>
-        <li>Switch the mountain barrier off. Svenning (2003) found that the European losses were predictable from climate tolerance: genera that went extinct were less tolerant of cold growing seasons and winters than those that survived. Is a mountain barrier needed at all?</li>
+        <li>In mode A, does Europe end with fewer red lineages? Does it end with a lower <em>percentage</em> of red? Which of the two does the real pattern need?</li>
+        <li>Now try mode B. What would have to be true about real trees for mode B to be right?</li>
+        <li>Switch Europe's mountains off. Does Europe still lose most of its lineages? What else is stopping trees from retreating far enough south?</li>
       </ol>
     </div>
+    <details><summary>Push further: what if red only lasts while the insects do?</summary>
+      <p>Mode C starts with red at random, but a surviving red lineage loses its colour if its insects died out; the harsher the squeeze on a continent, the likelier that is. This is the Lev-Yadun &amp; Holopainen idea.</p>
+      <div class="toggle"><button class="gm ghost" aria-pressed="false" data-m="C">C · red lost with the insects</button></div>
+    </details>
   </div>
 
   <div class="stage">
-    <div class="kicker">Stage D · 4 min · Did red come from the tropics?</div>
-    <p>Here is a more speculative idea, and it is my own. Red leaves are common in the tropics, mostly in young leaves rather than dying ones. Temperate deciduous lineages descend from warmer, often evergreen, ancestors. During glacials, eastern North American and East Asian trees retreated towards warm-temperate and subtropical latitudes; European trees were pinned against mountains and sea. Could temperate trees have kept, or picked up, red where they stayed in contact with warm, bright, herbivore-rich floras?</p>
+    <div class="kicker">Stage D · <span class="pill if">If time</span> Did red come from the tropics?</div>
+    <p>Here is a more speculative idea, and it is my own. Red leaves are common in the tropics, mostly in young leaves rather than dying ones. The ancestors of today's temperate trees lived in warmer climates. In each ice age, North American and East Asian trees could retreat towards warm, subtropical forests; European trees were trapped. Could temperate trees have kept red where they stayed close to warm, bright, insect-rich forests, and lost it where they didn't?</p>
     <div class="grid2">
       <div class="card"><h4>For</h4>
-        <p>In 399 tropical species, 44.9% made anthocyanin in young leaves and 13.5% in senescing leaves (Lee &amp; Collins 2001). That 13.5% is close to the 12.2% of temperate species with red autumn leaves in Archetti's survey, which Lev-Yadun &amp; Holopainen (2009) read as a sign that red autumn leaves are old, a Tertiary relict.</p>
-        <p>36% of tree species on Barro Colorado Island flush red young leaves (Kursar &amp; Coley 1992).</p>
+        <p>In a survey of 399 tropical plants, nearly half made anthocyanin in young leaves, and about 13% in dying leaves. That 13% is close to the 12% of temperate trees with red autumn leaves (Lee &amp; Collins 2001; Archetti 2009), which suggests red autumn leaves are an old trait.</p>
+        <p>On one tropical island in Panama, over a third of tree species flush red young leaves (Kursar &amp; Coley 1992).</p>
       </div>
       <div class="card"><h4>Against, or complicating</h4>
-        <p>Across 105 species from 16°S to 43°S, delayed greening showed no latitudinal gradient (Chiarenza &amp; Moles 2025). Red young leaves are not just a tropical thing.</p>
-        <p>In <i>Viburnum</i>, deciduousness evolved in place, in parallel, as climate cooled (Edwards et al. 2017), and most deciduous lineages took up leaf-shedding only after reaching freezing climates (Zanne et al. 2014). Many European yellow-autumn species have red young leaves anyway (Lev-Yadun 2022), so the capacity is there.</p>
+        <p>A recent survey found red or pale young leaves just as often far from the tropics as near them (Chiarenza &amp; Moles 2025).</p>
+        <p>Many European trees that go yellow in autumn have red young leaves in spring (Lev-Yadun 2022). So they can make anthocyanin; they just don't in autumn.</p>
       </div>
     </div>
     <div class="q"><b class="lab">Discuss</b>
       <ol style="margin:0">
-        <li>What could "picking up red" in a refugium actually mean? New mutation, selection on existing variation, hybridisation with subtropical relatives, or simply which lineages survived? Which is plausible over ~100,000-year glacial cycles?</li>
-        <li>Red in young tropical leaves and red in dying temperate leaves use the same pathway, but often in different tissues: epidermis in spring, palisade in autumn, in <i>Corylus</i> and <i>Acer platanoides</i> (Merzlyak et al. 2008). Same trait or different trait?</li>
-        <li>Genera that occur in both East Asia and eastern North America but not in Europe are classic Tertiary relicts (Wen 1999; Milne &amp; Abbott 2002). How would you use them to test this idea?</li>
+        <li>If a tree species "picked up" red in a refugium, what actually happened? Did individual trees change, did natural selection favour red-leaved variants that were already there, or did red-leaved species simply survive while others died out? Which is most likely in an ice age lasting tens of thousands of years?</li>
+        <li>Red in young spring leaves and red in dying autumn leaves are often made in different cell layers. Is that one trait or two?</li>
       </ol>
     </div>
   </div>
 
   <div class="stage">
-    <div class="kicker">Stage E · 2 min · The rival: today's climate</div>
-    <p>Renner &amp; Zohner (2019) offer a present-day explanation. Eastern North America and East Asia receive more solar irradiance than Europe. Eastern North America also has larger temperature swings in autumn, so cold snaps hit during senescence, and its species have on average a 3-week shorter vegetation period. In a common garden, chlorophyll breakdown started earlier in eastern North American species than in their European and East Asian relatives. Bright light plus cold snaps is exactly when anthocyanin photoprotection should pay off most.</p>
-    <div class="q"><b class="lab">Discuss</b>Go back to the light-budget model and set a bright, cold day. Then ask: are the history explanation and the climate explanation alternatives, or could both be true? What does a common-garden result tell you that a field survey cannot?</div>
+    <div class="kicker">Stage E · <span class="pill if">If time</span> The rival: today's weather</div>
+    <p>Another explanation needs no history at all <span class="cite">(Renner &amp; Zohner 2019)</span>. Eastern North America and East Asia get more sunshine than Europe. Eastern North American autumns also swing between warm days and sudden cold snaps, and the growing season there is about three weeks shorter. Bright sun plus cold snaps is exactly when the sunscreen should pay off most.</p>
+    <div class="q"><b class="lab">Discuss</b>Go back to the light model and set a bright, cold day. Could history and today's weather both be true at once?</div>
   </div>
 
   <div class="stage">
-    <div class="kicker">Stage F · 2 min · Design the test</div>
-    <div class="q pair"><b class="lab">Together</b>You have an arboretum with congeneric species from Europe, eastern North America and East Asia, a dated phylogeny, and a budget for one autumn of measurements. Write one prediction that would distinguish each explanation:
+    <div class="kicker">Stage F · 3 min · Design the test</div>
+    <div class="q pair"><b class="lab">Together</b>You have an arboretum (a garden of trees from around the world) with related species from Europe, North America and East Asia growing side by side. You can measure them for one autumn. For each explanation, what result would support it?
       <ol style="margin:6px 0 0">
-        <li>Herbivore co-extinction (Lev-Yadun &amp; Holopainen 2009)</li>
-        <li>Climatic filtering of warm-origin lineages (Svenning 2003, plus a tropical origin of red)</li>
-        <li>Present-day light and cold snaps (Renner &amp; Zohner 2019)</li>
+        <li>The insects died out in Europe, so red was lost.</li>
+        <li>The warmth-loving, red-leaved lineages died out in Europe.</li>
+        <li>Today's sunnier, colder autumns make American trees red.</li>
       </ol>
     </div>
     <details><summary>My reading</summary>
       <div class="tablewrap"><table>
-        <tr><th>Explanation</th><th>Prediction</th></tr>
-        <tr><td>Herbivore co-extinction</td><td>European species should still carry, and be able to express, the anthocyanin machinery but have lost the autumn trigger. Their specialist aphid fauna should be poorer than their American or Asian congeners'. Redness should track aphid diversity within genera (as Hamilton &amp; Brown 2001 found across species).</td></tr>
-        <tr><td>Climatic filtering of warm-origin lineages</td><td>Red should be phylogenetically clustered in lineages with warm, subtropical affinity. In Europe, the lineages that went extinct (from the fossil record) should be disproportionately red-leaved relatives. Redness should not depend on where the tree grows today.</td></tr>
-        <tr><td>Present-day light and cold</td><td>In a common garden, European species should go red when given bright, cold autumns. Within species, populations from sunnier, more variable climates should be redder. Redness should respond to experimental light and temperature.</td></tr>
+        <tr><th>Explanation</th><th>What would support it</th></tr>
+        <tr><td>Insects died out</td><td>European species can still make anthocyanin (for example in young leaves) but don't in autumn, and have fewer specialist aphids than their American or Asian relatives.</td></tr>
+        <tr><td>Red lineages died out</td><td>Red is concentrated in particular families with warm-climate relatives, and fossils show those families once grew in Europe.</td></tr>
+        <tr><td>Today's weather</td><td>European species go red when grown in a sunny, cold-snap climate, and American species go less red in a cloudy, mild one.</td></tr>
       </table></div>
     </details>
-    <div class="q"><b class="lab"><span class="pill v">From your essay</span></b>Did your essay say anything about why European and American trees differ? If so, which explanation did you reach for, and what evidence did you have? If not, where would it have fitted?</div>
+    <div class="q"><b class="lab"><span class="pill v">From your essay</span></b>Did your essay say anything about why European and American trees differ? If so, which explanation did you reach for? If not, where would it have fitted?</div>
   </div>
   <div class="pager"><a href="#function">← Function</a><a href="#synthesis">Next: Synthesis →</a></div>
 </section>
@@ -525,24 +584,23 @@ td.num{font-family:var(--mono); font-variant-numeric:tabular-nums}
 <section class="page" id="synthesis" aria-labelledby="h-syn">
   <div class="kicker">Minutes 52–60</div>
   <h2 id="h-syn">Synthesis and exit question</h2>
-  <div class="q"><b class="lab">Opening question</b>A single maple leaf turning red on a frosty morning, and the scarcity of red trees in Oxford, need different kinds of explanation. Which kinds?</div>
-
-  <h3>Which factor explains what?</h3>
-  <p>For each cell, decide whether the factor matters a lot, a little, or not at all. Be ready to defend your call.</p>
-  <div class="tablewrap"><table class="grid-tap" id="tapGrid">
-    <tr><th>Factor</th><th>When a leaf senesces</th><th>Whether it turns red</th><th>Where red trees are common today</th></tr>
-  </table></div>
-  <p class="small">Tap a cell to cycle through: blank, a lot, a little, not at all.</p>
+  <div class="q"><b class="lab">Opening question</b>"How does a maple leaf turn red on a frosty morning?", "Why did red evolve?" and "Why are there so few red trees in Oxford?" need different kinds of answer. What kind of evidence answers each one?</div>
 
   <h3>Exit question (one sentence each)</h3>
   <ol>
     <li>Re-read the sentence you wrote at the start. Rewrite it using one piece of evidence from today, or say why you would keep it.</li>
-    <li>Pick one leaf you brought. Which hypothesis best explains its colour, and what would you measure on that tree next autumn to test it?</li>
-    <li>In one sentence, explain how nitrogen resorption connects the photoprotection and coevolution hypotheses.</li>
-    <li>Red maples are widely planted in Britain. If the coevolution story is right, what should happen to them here over the next few centuries?</li>
+    <li>In one sentence, explain how recovering nitrogen links the sunscreen idea and the insect idea.</li>
+    <li>Pick one leaf you brought. Which idea best explains its colour, and what would you measure on that tree next autumn to test it?</li>
   </ol>
 
-  <div class="q pair"><b class="lab">Take-home puzzle</b>In Hoch et al. (2003), paper birch made no anthocyanin yet resorbed nitrogen as well as the best of the red species. If red is so useful, why doesn't every tree do it? Give three answers: one physiological, one ecological, one historical.</div>
+  <h3><span class="pill if">If time</span> Which factor explains what?</h3>
+  <p>For each cell, decide whether the factor matters a lot, a little, or not at all.</p>
+  <div class="tablewrap"><table class="grid-tap" id="tapGrid">
+    <tr><th>Factor</th><th>When a leaf ages</th><th>Whether it turns red</th><th>Where red trees are common today</th></tr>
+  </table></div>
+  <p class="small">Tap a cell to cycle through: blank, a lot, a little, not at all.</p>
+
+  <div class="q pair"><b class="lab">Take-home puzzle</b>Paper birch makes no anthocyanin, yet recovers as much nitrogen as the best red species. If red is so useful, why doesn't every tree do it? Give three answers: one about how the leaf works, one about where the tree lives, and one about its evolutionary history.</div>
   <div class="pager"><a href="#biogeo">← Biogeography case</a><a href="#reading">Next: Reading →</a></div>
 </section>
 
@@ -699,7 +757,7 @@ td.num{font-family:var(--mono); font-variant-numeric:tabular-nums}
   function drawMix(){
     const s=document.getElementById('mixSvg'); if(!s||!s.closest('section').classList.contains('on'))return;
     clear(s);
-    const p={chl:+mChl.value,car:+mCar.value,ant:+mAnt.value,ph:+mPh.value,br:+mBr.value};
+    const p={chl:+mChl.value,car:+mCar.value,ant:+mAnt.value,ph:3.5,br:+mBr.value};const showAbs=document.getElementById('mShow').checked;
     const col=leafColour(p);
     // leaf
     el('line',{x1:130,y1:282,x2:130,y2:262,stroke:col.rgb,'stroke-width':4,'stroke-linecap':'round'},s);
@@ -713,17 +771,17 @@ td.num{font-family:var(--mono); font-variant-numeric:tabular-nums}
     el('line',{x1:X0,y1:Y0,x2:X0,y2:Y1,stroke:'currentColor','stroke-opacity':.4},s);
     [400,500,600,700].forEach(l=>txt(s,x(l),Y0+28,l,{'text-anchor':'middle','font-size':11,'fill-opacity':.7}));
     txt(s,(X0+X1)/2,Y0+44,'Wavelength (nm)',{'text-anchor':'middle','font-size':11,'fill-opacity':.7});
-    txt(s,X0-8,Y1+4,'high',{'text-anchor':'end','font-size':11,'fill-opacity':.6});
+    txt(s,X0-8,Y1+4,'more',{'text-anchor':'end','font-size':11,'fill-opacity':.6});
     txt(s,X0-8,Y0,'0',{'text-anchor':'end','font-size':11,'fill-opacity':.6});
-    txt(s,X0,14,'Absorbance by pool (thin) and leaf reflectance (thick)',{'font-size':12,'fill-opacity':.75});
+    txt(s,X0,14,showAbs?'Light reflected (thick) and what each pigment absorbs (thin)':'Light the leaf reflects back to your eye',{'font-size':12,'fill-opacity':.75});
     const curve=(f,stroke,w,dash)=>{let d='';for(let l=400;l<=700;l+=4){d+=(l===400?'M':'L')+x(l).toFixed(1)+','+f(l).toFixed(1);}el('path',{d,fill:'none',stroke,'stroke-width':w,'stroke-dasharray':dash||''},s);};
-    if(p.chl>0)curve(l=>ya(A.chl(l,p.chl)),GREEN,1.6);
-    if(p.car>0)curve(l=>ya(A.car(l,p.car)),AMBER,1.6);
-    if(p.ant>0)curve(l=>ya(A.ant(l,p.ant,p.ph)),RED,1.6);
-    if(p.br>0)curve(l=>ya(A.br(l,p.br)),BROWN,1.6);
+    if(showAbs&&p.chl>0)curve(l=>ya(A.chl(l,p.chl)),GREEN,1.6);
+    if(showAbs&&p.car>0)curve(l=>ya(A.car(l,p.car)),AMBER,1.6);
+    if(showAbs&&p.ant>0)curve(l=>ya(A.ant(l,p.ant,p.ph)),RED,1.6);
+    if(showAbs&&p.br>0)curve(l=>ya(A.br(l,p.br)),BROWN,1.6);
     curve(l=>yr(refl(l,p)),'currentColor',3,'');
     const lg=[[GREEN,'chlorophyll'],[AMBER,'carotenoids'],[RED,'anthocyanin'],[BROWN,'browns']];
-    lg.forEach((d,i)=>{el('rect',{x:X0+i*100,y:24,width:10,height:10,fill:d[0]},s);txt(s,X0+14+i*100,33,d[1],{'font-size':11});});
+    if(showAbs)lg.forEach((d,i)=>{el('rect',{x:X0+i*100,y:24,width:10,height:10,fill:d[0]},s);txt(s,X0+14+i*100,33,d[1],{'font-size':11});});
     // aphid index
     const ai=col.aphid/summerAphid;
     const bx=750,bw=40,bTop=40,bBot=250,scale=v=>bBot-(bBot-bTop)*Math.min(v,3)/3;
@@ -733,12 +791,12 @@ td.num{font-family:var(--mono); font-variant-numeric:tabular-nums}
     el('line',{x1:bx-6,y1:scale(1),x2:bx+bw+6,y2:scale(1),stroke:'currentColor','stroke-dasharray':'4 3'},s);
     txt(s,bx+bw+10,scale(1)+4,'summer leaf',{'font-size':11,'fill-opacity':.7});
     txt(s,bx+20,bBot+20,'×'+ai.toFixed(2),{'text-anchor':'middle','font-family':'IBM Plex Mono, monospace'});
-    document.getElementById('mOut').textContent='Aphid attractiveness ×'+ai.toFixed(2)+' relative to a summer leaf';
+    document.getElementById('mOut').textContent='Aphid bar: ×'+ai.toFixed(2)+' as attractive as a summer leaf';
   }
-  const mChl=document.getElementById('mChl'),mCar=document.getElementById('mCar'),mAnt=document.getElementById('mAnt'),mPh=document.getElementById('mPh'),mBr=document.getElementById('mBr');
-  bind('mChl',drawMix,v=>v.toFixed(2));bind('mCar',drawMix,v=>v.toFixed(2));bind('mAnt',drawMix,v=>v.toFixed(2));bind('mPh',drawMix,v=>v.toFixed(1));bind('mBr',drawMix,v=>v.toFixed(2));
+  const mChl=document.getElementById('mChl'),mCar=document.getElementById('mCar'),mAnt=document.getElementById('mAnt'),mBr=document.getElementById('mBr');document.getElementById('mShow').addEventListener('change',drawMix);
+  bind('mChl',drawMix,v=>v.toFixed(2));bind('mCar',drawMix,v=>v.toFixed(2));bind('mAnt',drawMix,v=>v.toFixed(2));bind('mBr',drawMix,v=>v.toFixed(2));
   document.querySelectorAll('#mPresets button').forEach(b=>b.addEventListener('click',()=>{
-    const v=b.dataset.p.split(',').map(Number);[mChl,mCar,mAnt,mPh,mBr].forEach((e,i)=>{e.value=v[i];e.dispatchEvent(new Event('input'));});}));
+    const v=b.dataset.p.split(',').map(Number);[mChl,mCar,mAnt,mBr].forEach((e,i)=>{e.value=v[i];e.dispatchEvent(new Event('input'));});}));
 
   // ---------- Keskitalo timeline ----------
   function drawTime(){
@@ -749,13 +807,13 @@ td.num{font-family:var(--mono); font-variant-numeric:tabular-nums}
     el('path',{d:'M'+pts.map(p=>x(p[0]).toFixed(1)+','+(Y0-(Y0-Y1)*p[1]).toFixed(1)).join(' L'),fill:'none',stroke:GREEN,'stroke-width':3},s);
     txt(s,x(2),Y1-8,'Chlorophyll (schematic)',{fill:GREEN,'font-size':12});
     el('rect',{x:x(11),y:Y1,width:x(29)-x(11),height:Y0-Y1,fill:RED,'fill-opacity':.08},s);
-    txt(s,(x(11)+x(29))/2,Y1+14,'Remobilisation window: ~80% of N and P exported',{'text-anchor':'middle','font-size':12,fill:RED});
+    txt(s,(x(11)+x(29))/2,Y1+14,'Export window: ~80% of nitrogen and phosphorus moved out',{'text-anchor':'middle','font-size':12,fill:RED});
     el('line',{x1:X0,y1:Y0,x2:X1,y2:Y0,stroke:'currentColor','stroke-opacity':.5},s);
     [[1,'1 Sep'],[11,'11 Sep'],[19,'19 Sep'],[29,'29 Sep'],[37,'~7 Oct']].forEach(([d,l])=>{el('line',{x1:x(d),y1:Y0,x2:x(d),y2:Y0+5,stroke:'currentColor'},s);txt(s,x(d),Y0+18,l,{'text-anchor':'middle','font-family':'IBM Plex Mono, monospace','font-size':11});});
-    const ev=[[3,'Early Sept: stress does not',' yet induce anthocyanin'],[11,'Senescence starts',' (photoperiod, apparently)'],[19,'Chlorophyll down 50%;','respiration powers export'],[29,'Export stops (phloem);','δ¹⁵N shift'],[37,'Last leaves fall','']];
+    const ev=[[3,'Early Sept: no anthocyanin','even when stressed'],[11,'Ageing starts','(day length, apparently)'],[19,'Chlorophyll halved;','respiration powers export'],[29,'Export stops','(phloem shuts down)'],[37,'Last leaves fall','']];
     ev.forEach(([d,a,b],i)=>{const yy=Y0+34+(i%2)*30;el('circle',{cx:x(d),cy:Y0,r:4,fill:i===4?BROWN:'currentColor'},s);
       txt(s,x(d),yy,a,{'text-anchor':d>34?'end':'middle','font-size':11.5});if(b)txt(s,x(d),yy+13,b,{'text-anchor':d>34?'end':'middle','font-size':11.5,'fill-opacity':.75});});
-    txt(s,x(24),Y1+34,'Anthocyanins accumulate when conditions are photo-oxidative',{'text-anchor':'middle','font-size':11.5,fill:RED,'fill-opacity':.85});
+    txt(s,x(24),Y1+34,'Anthocyanin made on cold, bright days',{'text-anchor':'middle','font-size':11.5,fill:RED,'fill-opacity':.85});
   }
 
   // ---------- abscission zone ----------
@@ -787,7 +845,7 @@ td.num{font-family:var(--mono); font-variant-numeric:tabular-nums}
     const used=Math.min(absorbed,cap),diss=Math.min(absorbed-used,npq),ex=Math.max(0,absorbed-used-diss);
     const screened=I*(1-Math.exp(-3*C))*(1-trans);
     const X0=40,W=820,max=2000,sc=v=>W*v/max;let xx=X0;
-    [[used,GREEN,'Carbon fixation'],[diss,AMBER,'Heat (NPQ)'],[ex,'#d23b3b','Excess → ROS'],[screened,RED,'Taken by anthocyanin']].forEach(([v,c,l],i)=>{
+    [[used,GREEN,'Used for photosynthesis'],[diss,AMBER,'Shed safely as heat'],[ex,'#d23b3b','Harmful excess'],[screened,RED,'Blocked by anthocyanin']].forEach(([v,c,l],i)=>{
       if(i===3){el('rect',{x:xx,y:60,width:sc(v),height:50,fill:c,'fill-opacity':.25,stroke:c,'stroke-dasharray':'4 3'},s);}
       else el('rect',{x:xx,y:60,width:sc(v),height:50,fill:c,'fill-opacity':i===2?.9:.75},s);
       xx+=sc(v);
@@ -795,27 +853,27 @@ td.num{font-family:var(--mono); font-variant-numeric:tabular-nums}
     });
     el('line',{x1:X0,y1:118,x2:X0+W,y2:118,stroke:'currentColor','stroke-opacity':.4},s);
     [0,500,1000,1500,2000].forEach(v=>txt(s,X0+sc(v),132,v,{'text-anchor':'middle','font-size':10,'fill-opacity':.6}));
-    txt(s,X0,44,'Fate of light reaching the leaf (arbitrary units)',{'font-size':12,'fill-opacity':.75});
+    txt(s,X0,44,'What happens to the light falling on the leaf (made-up units)',{'font-size':12,'fill-opacity':.75});
     const risk=ex<5?'none':ex<120?'moderate':'high';
-    document.getElementById('pOut').textContent='Absorbed by chloroplasts '+Math.round(absorbed)+' · fixation capacity '+Math.round(cap)+' · NPQ capacity '+Math.round(npq)+' · excess '+Math.round(ex)+' → photo-oxidative risk: '+risk;
+    document.getElementById('pOut').textContent='Absorbed '+Math.round(absorbed)+' · photosynthesis can use '+Math.round(cap)+' · can shed as heat '+Math.round(npq)+' · harmful excess '+Math.round(ex)+' → risk of damage: '+risk;
   }
   const pI=document.getElementById('pI'),pT=document.getElementById('pT'),pC=document.getElementById('pC'),pA=document.getElementById('pA');
   bind('pI',drawPhoto);bind('pT',drawPhoto);bind('pC',drawPhoto,v=>Math.round(v*100)+'%');bind('pA',drawPhoto,v=>v.toFixed(2));
 
   // ---------- evidence sorter ----------
-  const opts=['—','Supports photoprotection','Supports signalling','Consistent with both','Challenges photoprotection','Challenges signalling'];
+  const opts=['—','Supports the sunscreen idea','Supports the insect idea','Fits both','Counts against the sunscreen idea','Counts against the insect idea'];
   const finds=[
-    ['Red-senescing dogwood leaves recovered from high light; yellow ones did not (Feild et al. 2001).',1,'Direct test of screening, in one species.'],
-    ['Anthocyanin-deficient mutants resorbed less nitrogen under cold, bright conditions (Hoch et al. 2003).',1,'The strongest experimental support.'],
-    ['Paper birch, with no anthocyanin, resorbed nitrogen as well as the best red species (Hoch et al. 2003).',4,'Not fatal, but photoprotection by red is one strategy among several.'],
-    ['Tree species facing more specialist aphids have stronger autumn colour, across 262 species (Hamilton & Brown 2001).',2,'Comparative support, though without phylogenetic correction.'],
-    ['Bird-cherry aphids preferred green over red trees (Archetti & Leather 2005).',2,'Fits signalling, but also fits simple colour preference.'],
-    ['Red leaves are far less attractive to aphids than green, yellow far more (Döring et al. 2009).',3,'Red could be a signal or a mask over yellow; active avoidance looks unlikely.'],
-    ['Aphid preference for green needs no coevolution to explain it (Chittka & Döring 2007).',5,'Removes the need for a signal, though does not disprove one.'],
-    ['Nitrogen-poor sugar maples went red earlier and more fully; redness tracked leaf sugars (Schaberg et al. 2003).',1,'Fits resorption need. The honest-vigour version of signalling predicts the opposite.'],
-    ['In aspen, anthocyanin only appeared under photo-oxidative conditions once senescence had begun (Keskitalo et al. 2005).',1,'Induced by the stress it is supposed to relieve.'],
-    ['Red autumn colour has been gained and lost many times across the tree phylogeny (Archetti 2009).',3,'The author says either family of hypotheses could explain it.'],
-    ['Red trees are commonest where autumns are bright with cold snaps (Renner & Zohner 2019).',1,'Correlational, and it overlaps with history.']
+    ['Red-leaved dogwood recovered from very bright light; yellow-leaved dogwood did not (Feild et al. 2001).',1,'A direct test of shading, in one species.'],
+    ['Mutants that cannot make anthocyanin recovered less nitrogen on cold, bright days (Hoch et al. 2003).',1,'The strongest experimental support.'],
+    ['Paper birch makes no anthocyanin but recovers nitrogen as well as the best red species (Hoch et al. 2003).',4,'Not fatal: red is one way of protecting the leaf among several.'],
+    ['Across 262 tree species, those attacked by more kinds of aphid have stronger autumn colour (Hamilton & Brown 2001).',2,'Supportive, though related species were not accounted for.'],
+    ['One aphid species preferred green over red bird-cherry trees (Archetti & Leather 2005).',2,'Fits the insect idea, but also fits aphids simply liking green.'],
+    ['To an aphid, red leaves look far less attractive than green, and yellow far more (Döring et al. 2009).',3,'Red could be a warning or simply a mask over the yellow.'],
+    ['Aphids prefer yellow-green anyway, so their choices need no coevolution to explain (Chittka & Döring 2007).',5,'Takes away the need for a signal, though it does not disprove one.'],
+    ['Sugar maples low in nitrogen went red earlier and more fully (Schaberg et al. 2003).',1,'Fits a need to recover nitrogen. An honest signal would make the healthiest trees reddest.'],
+    ['In aspen, anthocyanin appeared only on cold, bright days, after ageing had begun (Keskitalo et al. 2005).',1,'Made in response to the stress it is supposed to relieve.'],
+    ['Red autumn colour has been gained and lost many times in the tree family tree (Archetti 2009).',3,'The author says either idea could explain it.'],
+    ['Red trees are commonest where autumns are sunny with cold snaps (Renner & Zohner 2019).',1,'A correlation, and it overlaps with history.']
   ];
   const sorter=document.getElementById('sorter');
   finds.forEach((f,i)=>{const c=document.createElement('div');c.className='chip';c.textContent=f[0];const sel=document.createElement('select');sel.id='sf'+i;opts.forEach((o,j)=>{const op=document.createElement('option');op.value=j;op.textContent=o;sel.appendChild(op);});c.appendChild(sel);const r=document.createElement('div');r.className='note';r.id='sr'+i;c.appendChild(r);sorter.appendChild(c);});
@@ -834,7 +892,7 @@ td.num{font-family:var(--mono); font-variant-numeric:tabular-nums}
     el('path',{d:'M80,158 L360,154 L360,172 L80,176 Z',fill:AMBER,'fill-opacity':.5},s);
     el('path',{d:'M360,163 C450,60 660,60 760,163 C660,266 450,266 360,163 Z',fill:AMBER,'fill-opacity':.45,stroke:'currentColor','stroke-opacity':.3},s);
     txt(s,560,178,'Protein N (Rubisco, light-harvesting complexes)',{'text-anchor':'middle','font-size':12});
-    txt(s,560,194,'→ amino acids loaded into the phloem',{'text-anchor':'middle','font-size':12});
+    txt(s,560,194,'→ broken down to amino acids, sent out in the phloem',{'text-anchor':'middle','font-size':12});
     for(let i=0;i<11;i++)el('circle',{cx:100+i*24,cy:165,r:4,fill:GREEN},s);
     el('line',{x1:330,y1:198,x2:110,y2:198,stroke:GREEN,'stroke-width':2,'marker-end':'url(#nh)'},s);
     txt(s,220,214,'Amino acids in the phloem',{'text-anchor':'middle','font-size':12,fill:GREEN});
@@ -843,13 +901,13 @@ td.num{font-family:var(--mono); font-variant-numeric:tabular-nums}
     for(let k=0;k<8;k++){const a=k*Math.PI/4;el('line',{x1:830+26*Math.cos(a),y1:52+26*Math.sin(a),x2:830+34*Math.cos(a),y2:52+34*Math.sin(a),stroke:AMBER,'stroke-width':2},s);}
     el('line',{x1:800,y1:70,x2:700,y2:104,stroke:'currentColor','stroke-width':1.6,'marker-end':'url(#nh)'},s);
     el('path',{d:'M392,120 C470,58 650,58 740,120',fill:'none',stroke:RED,'stroke-width':6,'stroke-opacity':.8},s);
-    txt(s,566,40,'PHOTOPROTECTION: anthocyanin screen keeps the export running',{'text-anchor':'middle','font-size':12,fill:RED,'font-weight':600});
+    txt(s,566,40,'SUNSCREEN: anthocyanin shade keeps the nitrogen export running',{'text-anchor':'middle','font-size':12,fill:RED,'font-weight':600});
     // aphid
     const ax=230,ay=128;
     el('ellipse',{cx:ax,cy:ay,rx:16,ry:10,fill:'#6b8f3a'},s);el('circle',{cx:ax-16,cy:ay-2,r:5,fill:'#6b8f3a'},s);
     [-8,0,8].forEach(d=>{el('line',{x1:ax+d,y1:ay+8,x2:ax+d-5,y2:ay+18,stroke:'#6b8f3a','stroke-width':1.5},s);});
     el('line',{x1:ax-19,y1:ay+2,x2:ax-12,y2:157,stroke:'currentColor','stroke-width':1.5},s);
-    txt(s,ax,92,'COEVOLUTION: aphids tap the same stream.',{'text-anchor':'middle','font-size':12,fill:'#4d6b25','font-weight':600});
+    txt(s,ax,92,'INSECTS: aphids feed on the same stream.',{'text-anchor':'middle','font-size':12,fill:'#4d6b25','font-weight':600});
     txt(s,ax,107,'Who gets the nitrogen?',{'text-anchor':'middle','font-size':12,fill:'#4d6b25'});
     // colour cues
     el('rect',{x:470,y:252,width:16,height:16,fill:'#e2c04a'},s);txt(s,492,265,'Yellow: "nitrogen here" cue',{'font-size':12});
@@ -869,6 +927,58 @@ td.num{font-family:var(--mono); font-variant-numeric:tabular-nums}
     document.getElementById('nOut').textContent='Stored by the tree: '+Math.round(a.tree)+' → '+Math.round(b.tree)+' units · gain from photoprotection '+Math.round((b.tree+b.aph)-(a.tree+a.aph))+' · gain from fewer aphids '+Math.round(a.aph-b.aph);
   }
   bind('nL',drawLedger,v=>v.toFixed(2));bind('nP',drawLedger,v=>v.toFixed(2));bind('nA',drawLedger,v=>v.toFixed(2));
+
+
+  // ---------- quick-review figures ----------
+  function box(s,x,y,w,h,label,fill,sub){el('rect',{x,y,width:w,height:h,rx:8,fill:fill||'none','fill-opacity':fill?.18:1,stroke:'currentColor','stroke-opacity':.35},s);txt(s,x+w/2,y+(sub?h/2-2:h/2+4),label,{'text-anchor':'middle','font-size':12.5,'font-weight':600});if(sub)txt(s,x+w/2,y+h/2+13,sub,{'text-anchor':'middle','font-size':11,'fill-opacity':.75});}
+  function arr(s,x1,y1,x2,y2,lab,col){const id='ar'+Math.round(x1)+Math.round(y1);const d=el('defs',{},s);const mk=el('marker',{id,viewBox:'0 0 10 10',refX:8,refY:5,markerWidth:6,markerHeight:6,orient:'auto-start-reverse'},d);el('path',{d:'M0,0 L10,5 L0,10 z',fill:col||'currentColor'},mk);el('line',{x1,y1,x2,y2,stroke:col||'currentColor','stroke-width':1.6,'marker-end':'url(#'+id+')'},s);if(lab)txt(s,(x1+x2)/2,(y1+y2)/2-6,lab,{'text-anchor':'middle','font-size':10.5,'font-family':'IBM Plex Mono, monospace',fill:col||'currentColor'});}
+  function drawPath(){
+    const s=document.getElementById('pathSvg'); if(!s||s.childNodes.length)return;
+    box(s,10,20,150,46,'Phenylalanine','#888','(amino acid)');
+    box(s,10,96,150,46,'Building blocks','#888','from sugars');
+    arr(s,160,43,215,70,'PAL');arr(s,160,119,215,90);
+    box(s,220,56,130,46,'Chalcone','#e2c04a','first flavonoid');
+    txt(s,190,124,'CHS',{'text-anchor':'middle','font-size':10.5,'font-family':'IBM Plex Mono, monospace'});
+    arr(s,350,79,395,79);
+    box(s,400,56,120,46,'Flavanone','#e2c04a');
+    arr(s,520,79,565,79);
+    box(s,570,56,140,46,'Dihydroflavonol','#e2c04a');
+    arr(s,710,79,745,79,'DFR, ANS');
+    box(s,750,56,140,46,'Anthocyanidin',RED,'coloured, unstable');
+    arr(s,820,102,820,150,'+ sugar');
+    box(s,730,156,160,50,'Anthocyanin',RED,'stable');
+    arr(s,810,206,810,236);
+    box(s,700,240,190,44,'Stored in the vacuole',RED);
+    arr(s,640,102,600,160,'',AMBER);box(s,500,164,150,40,'Flavonols','#e2c04a','colourless, absorb UV');
+    arr(s,744,92,650,236,'',BROWN);box(s,500,240,150,40,'Tannins',BROWN,'defence; brown');
+    el('rect',{x:20,y:200,width:400,height:84,rx:10,fill:GREEN,'fill-opacity':.1,stroke:GREEN,'stroke-dasharray':'4 3'},s);
+    txt(s,34,222,'The switch: MYB + bHLH + WD40 transcription factors',{'font-size':12.5,'font-weight':600,fill:GREEN});
+    txt(s,34,242,'Turned on by bright light, cold and high sugar.',{'font-size':12});
+    txt(s,34,260,'Switch the genes for the later enzymes on together.',{'font-size':12});
+    txt(s,34,278,'A change in one MYB gene can turn red on or off.',{'font-size':12,'fill-opacity':.8});
+  }
+  function drawSig(){
+    const s=document.getElementById('sigSvg'); if(!s||s.childNodes.length)return;
+    const steps=[['Cue','shorter days, cold,','bright light'],['Receptor','phytochrome (light);','membranes (cold)'],['Messengers','hormones: ethylene,','ABA up; auxin down'],['Switches','transcription factors','(e.g. NAC proteins)'],['Genes on/off','new enzymes made',''],['Response','chlorophyll lost, protein','recycled, red, leaf falls']];
+    const w=136,g=10;
+    steps.forEach(([a,b,c],i)=>{const x=6+i*(w+g);el('rect',{x,y:40,width:w,height:110,rx:10,fill:i===5?RED:GREEN,'fill-opacity':i===5?.15:.08+i*.03,stroke:'currentColor','stroke-opacity':.3},s);
+      txt(s,x+w/2,66,a,{'text-anchor':'middle','font-size':13,'font-weight':600});txt(s,x+w/2,94,b,{'text-anchor':'middle','font-size':10.5});txt(s,x+w/2,110,c,{'text-anchor':'middle','font-size':10.5});
+      if(i<5)arr(s,x+w+2,95,x+w+g-2,95);});
+    txt(s,450,180,'The same chain you know from other signalling: detect, relay, switch genes, respond.',{'text-anchor':'middle','font-size':12,'fill-opacity':.75});
+  }
+  function drawIce(){
+    const s=document.getElementById('iceSvg'); if(!s||s.childNodes.length)return;
+    el('rect',{x:20,y:40,width:520,height:40,rx:6,fill:AMBER,'fill-opacity':.45},s);
+    txt(s,280,65,'Warm: similar forests across Europe, Asia and North America',{'text-anchor':'middle','font-size':12.5});
+    el('rect',{x:540,y:40,width:300,height:40,fill:ICE},s);
+    for(let i=0;i<14;i++)el('rect',{x:548+i*20,y:44,width:10,height:32,fill:'#6f9ec4','fill-opacity':.5},s);
+    txt(s,690,98,'Ice ages: dozens of cold–warm cycles',{'text-anchor':'middle','font-size':12});
+    el('rect',{x:840,y:40,width:40,height:40,rx:4,fill:GREEN,'fill-opacity':.5},s);
+    txt(s,860,98,'today',{'text-anchor':'middle','font-size':12});
+    [[20,'66 million years ago'],[540,'2.6 million'],[826,'21,000 (last peak)']].forEach(([x,l])=>{el('line',{x1:x,y1:32,x2:x,y2:84,stroke:'currentColor','stroke-opacity':.5},s);txt(s,x+(x>800?-4:2),26,l,{'font-size':11,'font-family':'IBM Plex Mono, monospace','text-anchor':x>800?'end':'start'});});
+    txt(s,280,98,'"Tertiary" (old name)',{'text-anchor':'middle','font-size':12});
+    txt(s,450,135,'Not to scale: the ice ages are squeezed into the last 4% of this time.',{'text-anchor':'middle','font-size':11.5,'fill-opacity':.7});
+  }
 
   // ---------- red species counts ----------
   function drawCount(){
@@ -944,7 +1054,7 @@ td.num{font-family:var(--mono); font-variant-numeric:tabular-nums}
     const conts=[['East Asia',1-0.25*sev],['E North America',1-0.5*sev],['Europe',1-0.75*sev-(gBarrier?0.15*sev:0)]];
     const draws=conts.map(()=>w.map(()=>{const a=[];for(let k=0;k<11;k++)a.push(r());return a;}));
     const X0=150,W=660,xp=v=>X0+W*v,out=[];
-    txt(s,X0,16,'← hardy lineages',{'font-size':11,'fill-opacity':.7});txt(s,X0+W,16,'warmth-loving lineages →',{'text-anchor':'end','font-size':11,'fill-opacity':.7});
+    txt(s,X0,16,'← cope with cold',{'font-size':11,'fill-opacity':.7});txt(s,X0+W,16,'need warmth →',{'text-anchor':'end','font-size':11,'fill-opacity':.7});
     conts.forEach(([name,reach],ci)=>{
       const y=60+ci*80;let surv=0,red=0;
       txt(s,X0-14,y+4,name,{'text-anchor':'end','font-size':13,'font-weight':600});
@@ -952,7 +1062,7 @@ td.num{font-family:var(--mono); font-variant-numeric:tabular-nums}
       const rc=Math.max(0,Math.min(1,reach));
       el('rect',{x:X0,y:y-18,width:W*rc,height:36,fill:GREEN,'fill-opacity':.07},s);
       el('line',{x1:xp(rc),y1:y-22,x2:xp(rc),y2:y+22,stroke:GREEN,'stroke-dasharray':'4 3'},s);
-      txt(s,xp(rc),y+34,'reachable warmth',{'text-anchor':'middle','font-size':10,fill:GREEN});
+      txt(s,xp(rc),y+34,'how far south they can retreat',{'text-anchor':'middle','font-size':10,fill:GREEN});
       const loseRed=Math.max(0,Math.min(0.95,1.3*(1-reach)));
       w.forEach((wi,i)=>{
         let alive=true;for(let k=0;k<n;k++){const p=1/(1+Math.exp(-(reach-wi)/0.04));if(draws[ci][i][k]>p){alive=false;break;}}
@@ -964,23 +1074,23 @@ td.num{font-family:var(--mono); font-variant-numeric:tabular-nums}
       txt(s,X0+W+8,y-4,surv+' left',{'font-size':11,'font-family':'IBM Plex Mono, monospace'});
       txt(s,X0+W+8,y+10,red+' red',{'font-size':11,'font-family':'IBM Plex Mono, monospace',fill:RED});
     });
-    const L=[[RED,'surviving, red'],[AMBER,'surviving, yellow']];L.forEach((d,i)=>{el('circle',{cx:X0+8+i*160,cy:285,r:5,fill:d[0]},s);txt(s,X0+18+i*160,289,d[1],{'font-size':11});});
-    el('circle',{cx:X0+330,cy:285,r:5,fill:'none',stroke:'currentColor','stroke-opacity':.4},s);txt(s,X0+340,289,'extinct',{'font-size':11});
+    const L=[[RED,'survived, red'],[AMBER,'survived, yellow']];L.forEach((d,i)=>{el('circle',{cx:X0+8+i*160,cy:285,r:5,fill:d[0]},s);txt(s,X0+18+i*160,289,d[1],{'font-size':11});});
+    el('circle',{cx:X0+330,cy:285,r:5,fill:'none',stroke:'currentColor','stroke-opacity':.4},s);txt(s,X0+340,289,'died out',{'font-size':11});
     const startRed=redBase.filter(Boolean).length;
     document.getElementById('gOut').textContent='Start: 60 lineages, '+startRed+' red ('+Math.round(100*startRed/60)+'%) · '+out.map(([n,sv,rd])=>n+': '+sv+' left, '+rd+' red ('+(sv?Math.round(100*rd/sv):0)+'%)').join(' · ');
   }
   bind('gS',drawSqueeze,v=>v.toFixed(2));bind('gN',drawSqueeze);
-  document.querySelectorAll('#gMode button').forEach(b=>b.addEventListener('click',()=>{gMode=b.dataset.m;document.querySelectorAll('#gMode button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));drawSqueeze();}));
+  document.querySelectorAll('button.gm').forEach(b=>b.addEventListener('click',()=>{gMode=b.dataset.m;document.querySelectorAll('button.gm').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));drawSqueeze();}));
   document.querySelectorAll('#gBar button').forEach(b=>b.addEventListener('click',()=>{gBarrier=+b.dataset.b;document.querySelectorAll('#gBar button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));drawSqueeze();}));
   document.getElementById('gNew').addEventListener('click',()=>{gSeed++;drawSqueeze();});
 
   // ---------- tap grid ----------
-  const rows=['Day length or another light signal','Cold snaps and temperature','Light intensity','Nitrogen status of the tree','Aphids and other herbivores','Glacial history','Phylogeny (inherited capacity)'];
+  const rows=['Day length or another light signal','Cold snaps and temperature','Strength of sunlight','Nitrogen status of the tree','Aphids and other insects','Ice-age history','Evolutionary history of the lineage'];
   const lab=['','a lot','a little','not at all'];
   const grid=document.getElementById('tapGrid');
   rows.forEach(r=>{const tr=document.createElement('tr');const th=document.createElement('td');th.textContent=r;tr.appendChild(th);for(let j=0;j<3;j++){const td=document.createElement('td');td.className='cell';td.dataset.s=0;td.tabIndex=0;td.setAttribute('role','button');const cyc=()=>{td.dataset.s=(+td.dataset.s+1)%4;td.textContent=lab[td.dataset.s];};td.addEventListener('click',cyc);td.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();cyc();}});tr.appendChild(td);}grid.appendChild(tr);});
 
-  function drawAll(){drawMix();drawTime();drawAZ();drawPhoto();drawN();drawLedger();drawCount();drawMap();drawSqueeze();}
+  function drawAll(){drawPath();drawSig();drawIce();drawMix();drawTime();drawAZ();drawPhoto();drawN();drawLedger();drawCount();drawMap();drawSqueeze();}
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',drawAll);
 
   // ---------- session clock ----------

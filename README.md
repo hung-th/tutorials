@@ -1,6 +1,6 @@
 # Biology tutorials
 
-Interactive tutorial pages for MBiol2 tutorials at St Hilda's College, Oxford.
+Interactive tutorial pages for MBiol tutorials at St Hilda's College, Oxford.
 
 **Website:** https://hung-th.github.io/tutorials/
 
@@ -8,7 +8,7 @@ Interactive tutorial pages for MBiol2 tutorials at St Hilda's College, Oxford.
 | --- | --- | --- |
 | Is it really what's inside that counts? | Animal personality | [`animal-personality/`](animal-personality/) |
 | What determines the spatial distribution of genetic diversity? | Population genetics | [`genetic-diversity/`](genetic-diversity/) |
-| Why are leaves sometimes red and falling? | Plant biology | [`autumn-leaves/`](autumn-leaves/) |
+| Why are leaves sometimes red and falling? | Plant biology (MBiol1) | [`autumn-leaves/`](autumn-leaves/) |
 
 Each tutorial is a single self-contained HTML file with no build step. Students need no preparation: the papers, data and interactive models are on the page.
 
